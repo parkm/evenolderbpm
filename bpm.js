@@ -5,13 +5,13 @@ function bpm(canvasID) {
         bpm.context = bpm.canvas.getContext();
         bpm.canvas.render = bpm.render;
 
-        Engine.init(60);
-        Engine.add(bpm.canvas);
-        Engine.update = bpm.update;
+        Loop.init(60);
+        Loop.add(bpm.canvas);
+        Loop.update = bpm.update;
 
         bpm.init();
 
-        Engine.run();
+        Loop.run();
     });
 }
 
