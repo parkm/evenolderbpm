@@ -13,7 +13,6 @@ Assets.loader = Loader();
 Assets.add = function(_id, assetName) {
     Assets.list.push({
         id: _id,
-        name: assetName,
         image: Assets.loader.image(assetName),
     });
 };
