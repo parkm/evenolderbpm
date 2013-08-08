@@ -7,7 +7,7 @@ Global object that handles the process of loading and obtaining assets.
 
 Assets = {};
 
-Assets.list = new Array();
+Assets.list = [];
 Assets.loader = Loader();
 
 Assets.add = function(_id, assetName) {
@@ -47,7 +47,7 @@ function BPM(canvasID) {
 }
 
 BPM.addAssets = function() {
-    Assets.add("bubble", "temp-assets/bubbles/bubble.png");
+    Assets.add("bubble", "assets/bubbles/bubble.png");
 };
 
 BPM.init = function() {
