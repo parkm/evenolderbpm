@@ -49,11 +49,18 @@ function BPM(canvasID) {
     });
 }
 
+BPM.setState = function(state) {
+    BPM.state = state;
+    BPM.state.init();
+};
+
 BPM.addAssets = function() {
     Assets.add("bubble", "assets/bubbles/bubble.png");
 };
 
 BPM.init = function() {
+    if (BPM.state)
+        BPM.state.init(); //Load the initial state.
     Loop.run();
 };
 

@@ -3,6 +3,10 @@
 */
 function State() {
     return {
+        init: function() {
+
+        },
+
         update: function(delta) {
 
         },
@@ -18,8 +22,12 @@ State.game = function() {
 
     var TEST_bub = Bubble(64, 64, "score", null);
 
+    base.init = function() {
+        TEST_bub.init();
+    };
+
     base.update = function(delta) {
-        
+        TEST_bub.update(delta);
     };
 
     base.render = function(gc) {

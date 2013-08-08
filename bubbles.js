@@ -11,6 +11,10 @@ function Bubble(x, y, type, options) {
 function BaseBubble(_x, _y, _type, options) {
     return {
         x: _x, y: _y,
+        angle: Math.random() * 360,
+        speedX: 0,
+        speedY: 0,
+        speed: 0.75,
 
         onCollision: function(pin) {
             this.onPop();
@@ -20,8 +24,24 @@ function BaseBubble(_x, _y, _type, options) {
 
         },
 
-        update: function(delta) {
+        init: function() {
+            this.speedX = Math.cos(this.angle * (Math.PI / 180));
+            this.speedY = -Math.sin(this.angle * (Math.PI / 180));
+        },
 
+        update: function(delta) {
+            //Standard bubble movement.
+            if (this.x < 0) 
+                this.speedX = -this.speedX;
+            if (this.y < 0)
+                this.speedY = -this.speedY;
+            if (this.x > BPM.canvas.getWidth())
+                this.speedX = -this.speedX;
+            if (this.y > BPM.canvas.getHeight())
+                this.speedY = -this.speedY;
+
+            this.x += this.speedX * this.speed;
+            this.y += this.speedY * this.speed;
         },
 
         render: function(gc) {
