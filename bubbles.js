@@ -34,7 +34,10 @@ function BubbleScore(base) {
     base.worth = 10;
 
     base.render = function(gc) {
-        gc.drawImage(Assets.get("bubble"), base.x, base.y);
+        var img = Assets.get("bubble");
+        gc.fillStyle = "rgba(0, 0, 255, .25)";
+        gc.fillRect(base.x, base.y, img.width, img.height);
+        gc.drawImage(img, base.x, base.y);
     }
 
     base.onPop = function() {
