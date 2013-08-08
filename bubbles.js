@@ -12,6 +12,14 @@ function BaseBubble(_x, _y, _type, options) {
     return {
         x: _x, y: _y,
 
+        onCollision: function(pin) {
+            this.onPop();
+        },
+
+        onPop: function() {
+
+        },
+
         update: function(delta) {
 
         },
@@ -23,9 +31,14 @@ function BaseBubble(_x, _y, _type, options) {
 }
 
 function BubbleScore(base) {
+    base.worth = 10;
+
     base.render = function(gc) {
         gc.drawImage(Assets.get("bubble"), base.x, base.y);
     }
 
+    base.onPop = function() {
+        BPM.cash += base.worth;
+    }
     return base;
 }

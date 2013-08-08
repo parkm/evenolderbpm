@@ -29,6 +29,9 @@ Assets.get = function(id) {
 ### BPM ###
 */
 
+BPM.cash = 0;
+BPM.state = State.game();
+
 function BPM(canvasID) {
     'use strict;'
     $(document).ready(function() {
@@ -55,16 +58,16 @@ BPM.init = function() {
 };
 
 BPM.update = function() {
-
+    if (BPM.state) {
+        BPM.state.update(Time.delta);
+    }
 };
 
-var TEST_bub = Bubble(64, 64, "score", null);
 BPM.render = function() {
-    var gc = BPM.context;
+    BPM.context.fillStyle = "#AAAAAA";
+    BPM.canvas.clear();
 
-    gc.fillStyle = "#AAAAAA";
-    gc.fillRect(0, 0, 640, 480);
-    gc.fillStyle = "#FF0000";
-    gc.fillRect(0, 0, 32, 32);
-    TEST_bub.render(gc);
+    if (BPM.state) {
+        BPM.state.render(BPM.context);
+    }
 };
