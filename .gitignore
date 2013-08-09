@@ -1,0 +1,15 @@
+# Ignore everything in assets folder
+# Keep folder structure intact until 2 layers deep
+assets/*.*
+assets/*/*.*
+assets/*/*/*
+
+# Ignore everything in include
+include/*.*
+include/cgf/*
+include/*/*
+
+# Ignore all archives
+*.7z
+*.zip
+*.rar
