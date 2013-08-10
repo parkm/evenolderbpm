@@ -22,16 +22,12 @@ State.game = function() {
 
     var TEST_bub = Bubble(64, 64, "score", null);
 
-    var TEST_button;
-
     base.init = function() {
         TEST_bub.init();
-        TEST_button = GUIButton("Start Game");
     };
 
     base.update = function(delta) {
         TEST_bub.update(delta);
-        TEST_button.update(BPM.mouse);
     };
 
     base.render = function(gc) {
@@ -39,8 +35,61 @@ State.game = function() {
         gc.fillRect(0, 0, 32, 32);
 
         TEST_bub.render(gc);
+    };
 
-        TEST_button.render(gc);
+    return base;
+};
+
+State.mainMenu = function() {
+    var base = State();
+
+    var buttons = new Array();
+
+    var startGameButton, timeTrialButton;
+
+    base.init = function() {
+        startGameButton = GUIButton("New Game", 
+        {dynamic: false, 
+
+        onClick: function() {
+            BPM.setState(State.game());
+        }});
+
+        timeTrialButton = GUIButton("Time Trial", {dynamic: false});
+        gambleButton = GUIButton("Gamble", {dynamic: false});
+
+        buttons.push(startGameButton);
+        buttons.push(timeTrialButton);
+        buttons.push(gambleButton);
+    };
+
+    base.update = function(delta) {
+        for (i in buttons) {
+            var b = buttons[i];
+
+            b.width = 250;
+            b.height = 40;
+            b.x = BPM.canvas.getWidth()/2 - b.width/2;
+            b.y = i * (b.postHeight + 5) + BPM.canvas.getHeight()/4;
+
+            b.update(BPM.mouse);
+        }
+    };
+
+    base.render = function(gc) {
+        gc.drawImage(Assets.get("background"), 0, 0);
+
+        for (i in buttons) {
+            buttons[i].render(gc);
+        }
+
+        gc.fillStyle = "#FFFFFF";
+        gc.strokeStyle = "#000000";
+        gc.textBaseline = "top";
+        gc.font = "64px Arial";
+        gc.textAlign = "center"
+        gc.lineWidth = 6;
+        Render.text(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, true);
     };
 
     return base;

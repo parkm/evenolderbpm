@@ -13,7 +13,8 @@ function GUIButton(_text, options) {
     var left = Rect(0, 27, 23, 18);
     var center = Rect(23, 27, 128, 18);
 
-    var dynamic = options && options.dynamic ? options.dynamic : true;
+    var dynamic = options && options.dynamic != null ? options.dynamic : true;
+    var onClick = options && options.onClick ? options.onClick : null;
 
     var up = NineSlice(upImg);
     up.topLeft = topLeft;
@@ -64,8 +65,15 @@ function GUIButton(_text, options) {
             if (mouse.isColliding(this.x, this.y, this.x + this.postWidth, this.y + this.postHeight)) {
                 if (mouse.isDown(Mouse.LEFT)) {
                     this.state = "down";
+                    held = true;
                 } else {
                     this.state = "hover";
+                }
+
+                if (mouse.isReleased(Mouse.LEFT)) {
+                    if (onClick) {
+                        onClick();
+                    }
                 }
             } else {
                 this.state = "up";
@@ -94,20 +102,20 @@ function GUIButton(_text, options) {
 
             switch(this.state) {
                 case "up":
-                    up.render(gc, this.x, this.y, metrics.width, height); 
+                    up.render(gc, this.x, this.y, width, height); 
                     break;
 
                 case "hover":
-                    hover.render(gc, this.x, this.y, metrics.width, height);
+                    hover.render(gc, this.x, this.y, width, height);
                     break;
 
                 case "down":
-                    down.render(gc, this.x, this.y, metrics.width, height);
+                    down.render(gc, this.x, this.y, width, height);
                     break;
             }
 
 
-            var x = this.x + metrics.width/2 + left.width/2;
+            var x = this.x + width/2 + left.width/2;
             var y = this.y + height/2 - bottom.height/2;
 
             gc.strokeText(this.text, x, y);

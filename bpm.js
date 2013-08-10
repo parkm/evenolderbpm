@@ -30,7 +30,7 @@ Assets.get = function(id) {
 */
 
 BPM.cash = 0;
-BPM.state = State.game();
+BPM.state = State.mainMenu();
 BPM.mouse = Mouse();
 
 function BPM(canvasID) {
@@ -62,6 +62,7 @@ BPM.addAssets = function() {
     Assets.add("buttonUp", "assets/button-up.png");
     Assets.add("buttonHover", "assets/button-hover.png");
     Assets.add("buttonDown", "assets/button-down.png");
+    Assets.add("background", "assets/blue-background.jpg");
 };
 
 BPM.init = function() {
