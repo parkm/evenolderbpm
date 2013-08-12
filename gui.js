@@ -59,6 +59,8 @@ function GUIButton(_text, options) {
         postWidth: 0,
         postHeight: 0,
 
+        onClick: onClick, //Setting the private var public
+
         state: "up",
 
         update: function(mouse) {
@@ -71,8 +73,8 @@ function GUIButton(_text, options) {
                 }
 
                 if (mouse.isReleased(Mouse.LEFT)) {
-                    if (onClick) {
-                        onClick();
+                    if (this.onClick) {
+                        this.onClick();
                     }
                 }
             } else {
