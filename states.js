@@ -89,7 +89,7 @@ State.mainMenu = function() {
         gc.font = "64px Arial";
         gc.textAlign = "center"
         gc.lineWidth = 6;
-        Render.text(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, true);
+        Utils.text(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, true);
     };
 
     return base;

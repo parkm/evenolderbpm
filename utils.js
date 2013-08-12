@@ -1,5 +1,5 @@
-function Render() {}
-Render.text = function(gc, text, x, y, stroke) {
+function Utils() {}
+Utils.text = function(gc, text, x, y, stroke) {
     if (stroke) {
         gc.strokeText(text, x, y);
     }
