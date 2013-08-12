@@ -4,7 +4,7 @@ assets/bubbles/*.*
 assets/*/*
 
 # Ignore everything in include
-include/*.*
+include/*
 include/cgf/*
 include/*/*
 
