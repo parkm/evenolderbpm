@@ -52,7 +52,7 @@ State.mainMenu = function() {
         {dynamic: false, 
 
         onClick: function() {
-            BPM.setState(State.game());
+            BPM.setState(State.roundSelect());
         }});
 
         timeTrialButton = GUIButton("Time Trial", {dynamic: false});
@@ -110,7 +110,9 @@ State.roundSelect = function() {
 
     base.update = function(delta) {
         for (i in buttons) {
-            buttons[i].update(BPM.mouse);
+            var b = buttons[i];
+
+            b.update(BPM.mouse);
         }
     };
 
@@ -119,4 +121,6 @@ State.roundSelect = function() {
             buttons[i].render(gc);
         }
     };
+
+    return base;
 };
