@@ -89,8 +89,34 @@ State.mainMenu = function() {
         gc.font = "64px Arial";
         gc.textAlign = "center"
         gc.lineWidth = 6;
-        Utils.text(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, true);
+        Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, true);
     };
 
     return base;
+};
+
+State.roundSelect = function() {
+    var base = State();
+
+    var buttons = new Array();
+
+    var achieveButton;
+
+    base.init = function() {
+        achieveButton = GUIButton("Achievements", {dyanmic: false});
+
+        buttons.push(achieveButton);
+    };
+
+    base.update = function(delta) {
+        for (i in buttons) {
+            buttons[i].update(BPM.mouse);
+        }
+    };
+
+    base.render = function(gc) {
+        for (i in buttons) {
+            buttons[i].render(gc);
+        }
+    };
 };
