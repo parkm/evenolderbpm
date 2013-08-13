@@ -1,11 +1,13 @@
 function Utils() {}
 Utils.drawText = function(gc, text, x, y, options) {
-    gc.fillStyle = options.fillStyle || "#FFFFFF";
-    gc.strokeStyle = options.strokeStyle || "#000000";
-    gc.textBaseline = options.textBaseline || "top";
-    gc.font = options.font || "64px Arial";
-    gc.textAlign = options.textAlign || "center";
-    gc.lineWidth = options.lineWidth || 6;
+    if (options) {
+        gc.fillStyle = options.fillStyle || "#FFFFFF";
+        gc.strokeStyle = options.strokeStyle || "#000000";
+        gc.textBaseline = options.textBaseline || "top";
+        gc.font = options.font || "64px Arial";
+        gc.textAlign = options.textAlign || "center";
+        gc.lineWidth = options.lineWidth || 6;
+    }
 
     if (options.stroke) {
         gc.strokeText(text, x, y);
