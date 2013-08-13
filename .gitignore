@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore everything in assets folder
 assets/*.*
 assets/bubbles/*.*
@@ -11,4 +12,19 @@ include/*/*
 # Ignore all archives
 *.7z
 *.zip
+=======
+# Ignore everything in assets folder
+assets/*.*
+assets/bubbles/*.*
+assets/*/*
+
+# Ignore everything in include
+include/*.*
+include/cgf/*
+include/*/*
+
+# Ignore all archives
+*.7z
+*.zip
+>>>>>>> ebfbac2d6bc6130770830ecb4efe9d47a1b070ee
 *.rar

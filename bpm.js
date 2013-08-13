@@ -29,6 +29,8 @@ Assets.get = function(id) {
 ### BPM ###
 */
 
+BPM.mouse = Mouse();
+
 function BPM(canvasID) {
     'use strict;'
     $(document).ready(function() {
@@ -40,6 +42,8 @@ function BPM(canvasID) {
         Loop.add(BPM.canvas);
         Loop.update = BPM.update;
 
+        BPM.mouse.attach(BPM.canvas.getElement());
+
         BPM.addAssets();
 
         Assets.loader.load(BPM.init);
@@ -50,6 +54,10 @@ BPM.cash = 0;
 
 BPM.addAssets = function() {
     Assets.add("bubble", "assets/bubbles/bubble.png");
+    Assets.add("buttonUp", "assets/button-up.png");
+    Assets.add("buttonHover", "assets/button-hover.png");
+    Assets.add("buttonDown", "assets/button-down.png");
+    Assets.add("background", "assets/blue-background.jpg");
 };
 
 BPM.init = function() {
@@ -64,6 +72,8 @@ BPM.update = function() {
     if (State.current) {
         State.current.update(Time.delta);
     }
+
+    BPM.mouse.update();
 };
 
 BPM.render = function() {
