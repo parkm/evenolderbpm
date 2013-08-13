@@ -61,10 +61,7 @@ BPM.addAssets = function() {
 };
 
 BPM.init = function() {
-    State.set("test");
-    if (State.current) {
-        State.current.init(); //Load the initial state.
-    }
+    State.set("mainMenu");
     Loop.run();
 };
 

@@ -60,6 +60,7 @@ State.set = function(id) {
 
     if (State.list[id]) {
         State.current = State.list[id]();
+        State.current.init();
     } else {
         console.log("Error: No State '" + id + "'");
     }
