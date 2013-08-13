@@ -1,7 +1,13 @@
+GUIAssets = {
+    buttonUp: undefined,
+    buttonHover: undefined,
+    buttonDown: undefined
+};
+
 function GUIButton(_text, options) {
-    var upImg = Assets.get("buttonUp");
-    var hoverImg = Assets.get("buttonHover");
-    var downImg = Assets.get("buttonDown");
+    var upImg = GUIAssets.buttonUp;
+    var hoverImg = GUIAssets.buttonHover;
+    var downImg = GUIAssets.buttonDown;
 
     var topLeft = Rect(0, 0, 23, 27);
     var top = Rect(23, 0, 128, 27);
