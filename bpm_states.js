@@ -60,7 +60,7 @@ State.create("game", function() {
 State.create("mainMenu", function() {
     var base = State();
 
-    var buttons = new Array();
+    var buttons = [];
 
     var startGameButton, timeTrialButton;
 
@@ -115,7 +115,7 @@ State.create("mainMenu", function() {
 State.create("roundSelect", function() {
     var base = State();
 
-    var buttons = new Array();
+    var buttons = [];
 
     var achieveButton, menuButton, saveButton, resetButton, upgradeButton;
 
