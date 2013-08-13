@@ -1,3 +1,5 @@
+BubbleAssets = {};
+
 function Bubble(x, y, type, options) {
     var base = BaseBubble(x, y, type, options);
     
@@ -54,7 +56,7 @@ function BubbleScore(base) {
     base.worth = 10;
 
     base.render = function(gc) {
-        var img = Assets.get("bubble");
+        var img = BubbleAssets.bubble;
         gc.fillStyle = "rgba(0, 0, 255, .25)";
         gc.fillRect(base.x, base.y, img.width, img.height);
         gc.drawImage(img, base.x, base.y);

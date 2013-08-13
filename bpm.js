@@ -2,8 +2,6 @@
 ### BPM ###
 */
 
-BPM.mouse = Mouse();
-
 function BPM(canvasID) {
     'use strict;'
     $(document).ready(function() {
@@ -23,13 +21,18 @@ function BPM(canvasID) {
     });
 }
 
+BPM.mouse = Mouse();
+
 BPM.cash = 0;
 
 BPM.addAssets = function() {
-    Assets.add("bubble", "assets/bubbles/bubble.png");
-    Assets.add("background", "assets/blue-background.jpg");
+    // Bubble Assets
+    BubbleAssets.bubble = Assets.add("bubble", "assets/bubbles/bubble.png");
 
-    // Add graphics
+    // State Assets
+    StateAssets.background = Assets.add("background", "assets/blue-background.jpg");
+
+    // GUI Assets
     GUIAssets.buttonUp = Assets.add("buttonUp", "assets/button-up.png");
     GUIAssets.buttonHover = Assets.add("buttonHover", "assets/button-hover.png");
     GUIAssets.buttonDown = Assets.add("buttonDown", "assets/button-down.png");
