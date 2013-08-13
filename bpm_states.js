@@ -1,4 +1,5 @@
-// State data for bpm goes here.
+// Holds references to all State assets
+StateAssets = {};
 
 State.create("test", function() {
     var base = State();
@@ -100,13 +101,7 @@ State.create("mainMenu", function() {
             buttons[i].render(gc);
         }
 
-        gc.fillStyle = "#FFFFFF";
-        gc.strokeStyle = "#000000";
-        gc.textBaseline = "top";
-        gc.font = "64px Arial";
-        gc.textAlign = "center"
-        gc.lineWidth = 6;
-        Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, true);
+        Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true});
     };
 
     return base;
