@@ -45,7 +45,7 @@ State.create = function(id, callback) {
     }
 
     if (State.list[id]) {
-        console.log("Error: State " + id + " already exists.");
+        console.error("Error: State " + id + " already exists.");
     } else {
         State.list[id] = callback;
     }
@@ -62,6 +62,6 @@ State.set = function(id) {
         State.current = State.list[id]();
         State.current.init();
     } else {
-        console.log("Error: No State '" + id + "'");
+        console.error("Error: No State '" + id + "'");
     }
 };
