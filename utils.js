@@ -1,5 +1,5 @@
 function Utils() {}
-Utils.drawText = function(gc, text, options) {
+Utils.drawText = function(gc, text, x, y, options) {
     gc.fillStyle = options.fillStyle || "#FFFFFF";
     gc.strokeStyle = options.strokeStyle || "#000000";
     gc.textBaseline = options.textBaseline || "top";

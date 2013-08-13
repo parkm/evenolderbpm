@@ -95,7 +95,7 @@ State.create("mainMenu", function() {
     };
 
     base.render = function(gc) {
-        gc.drawImage(StateAssets.background), 0, 0);
+        gc.drawImage(StateAssets.background, 0, 0);
 
         for (i in buttons) {
             buttons[i].render(gc);
@@ -161,7 +161,7 @@ State.create("roundSelect", function() {
     };
 
     base.render = function(gc) {
-        gc.drawImage(StateAssets.background), 0, 0);
+        gc.drawImage(StateAssets.background, 0, 0);
 
         for (i in buttons) {
             buttons[i].render(gc);
