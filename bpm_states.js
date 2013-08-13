@@ -21,4 +21,4 @@ State.create("test", function() {
     };
 
     return base;
-};
+});
