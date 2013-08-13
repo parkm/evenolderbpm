@@ -30,7 +30,8 @@ Assets.get = function(id) {
 */
 
 BPM.cash = 0;
-BPM.state = State.game();
+BPM.state = State.mainMenu();
+BPM.mouse = Mouse();
 
 function BPM(canvasID) {
     'use strict;'
@@ -42,6 +43,8 @@ function BPM(canvasID) {
         Loop.init(60);
         Loop.add(BPM.canvas);
         Loop.update = BPM.update;
+
+        BPM.mouse.attach(BPM.canvas.getElement());
 
         BPM.addAssets();
 
@@ -56,6 +59,10 @@ BPM.setState = function(state) {
 
 BPM.addAssets = function() {
     Assets.add("bubble", "assets/bubbles/bubble.png");
+    Assets.add("buttonUp", "assets/button-up.png");
+    Assets.add("buttonHover", "assets/button-hover.png");
+    Assets.add("buttonDown", "assets/button-down.png");
+    Assets.add("background", "assets/blue-background.jpg");
 };
 
 BPM.init = function() {
@@ -68,6 +75,8 @@ BPM.update = function() {
     if (BPM.state) {
         BPM.state.update(Time.delta);
     }
+
+    BPM.mouse.update();
 };
 
 BPM.render = function() {
