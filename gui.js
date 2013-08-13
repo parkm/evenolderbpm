@@ -1,3 +1,5 @@
+GUIAssets = {};
+
 function GUIButton(_text, options) {
     var upImg = Assets.get("buttonUp");
     var hoverImg = Assets.get("buttonHover");
