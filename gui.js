@@ -1,8 +1,4 @@
-GUIAssets = {
-    buttonUp: undefined,
-    buttonHover: undefined,
-    buttonDown: undefined
-};
+GUIAssets = {};
 
 function GUIButton(_text, options) {
     var upImg = GUIAssets.buttonUp;

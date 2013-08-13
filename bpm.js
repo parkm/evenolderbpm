@@ -1,39 +1,6 @@
 /*
-### Assets ###
-
-Global object that handles the process of loading and obtaining assets.
-
-*/
-
-Assets = {};
-
-Assets.list = [];
-Assets.loader = Loader();
-
-// Add to asset list, return added image
-Assets.add = function(_id, assetName) {
-    Assets.list.push({
-        id: _id,
-        image: Assets.loader.image(assetName),
-    });
-
-    var len = Assets.list.length - 1;
-    return Assets.list[len].image;
-};
-
-Assets.get = function(id) {
-    for (i in Assets.list) {
-        if (Assets.list[i].id === id) {
-            return Assets.list[i].image;
-        }
-    }
-};
-
-/*
 ### BPM ###
 */
-
-BPM.mouse = Mouse();
 
 function BPM(canvasID) {
     'use strict;'
@@ -54,13 +21,18 @@ function BPM(canvasID) {
     });
 }
 
+BPM.mouse = Mouse();
+
 BPM.cash = 0;
 
 BPM.addAssets = function() {
-    Assets.add("bubble", "assets/bubbles/bubble.png");
-    Assets.add("background", "assets/blue-background.jpg");
+    // Bubble Assets
+    BubbleAssets.bubble = Assets.add("bubble", "assets/bubbles/bubble.png");
 
-    // Add graphics
+    // State Assets
+    StateAssets.background = Assets.add("background", "assets/blue-background.jpg");
+
+    // GUI Assets
     GUIAssets.buttonUp = Assets.add("buttonUp", "assets/button-up.png");
     GUIAssets.buttonHover = Assets.add("buttonHover", "assets/button-hover.png");
     GUIAssets.buttonDown = Assets.add("buttonDown", "assets/button-down.png");
