@@ -1,8 +1,14 @@
 /*
 ### State ###
 */
+
+/* Private
+ * Base class for states. If you don't inherit from this class, make sure you structure it the same way.
+ * Also base for Static State object.
+ */
 function State() {
     return {
+        paused: false,
         init: function() {
 
         },
@@ -17,25 +23,23 @@ function State() {
     }
 }
 
-State.game = function() {
-    var base = State();
+/* Private
+ * List of all state constructors. */
+State.list = {};
 
-    var TEST_bub = Bubble(64, 64, "score", null);
+/* Public
+ * Tracks current state.
+ * Current state set by State.set */
+State.current = undefined;
 
-    base.init = function() {
-        TEST_bub.init();
-    };
+/* Public
+ * Adds a given state to State.list */
+State.create = function(id, callback) {
+    State.list[id] = callback;
+};
 
-    base.update = function(delta) {
-        TEST_bub.update(delta);
-    };
-
-    base.render = function(gc) {
-        gc.fillStyle = "#FF0000";
-        gc.fillRect(0, 0, 32, 32);
-
-        TEST_bub.render(gc);
-    };
-
-    return base;
+/* Public
+ * Sets given state as State.current */
+State.set = function(id) {
+    State.current = State.list[id]();
 };
