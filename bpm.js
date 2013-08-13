@@ -29,8 +29,6 @@ Assets.get = function(id) {
 ### BPM ###
 */
 
-BPM.cash = 0;
-BPM.state = State.mainMenu();
 BPM.mouse = Mouse();
 
 function BPM(canvasID) {
@@ -52,10 +50,7 @@ function BPM(canvasID) {
     });
 }
 
-BPM.setState = function(state) {
-    BPM.state = state;
-    BPM.state.init();
-};
+BPM.cash = 0;
 
 BPM.addAssets = function() {
     Assets.add("bubble", "assets/bubbles/bubble.png");
@@ -66,14 +61,16 @@ BPM.addAssets = function() {
 };
 
 BPM.init = function() {
-    if (BPM.state)
-        BPM.state.init(); //Load the initial state.
+    State.set("test");
+    if (State.current) {
+        State.current.init(); //Load the initial state.
+    }
     Loop.run();
 };
 
 BPM.update = function() {
-    if (BPM.state) {
-        BPM.state.update(Time.delta);
+    if (State.current) {
+        State.current.update(Time.delta);
     }
 
     BPM.mouse.update();
@@ -83,7 +80,7 @@ BPM.render = function() {
     BPM.context.fillStyle = "#AAAAAA";
     BPM.canvas.clear();
 
-    if (BPM.state) {
-        BPM.state.render(BPM.context);
+    if (State.current) {
+        State.current.render(BPM.context);
     }
 };
