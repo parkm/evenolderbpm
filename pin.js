@@ -68,7 +68,19 @@ Pin.Standard = function(base) {
 Pin.Base = function(_x, _y, options) {
     return {
         x: _x, y: _y,
+        speedX: 0, speedY: 0,
+        speed: 0,
+        angle: 0,
+        life: 100,
 
+
+        onDeath: function() {
+
+        },
+
+        onCollision: function() {
+
+        },
 
         init: function() {
 
