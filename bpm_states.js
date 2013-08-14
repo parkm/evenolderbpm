@@ -1,29 +1,6 @@
 // Holds references to all State assets
 StateAssets = {};
 
-State.create("test", function() {
-    var base = State();
-
-    var TEST_bub = Bubble(64, 64, "score", null);
-
-    base.init = function() {
-        TEST_bub.init();
-    };
-
-    base.update = function(delta) {
-        TEST_bub.update(delta);
-    };
-
-    base.render = function(gc) {
-        gc.fillStyle = "#FF0000";
-        gc.fillRect(0, 0, 32, 32);
-
-        TEST_bub.render(gc);
-    };
-
-    return base;
-});
-
 State.create("game", function() {
     var base = State(); 
 
@@ -39,8 +16,6 @@ State.create("game", function() {
         TEST_bub.init();
         shooter.init();
 
-        pins.push(Pin(150, 150));
-
         backButton = GUIButton("Back");
         backButton.onClick = function() {
             State.set("roundSelect");
@@ -49,7 +24,7 @@ State.create("game", function() {
 
     base.update = function(delta) {
         TEST_bub.update(delta);
-        shooter.update(delta);
+        shooter.update(BPM.mouse, pins);
 
         for (i in pins) {
             pins[i].update(delta);
@@ -81,7 +56,7 @@ State.create("mainMenu", function() {
 
     var buttons = [];
 
-    var startGameButton, timeTrialButton;
+    var startGameButton, timeTrialButton, quickButton;
 
     base.init = function() {
         startGameButton = GUIButton("New Game", 
@@ -97,6 +72,11 @@ State.create("mainMenu", function() {
         buttons.push(startGameButton);
         buttons.push(timeTrialButton);
         buttons.push(gambleButton);
+
+        quickButton = GUIButton("This button will quickly take you to the game state.");
+        quickButton.onClick = function() {
+            State.set("game");
+        };
     };
 
     base.update = function(delta) {
@@ -110,6 +90,8 @@ State.create("mainMenu", function() {
 
             b.update(BPM.mouse);
         }
+
+        quickButton.update(BPM.mouse);
     };
 
     base.render = function(gc) {
@@ -118,6 +100,8 @@ State.create("mainMenu", function() {
         for (i in buttons) {
             buttons[i].render(gc);
         }
+
+        quickButton.render(gc);
 
         Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true});
     };
