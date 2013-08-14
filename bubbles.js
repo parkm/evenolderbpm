@@ -49,7 +49,7 @@ function BaseBubble(_x, _y, _type, options) {
         render: function(gc) {
 
         }
-    }
+    };
 }
 
 function BubbleScore(base) {
