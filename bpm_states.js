@@ -16,8 +16,6 @@ State.create("game", function() {
         TEST_bub.init();
         shooter.init();
 
-        pins.push(Pin(150, 150));
-
         backButton = GUIButton("Back");
         backButton.onClick = function() {
             State.set("roundSelect");
@@ -26,7 +24,7 @@ State.create("game", function() {
 
     base.update = function(delta) {
         TEST_bub.update(delta);
-        shooter.update(delta);
+        shooter.update(BPM.mouse, pins);
 
         for (i in pins) {
             pins[i].update(delta);
