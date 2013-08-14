@@ -58,7 +58,7 @@ State.create("mainMenu", function() {
 
     var buttons = [];
 
-    var startGameButton, timeTrialButton;
+    var startGameButton, timeTrialButton, quickButton;
 
     base.init = function() {
         startGameButton = GUIButton("New Game", 
@@ -74,6 +74,11 @@ State.create("mainMenu", function() {
         buttons.push(startGameButton);
         buttons.push(timeTrialButton);
         buttons.push(gambleButton);
+
+        quickButton = GUIButton("This button will quickly take you to the game state.");
+        quickButton.onClick = function() {
+            State.set("game");
+        };
     };
 
     base.update = function(delta) {
@@ -87,6 +92,8 @@ State.create("mainMenu", function() {
 
             b.update(BPM.mouse);
         }
+
+        quickButton.update(BPM.mouse);
     };
 
     base.render = function(gc) {
@@ -95,6 +102,8 @@ State.create("mainMenu", function() {
         for (i in buttons) {
             buttons[i].render(gc);
         }
+
+        quickButton.render(gc);
 
         Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true});
     };
