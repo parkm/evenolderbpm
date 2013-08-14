@@ -88,7 +88,7 @@ Pin.Test = function(base) {
     var superRender = base.render;
     
     base.render = function(gc) {
-        superRender(gc);
+        superRender.call(base, gc); // How to call a super class function.
     };
 
     return base;
