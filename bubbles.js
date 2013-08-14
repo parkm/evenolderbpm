@@ -1,16 +1,16 @@
 BubbleAssets = {};
 
 function Bubble(x, y, type, options) {
-    var base = BaseBubble(x, y, type, options);
+    var base = Bubble.Base(x, y, type, options);
     
     switch(type) {
         case "score":
-            return BubbleScore(base);
+            return Bubble.Score(base);
             break;
     }
 }
 
-function BaseBubble(_x, _y, _type, options) {
+Bubble.Base = function(_x, _y, _type, options) {
     return {
         x: _x, y: _y,
         angle: Math.random() * 360,
@@ -52,7 +52,7 @@ function BaseBubble(_x, _y, _type, options) {
     };
 }
 
-function BubbleScore(base) {
+Bubble.Score = function(base) {
     base.worth = 10;
 
     base.render = function(gc) {
