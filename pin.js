@@ -27,7 +27,7 @@ function PinShooter(_x, _y, options) {
             this.img.angle = this.angle;
 
             if (mouse.isPressed(Mouse.LEFT)) {
-                pins.push(Pin(this.x, this.y, -this.angle));
+                pins.push(Pin(this.x, this.y, -this.angle, {type: "test"}));
             }
         },
 
@@ -43,8 +43,8 @@ function PinShooter(_x, _y, options) {
  * Pins init() on creation.
  */
 
-function Pin(x, y, options) {
-    var base = Pin.Base(x, y, options);
+function Pin(x, y, angle, options) {
+    var base = Pin.Base(x, y, angle, options);
     
     var type = (options && options.type) || "standard";
 
@@ -53,6 +53,10 @@ function Pin(x, y, options) {
     switch(type) {
         case "standard":
             result = Pin.Standard(base);
+            break;
+
+        case "test":
+            result = Pin.Test(Pin.Standard(base));
             break;
 
     }
@@ -78,21 +82,26 @@ Pin.Standard = function(base) {
 
 };
 
+Pin.Test = function(base) {
+    console.log("Test created.");
+
+    var superRender = base.render;
+    
+    base.render = function(gc) {
+        superRender(gc);
+    };
+
+    return base;
+};
+
 Pin.Base = function(_x, _y, _angle, options) {
     return {
         x: _x, y: _y,
-<<<<<<< HEAD
-        speedX: 0, speedY: 0,
-        speed: 0,
-        angle: 0,
-        life: 100,
-=======
-        angle: _angle,
         speedX: 0,
         speedY: 0,
         speed: 4,
->>>>>>> 2fceddc3968a14e8173f0d4692d7df4212cc8749
-
+        life: 100,
+        angle: _angle,
 
         onDeath: function() {
 
