@@ -29,10 +29,17 @@ State.create("game", function() {
 
     var TEST_bub = Bubble(64, 64, "score", null);
 
+    var shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
+
+    var pins = [];
+
     var backButton;
 
     base.init = function() {
         TEST_bub.init();
+        shooter.init();
+
+        pins.push(Pin(150, 150));
 
         backButton = GUIButton("Back");
         backButton.onClick = function() {
@@ -42,6 +49,11 @@ State.create("game", function() {
 
     base.update = function(delta) {
         TEST_bub.update(delta);
+        shooter.update(delta);
+
+        for (i in pins) {
+            pins[i].update(delta);
+        }
 
         backButton.update(BPM.mouse);
     };
@@ -51,6 +63,12 @@ State.create("game", function() {
         gc.fillRect(0, 0, 32, 32);
 
         TEST_bub.render(gc);
+
+        shooter.render(gc);
+
+        for (i in pins) {
+            pins[i].render(gc);
+        }
 
         backButton.render(gc);
     };

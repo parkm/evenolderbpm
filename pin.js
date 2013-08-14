@@ -3,7 +3,7 @@ var PinAssets = {};
 /* ### Pin Shooter
  */
 
-function PinShooter(_x, _y, _options) {
+function PinShooter(_x, _y, options) {
     return {
         x: _x, y: _y,
 
@@ -32,19 +32,26 @@ function PinShooter(_x, _y, _options) {
 }
 
 /* ### Pins
+ *
+ * Pins init() on creation.
  */
 
 function Pin(x, y, options) {
-    var base = BasePin(x, y, options);
+    var base = Pin.Base(x, y, options);
+    
+    var type = (options && options.type) || "standard";
 
-    var type = options.type || "standard";
+    var result;
 
     switch(type) {
         case "standard":
-            return Pin.Standard(base);
+            result = Pin.Standard(base);
             break;
 
     }
+    
+    result.init && result.init();   // Only attempt to init if it exists.
+    return result;
 }
 
 Pin.Standard = function(base) {
