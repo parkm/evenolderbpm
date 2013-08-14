@@ -26,6 +26,10 @@ BPM.mouse = Mouse();
 BPM.cash = 0;
 
 BPM.addAssets = function() {
+    // Pin Assets
+    PinAssets.arrow = Assets.add("arrow", "assets/arrow.png");
+    PinAssets.pin = Assets.add("pin", "assets/pin.png");
+
     // Bubble Assets
     BubbleAssets.bubble = Assets.add("bubble", "assets/bubbles/bubble.png");
 
