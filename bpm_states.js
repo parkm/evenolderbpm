@@ -4,26 +4,36 @@ StateAssets = {};
 State.create("game", function() {
     var base = State(); 
 
-    var TEST_bub = Bubble(64, 64, "score", null);
-
     var shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
 
     var pins = [];
 
+    var bubbles = [];
+
     var backButton;
 
     base.init = function() {
-        TEST_bub.init();
         shooter.init();
 
         backButton = GUIButton("Back");
         backButton.onClick = function() {
             State.set("roundSelect");
         };
+
+        for (var i=0; i<50; ++i) {
+            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", null));
+        }
+
+        for (i in bubbles) {
+            bubbles[i].init();
+        }
     };
 
     base.update = function(delta) {
-        TEST_bub.update(delta);
+        for (i in bubbles) {
+            bubbles[i].update(delta);
+        }
+
         shooter.update(BPM.mouse, pins);
 
         for (i in pins) {
@@ -37,9 +47,11 @@ State.create("game", function() {
         gc.fillStyle = "#FF0000";
         gc.fillRect(0, 0, 32, 32);
 
-        TEST_bub.render(gc);
-
         shooter.render(gc);
+
+        for (i in bubbles) {
+            bubbles[i].render(gc);
+        }
 
         for (i in pins) {
             pins[i].render(gc);

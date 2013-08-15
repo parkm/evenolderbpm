@@ -116,7 +116,7 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
 
-        update: function(delta) {
+        update: function(bubbles) {
             if (this.x < 0) 
                 this.speedX = -this.speedX;
             if (this.y < 0)
