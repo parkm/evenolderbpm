@@ -37,11 +37,11 @@ State.debug = true;
  * Current state set by State.set */
 State.current = undefined;
 
-/* Public
+/* Private - Should only be used by the main loop.
  * The state ready to be switched. */
 State.prepped = undefined;
 
-/* Private - Should only be used by the main loop.
+/* Public
  * Adds a given state to State.list */
 State.create = function(id, callback) {
     if (State.debug) {
