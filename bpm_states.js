@@ -26,6 +26,9 @@ State.create("game", function() {
             if (i % 2 == 0) {
                 bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "bad"));
             }
+            if (i % 3 == 0) {
+                bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "goal"));
+            }
         }
 
 

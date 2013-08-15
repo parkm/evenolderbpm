@@ -8,6 +8,7 @@ function PinShooter(_x, _y, options) {
         x: _x, y: _y,
         angle: 0,
         img: Graphic(PinAssets.arrow),
+        pins: (options && options.pins) || 10,
 
         shoot: function() {
 
@@ -64,41 +65,13 @@ function Pin(x, y, angle, options) {
     return result;
 }
 
-Pin.Standard = function(base) {
-    base.img = Graphic(PinAssets.pin);
-
-    base.render = function(gc) {
-        base.img.x = this.x;
-        base.img.y = this.y;
-        base.img.originX = base.img.getWidth()/2;
-        base.img.originY = base.img.getHeight()/2;
-        base.img.angle = -this.angle;
-
-        base.img.render(gc);
-    };
-
-    return base;
-};
-
-Pin.Test = function(base) {
-    console.log("Test created.");
-
-    var superRender = base.render;
-    
-    base.render = function(gc) {
-        superRender.call(base, gc); // How to call a super class function.
-    };
-
-    return base;
-};
-
 Pin.Base = function(_x, _y, _angle, options) {
     return {
         x: _x, y: _y,
         width: 0, height: 0,
         speedX: 0,
         speedY: 0,
-        speed: 4,
+        speed: options.speed || 4,
         life: 100,
         angle: _angle,
 
@@ -148,5 +121,34 @@ Pin.Base = function(_x, _y, _angle, options) {
         }
     };
 
+};
+
+
+Pin.Standard = function(base) {
+    base.img = Graphic(PinAssets.pin);
+
+    base.render = function(gc) {
+        base.img.x = this.x;
+        base.img.y = this.y;
+        base.img.originX = base.img.getWidth()/2;
+        base.img.originY = base.img.getHeight()/2;
+        base.img.angle = -this.angle;
+
+        base.img.render(gc);
+    };
+
+    return base;
+};
+
+Pin.Test = function(base) {
+    console.log("Test created.");
+
+    var superRender = base.render;
+    
+    base.render = function(gc) {
+        superRender.call(base, gc); // How to call a super class function.
+    };
+
+    return base;
 };
 

@@ -11,10 +11,15 @@ function Bubble(x, y, type, options) {
         case "bad":
             return Bubble.Bad(base);
             break;
+
+        case "goal":
+            return Bubble.Goal(base);
+            break;
     }
 }
 
 Bubble.Base = function(_x, _y, _type, options) {
+
     return {
         x: _x, y: _y,
         width: 32, height: 32,
@@ -29,7 +34,7 @@ Bubble.Base = function(_x, _y, _type, options) {
         },
 
         onPop: function(bubbles, pin) {
-            
+
         },
 
         init: function() {
@@ -82,6 +87,16 @@ Bubble.Bad = function(base) {
     base.img = BubbleAssets.bad;
     base.color = "rgba(255, 0, 0, .25)";
     base.worth = -10;
+
+    return base;
+};
+
+Bubble.Goal = function(base) {
+    base = Bubble.Score(base);
+
+    base.img = BubbleAssets.goal;
+    base.color = "rgba(224, 185, 90, .25)";
+    base.worth = 0;
 
     return base;
 };
