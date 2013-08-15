@@ -23,8 +23,9 @@ function State() {
     }
 }
 
-/* Private
- * List of all state constructors. */
+/* Public
+ * List of all state constructors.
+ * Use this to inherit from previously created states. */
 State.list = {};
 
 /* Private
@@ -32,7 +33,7 @@ State.list = {};
  * All debug info is sent to console. */
 State.debug = true;
 
-/* Public
+/* Private
  * Tracks current state.
  * Current state set by State.set */
 State.current = undefined;
@@ -69,20 +70,43 @@ State.set = function(id) {
     }   
 };
 
-/* Private - Should only be used by the main loop.
- * Checks if a prepped state exists, then switches to it.*/
-State.switchToPrepped = function() {
-    if (State.prepped) {
-        if (State.debug) {
-            console.log("Switching to prepped state...");
-        }
-
+/* Public
+ * Switches to prepped state, updates current state.
+ * Use this method to update the current state.
+ */
+State.update = function(delta) {
+    /* Private - Should only be used by State.update()
+     * Checks if a prepped state exists, then switches to it.*/
+    var switchToPrepped = function() {
         if (State.prepped) {
-            State.current = State.prepped();
-            State.prepped = null;
-            State.current.init();
-        } else {
-            console.error("Error: Prepped state no longer exists");
-        }    
+            if (State.debug) {
+                console.log("Switching to prepped state...");
+            }
+
+            if (State.prepped) {
+                State.current = State.prepped();
+                State.prepped = null;
+                State.current.init();
+            } else {
+                console.error("Error: Prepped state no longer exists");
+            }    
+        }
+    };
+
+
+    switchToPrepped();
+    if (State.current) {
+        State.current.update(delta);
+    }
+};
+
+/* Public
+ * Created to maintain normality with State.update.
+ * Add any necessary pre-render code here.
+ */
+State.render = function(gc) {
+
+    if (State.current) {
+        State.current.render(gc);
     }
 };

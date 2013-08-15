@@ -49,11 +49,7 @@ BPM.init = function() {
 };
 
 BPM.update = function() {
-    State.switchToPrepped();
-
-    if (State.current) {
-        State.current.update(Time.delta);
-    }
+    State.update(Time.delta);
 
     BPM.mouse.update();
 };
@@ -61,10 +57,8 @@ BPM.update = function() {
 BPM.render = function() {
     BPM.context.fillStyle = "#AAAAAA";
     BPM.canvas.clear();
-
-    if (State.current) {
-        State.current.render(BPM.context);
-    }
+    
+    State.render(BPM.context);
 
     Utils.drawText(BPM.context, Time.delta, 0, BPM.canvas.getHeight()-18, {
         font: "16px Arial",
