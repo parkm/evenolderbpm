@@ -49,6 +49,8 @@ BPM.init = function() {
 };
 
 BPM.update = function() {
+    State.switchToPrepped();
+
     if (State.current) {
         State.current.update(Time.delta);
     }

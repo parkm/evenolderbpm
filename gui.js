@@ -15,8 +15,8 @@ function GUIButton(_text, options) {
     var left = Rect(0, 27, 23, 18);
     var center = Rect(23, 27, 128, 18);
 
-    var dynamic = options && options.dynamic != null ? options.dynamic : true;
-    var onClick = options && options.onClick ? options.onClick : null;
+    var dynamic = options && options.dynamic !== undefined ? options.dynamic : true;
+    var onClick = options && options.onClick !== undefined ? options.onClick : null;
 
     var up = NineSlice(upImg);
     up.topLeft = topLeft;

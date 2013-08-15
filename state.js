@@ -38,6 +38,10 @@ State.debug = true;
 State.current = undefined;
 
 /* Public
+ * The state ready to be switched. */
+State.prepped = undefined;
+
+/* Private - Should only be used by the main loop.
  * Adds a given state to State.list */
 State.create = function(id, callback) {
     if (State.debug) {
@@ -55,13 +59,30 @@ State.create = function(id, callback) {
  * Sets given state as State.current */
 State.set = function(id) {
     if (State.debug) {
-        console.log("setting state " + id);
+        console.log("Prepping state " + id);
     }
 
     if (State.list[id]) {
-        State.current = State.list[id]();
-        State.current.init();
+        State.prepped = State.list[id];
     } else {
         console.error("Error: No State '" + id + "'");
+    }   
+};
+
+/* Private - Should only be used by the main loop.
+ * Checks if a prepped state exists, then switches to it.*/
+State.switchToPrepped = function() {
+    if (State.prepped) {
+        if (State.debug) {
+            console.log("Switching to prepped state...");
+        }
+
+        if (State.prepped) {
+            State.current = State.prepped();
+            State.prepped = null;
+            State.current.init();
+        } else {
+            console.error("Error: Prepped state no longer exists");
+        }    
     }
 };
