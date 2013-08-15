@@ -134,11 +134,13 @@ function GUIButton(_text, options) {
 function RoundSelectButton(text, color) {
     return {
         x: 0, y: 0,
+        postX: 0, postY: 0,
         width: 400, height: 32,
         text: text, 
         color: color,
         position: "up",
         onClick: null,
+        state: null,
 
         update: function(mouse) {
             if (mouse.isColliding(this.x, this.y, this.x+this.width, this.y+this.height)) {
@@ -151,6 +153,8 @@ function RoundSelectButton(text, color) {
                 if (mouse.isReleased(Mouse.LEFT)) {
                     if (this.onClick) {
                         this.onClick();
+                    } else if (this.state) {
+                        State.set(this.state);
                     }
                 }
             } else {
@@ -159,34 +163,35 @@ function RoundSelectButton(text, color) {
         },
 
         render: function(gc) {
-            this.x = BPM.canvas.getWidth() - (this.width+64);
-            this.y = 64;
+            var x = this.x;
+            var y = this.y;
 
             gc.fillStyle = this.color;
             gc.strokeStyle = "#000000";
-            gc.fillRect(this.x, this.y, this.width, this.height);
+            gc.fillRect(x, y, this.width, this.height);
 
             gc.fillStyle = "rgba(255, 255, 255, 0.5)";
-            gc.fillRect(this.x, this.y, this.width, this.height/2);
+            gc.fillRect(x, y, this.width, this.height/2);
 
-            gc.strokeRect(this.x, this.y,  this.width, this.height);
+            gc.strokeRect(x, y,  this.width, this.height);
 
-            Utils.drawText(gc, this.text, this.width/2+this.x, this.y+5, {
+            Utils.drawText(gc, this.text, this.width/2+x, y+5, {
                 fillStyle: "#FFFFFF",
                 strokeStyle: "#000000",
                 stroke: true,
+                lineWidth: 5,
                 font: "16px Arial"
             });
 
             switch(this.position) {
                 case "hover":
                     gc.fillStyle = "rgba(255, 255, 255, 0.5)";
-                    gc.fillRect(this.x, this.y, this.width, this.height);
+                    gc.fillRect(x, y, this.width, this.height);
                     break;
 
                 case "down":
                     gc.fillStyle = "rgba(0, 0, 0, 0.5)";
-                    gc.fillRect(this.x, this.y, this.width, this.height);
+                    gc.fillRect(x, y, this.width, this.height);
                     break;
             }
         },

@@ -133,7 +133,7 @@ State.create("roundSelect", function() {
     var achieveButton, menuButton, saveButton, resetButton, upgradeButton;
 
     var TEMP_roundButton;
-    var TEST_stageButton;
+    var selectStage;
 
     base.init = function() {
         achieveButton = GUIButton("Achievements", {dynamic: false});
@@ -157,7 +157,8 @@ State.create("roundSelect", function() {
         TEMP_roundButton.x = 300;
         TEMP_roundButton.y = 400;
 
-        TEST_stageButton = RoundSelectButton("Testo Stage", "rgb(19, 200, 20)", true);
+        selectStage = RoundSelectButton("Select Stage", "#000000", true);
+        selectStage.y = 16;
 
         buttons.push(achieveButton);
         buttons.push(menuButton);
@@ -179,7 +180,8 @@ State.create("roundSelect", function() {
         }
 
         TEMP_roundButton.update(BPM.mouse);
-        TEST_stageButton.update(BPM.mouse);
+
+        selectStage.x = BPM.canvas.getWidth() - selectStage.width - 64;
     };
 
     base.render = function(gc) {
@@ -190,7 +192,7 @@ State.create("roundSelect", function() {
         }
 
         TEMP_roundButton.render(gc);
-        TEST_stageButton.render(gc);
+        selectStage.render(gc);
     };
 
     return base;
