@@ -2,7 +2,7 @@
 ### State ###
 */
 
-/* Private
+/* Public
  * Base class for states. If you don't inherit from this class, make sure you structure it the same way.
  * Also base for Static State object.
  */
@@ -22,25 +22,6 @@ function State() {
         },
     }
 }
-
-/* Public
- * List of all state constructors.
- * Use this to inherit from previously created states. */
-State.list = {};
-
-/* Private
- * Turns debug info on/off for this module.
- * All debug info is sent to console. */
-State.debug = true;
-
-/* Private
- * Tracks current state.
- * Current state set by State.set */
-State.current = undefined;
-
-/* Private - Should only be used by the main loop.
- * The state ready to be switched. */
-State.prepped = undefined;
 
 /* Public
  * Adds a given state to State.list */
@@ -110,3 +91,22 @@ State.render = function(gc) {
         State.current.render(gc);
     }
 };
+
+/* Public
+ * List of all state constructors.
+ * Use this to inherit from previously created states. */
+State.list = {};
+
+/* Private
+ * Turns debug info on/off for this module.
+ * All debug info is sent to console. */
+State.debug = true;
+
+/* Private
+ * Tracks current state.
+ * Current state set by State.set */
+State.current = undefined;
+
+/* Private - Should only be used by the main loop.
+ * The state ready to be switched. */
+State.prepped = undefined;
