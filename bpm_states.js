@@ -37,16 +37,13 @@ State.create("game", function() {
         shooter.update(BPM.mouse, pins);
 
         for (i in pins) {
-            pins[i].update(delta);
+            pins[i].update(bubbles);
         }
 
         backButton.update(BPM.mouse);
     };
 
     base.render = function(gc) {
-        gc.fillStyle = "#FF0000";
-        gc.fillRect(0, 0, 32, 32);
-
         shooter.render(gc);
 
         for (i in bubbles) {
@@ -58,6 +55,8 @@ State.create("game", function() {
         }
 
         backButton.render(gc);
+
+        Utils.drawText(gc, "$" + BPM.cash, 200, 0);
     };
 
     return base;

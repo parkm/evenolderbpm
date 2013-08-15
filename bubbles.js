@@ -13,17 +13,19 @@ function Bubble(x, y, type, options) {
 Bubble.Base = function(_x, _y, _type, options) {
     return {
         x: _x, y: _y,
+        width: 32, height: 32,
         angle: Math.random() * 360,
         speedX: 0,
         speedY: 0,
         speed: 0.75,
 
-        onCollision: function(pin) {
-            this.onPop();
+        onCollision: function(bubbles, pin) {
+            this.onPop(bubbles, pin);
+            bubbles.splice(bubbles.indexOf(this), 1);
         },
 
-        onPop: function() {
-
+        onPop: function(bubbles, pin) {
+            
         },
 
         init: function() {
@@ -62,7 +64,7 @@ Bubble.Score = function(base) {
         gc.drawImage(img, base.x, base.y);
     }
 
-    base.onPop = function() {
+    base.onPop = function(bubbles, pin) {
         BPM.cash += base.worth;
     }
     return base;

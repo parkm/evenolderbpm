@@ -27,7 +27,7 @@ function PinShooter(_x, _y, options) {
             this.img.angle = this.angle;
 
             if (mouse.isPressed(Mouse.LEFT)) {
-                pins.push(Pin(this.x, this.y, -this.angle, {type: "test"}));
+                pins.push(Pin(this.x, this.y, -this.angle, {type: "standard"}));
             }
         },
 
@@ -58,7 +58,6 @@ function Pin(x, y, angle, options) {
         case "test":
             result = Pin.Test(Pin.Standard(base));
             break;
-
     }
     
     result.init && result.init();   // Only attempt to init if it exists.
@@ -79,7 +78,6 @@ Pin.Standard = function(base) {
     };
 
     return base;
-
 };
 
 Pin.Test = function(base) {
@@ -97,6 +95,7 @@ Pin.Test = function(base) {
 Pin.Base = function(_x, _y, _angle, options) {
     return {
         x: _x, y: _y,
+        width: 0, height: 0,
         speedX: 0,
         speedY: 0,
         speed: 4,
@@ -107,8 +106,8 @@ Pin.Base = function(_x, _y, _angle, options) {
 
         },
 
-        onCollision: function() {
-
+        onCollision: function(bubbles, bubble) {
+            bubble.onCollision(bubbles, this);
         },
 
         init: function() {
@@ -121,15 +120,27 @@ Pin.Base = function(_x, _y, _angle, options) {
                 this.speedX = -this.speedX;
             if (this.y < 0)
                 this.speedY = -this.speedY;
-            if (this.x > BPM.canvas.getWidth() - PinAssets.pin.width)
+            if (this.x > BPM.canvas.getWidth() - this.width)
                 this.speedX = -this.speedX;
-            if (this.y > BPM.canvas.getHeight() - PinAssets.pin.height)
+            if (this.y > BPM.canvas.getHeight() - this.height)
                 this.speedY = -this.speedY;
 
             this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
 
             this.x += this.speedX * this.speed;
             this.y += this.speedY * this.speed;
+
+            for (i in bubbles) {
+                var b = bubbles[i];
+                var x2 = this.x + this.width;
+                var y2 = this.y + this.height;
+                var bx2 = b.x + b.width;
+                var by2 = b.y + b.height;
+
+                if (x2 > b.x && this.x < bx2 && y2 > b.y && this.y < by2) {
+                    this.onCollision(bubbles, b);
+                }           
+            }
         },
 
         render: function(gc) {
