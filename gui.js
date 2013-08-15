@@ -130,3 +130,65 @@ function GUIButton(_text, options) {
         },
     }
 }
+
+function RoundSelectButton(text, color) {
+    return {
+        x: 0, y: 0,
+        width: 400, height: 32,
+        text: text, 
+        color: color,
+        state: "up",
+        onClick: null,
+
+        update: function(mouse) {
+            if (mouse.isColliding(this.x, this.y, this.x+this.width, this.y+this.height)) {
+                this.state = "hover";
+
+                if (mouse.isDown(Mouse.LEFT)) {
+                    this.state = "down";
+                }
+
+                if (mouse.isReleased(Mouse.LEFT)) {
+                    if (this.onClick) {
+                        this.onClick();
+                    }
+                }
+            } else {
+                this.state = "up";
+            }
+        },
+
+        render: function(gc) {
+            this.x = BPM.canvas.getWidth() - (this.width+64);
+            this.y = 64;
+
+            gc.fillStyle = this.color;
+            gc.strokeStyle = "#000000";
+            gc.fillRect(this.x, this.y, this.width, this.height);
+
+            gc.fillStyle = "rgba(255, 255, 255, 0.5)";
+            gc.fillRect(this.x, this.y, this.width, this.height/2);
+
+            gc.strokeRect(this.x, this.y,  this.width, this.height);
+
+            Utils.drawText(gc, this.text, this.width/2+this.x, this.y+5, {
+                fillStyle: "#FFFFFF",
+                strokeStyle: "#000000",
+                stroke: true,
+                font: "16px Arial"
+            });
+
+            switch(this.state) {
+                case "hover":
+                    gc.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    gc.fillRect(this.x, this.y, this.width, this.height);
+                    break;
+
+                case "down":
+                    gc.fillStyle = "rgba(0, 0, 0, 0.5)";
+                    gc.fillRect(this.x, this.y, this.width, this.height);
+                    break;
+            }
+        },
+    }
+}
