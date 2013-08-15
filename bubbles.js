@@ -7,6 +7,10 @@ function Bubble(x, y, type, options) {
         case "score":
             return Bubble.Score(base);
             break;
+
+        case "bad":
+            return Bubble.Bad(base);
+            break;
     }
 }
 
@@ -52,20 +56,32 @@ Bubble.Base = function(_x, _y, _type, options) {
 
         }
     };
-}
+};
 
 Bubble.Score = function(base) {
+    base.img = BubbleAssets.score;
+    base.color = "rgba(0, 0, 255, .25)";
     base.worth = 10;
 
     base.render = function(gc) {
-        var img = BubbleAssets.bubble;
-        gc.fillStyle = "rgba(0, 0, 255, .25)";
-        gc.fillRect(base.x, base.y, img.width, img.height);
-        gc.drawImage(img, base.x, base.y);
-    }
+        gc.fillStyle = base.color;
+        gc.fillRect(base.x, base.y, base.img.width, base.img.height);
+        gc.drawImage(base.img, base.x, base.y);
+    };
 
     base.onPop = function(bubbles, pin) {
         BPM.cash += base.worth;
-    }
+    };
+
     return base;
-}
+};
+
+Bubble.Bad = function(base) {
+    var base = Bubble.Score(base);
+
+    base.img = BubbleAssets.bad;
+    base.color = "rgba(255, 0, 0, .25)";
+    base.worth = -10;
+
+    return base;
+};

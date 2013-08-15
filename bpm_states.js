@@ -22,7 +22,12 @@ State.create("game", function() {
 
         for (var i=0; i<50; ++i) {
             bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", null));
+
+            if (i % 2 == 0) {
+                bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "bad"));
+            }
         }
+
 
         for (i in bubbles) {
             bubbles[i].init();
