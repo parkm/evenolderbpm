@@ -77,7 +77,7 @@ Bubble.Score = function(base) {
 };
 
 Bubble.Bad = function(base) {
-    var base = Bubble.Score(base);
+    base = Bubble.Score(base);
 
     base.img = BubbleAssets.bad;
     base.color = "rgba(255, 0, 0, .25)";
