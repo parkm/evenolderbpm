@@ -63,4 +63,11 @@ BPM.render = function() {
     if (State.current) {
         State.current.render(BPM.context);
     }
+
+    Utils.drawText(BPM.context, Time.delta, 0, BPM.canvas.getHeight()-18, {
+        font: "16px Arial",
+        textAlign: "left",
+        stroke: true,
+        lineWidth: 3
+    });
 };
