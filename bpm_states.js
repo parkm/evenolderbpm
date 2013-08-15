@@ -49,6 +49,8 @@ State.create("game", function() {
     };
 
     base.render = function(gc) {
+        gc.drawImage(StateAssets.background, 0, 0);
+
         shooter.render(gc);
 
         for (i in bubbles) {
