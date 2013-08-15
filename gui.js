@@ -63,15 +63,15 @@ function GUIButton(_text, options) {
 
         onClick: onClick, //Setting the private var public
 
-        state: "up",
+        position: "up",
 
         update: function(mouse) {
             if (mouse.isColliding(this.x, this.y, this.x + this.postWidth, this.y + this.postHeight)) {
                 if (mouse.isDown(Mouse.LEFT)) {
-                    this.state = "down";
+                    this.position = "down";
                     held = true;
                 } else {
-                    this.state = "hover";
+                    this.position = "hover";
                 }
 
                 if (mouse.isReleased(Mouse.LEFT)) {
@@ -80,7 +80,7 @@ function GUIButton(_text, options) {
                     }
                 }
             } else {
-                this.state = "up";
+                this.position = "up";
             }
         },
 
@@ -104,7 +104,7 @@ function GUIButton(_text, options) {
                 height = this.height;
             }
 
-            switch(this.state) {
+            switch(this.position) {
                 case "up":
                     up.render(gc, this.x, this.y, width, height); 
                     break;
@@ -137,15 +137,15 @@ function RoundSelectButton(text, color) {
         width: 400, height: 32,
         text: text, 
         color: color,
-        state: "up",
+        position: "up",
         onClick: null,
 
         update: function(mouse) {
             if (mouse.isColliding(this.x, this.y, this.x+this.width, this.y+this.height)) {
-                this.state = "hover";
+                this.position = "hover";
 
                 if (mouse.isDown(Mouse.LEFT)) {
-                    this.state = "down";
+                    this.position = "down";
                 }
 
                 if (mouse.isReleased(Mouse.LEFT)) {
@@ -154,7 +154,7 @@ function RoundSelectButton(text, color) {
                     }
                 }
             } else {
-                this.state = "up";
+                this.position = "up";
             }
         },
 
@@ -178,7 +178,7 @@ function RoundSelectButton(text, color) {
                 font: "16px Arial"
             });
 
-            switch(this.state) {
+            switch(this.position) {
                 case "hover":
                     gc.fillStyle = "rgba(255, 255, 255, 0.5)";
                     gc.fillRect(this.x, this.y, this.width, this.height);
