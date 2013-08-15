@@ -23,10 +23,12 @@ Bubble.Base = function(_x, _y, _type, options) {
     return {
         x: _x, y: _y,
         width: 32, height: 32,
-        angle: Math.random() * 360,
-        speedX: 0,
-        speedY: 0,
-        speed: 0.75,
+        angle: (options && options.angle) || Math.random() * 360,
+        speedX: (options && options.speedX) || 0,
+        speedY: (options && options.speedY) || 0,
+        speed: (options && options.speed) || 0.75,
+        color: "rgba(0, 0, 0, .25)",
+        img: BubbleAssets.score,
 
         onCollision: function(bubbles, pin) {
             this.onPop(bubbles, pin);
@@ -58,7 +60,9 @@ Bubble.Base = function(_x, _y, _type, options) {
         },
 
         render: function(gc) {
-
+            gc.fillStyle = this.color;
+            gc.fillRect(this.x, this.y, this.img.width, this.img.height);
+            gc.drawImage(this.img, this.x, this.y);
         }
     };
 };
@@ -67,12 +71,6 @@ Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
     base.color = "rgba(0, 0, 255, .25)";
     base.worth = 10;
-
-    base.render = function(gc) {
-        gc.fillStyle = base.color;
-        gc.fillRect(base.x, base.y, base.img.width, base.img.height);
-        gc.drawImage(base.img, base.x, base.y);
-    };
 
     base.onPop = function(bubbles, pin) {
         BPM.cash += base.worth;
@@ -92,11 +90,8 @@ Bubble.Bad = function(base) {
 };
 
 Bubble.Goal = function(base) {
-    base = Bubble.Score(base);
-
     base.img = BubbleAssets.goal;
     base.color = "rgba(224, 185, 90, .25)";
-    base.worth = 0;
 
     return base;
 };
