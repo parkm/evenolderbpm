@@ -2,20 +2,78 @@ BubbleAssets = {};
 
 function Bubble(x, y, type, options) {
     var base = Bubble.Base(x, y, type, options);
+
+    var result;
     
+    // Get bubble of certain type
     switch(type) {
         case "score":
-            return Bubble.Score(base);
+            result = Bubble.Score(base);
             break;
 
         case "bad":
-            return Bubble.Bad(base);
+            result = Bubble.Bad(base);
             break;
 
         case "goal":
-            return Bubble.Goal(base);
+            result = Bubble.Goal(base);
+            break;
+
+        case "rainbow":
+            result = Bubble.Rainbow(base);
+            break;
+
+        case "ammo":
+            result = Bubble.Ammo(base);
+            break;
+
+        case "double":
+            result = Bubble.Double(base);
+            break;
+
+        case "combo":
+            result = Bubble.Combo(base);
+            break;
+
+        case "reflect":
+            result = Bubble.Reflect(base);
+            break;
+
+        case "bomb":
+            result = Bubble.Bomb(base);
+            break;
+
+        default:
+            result = Bubble.Score(base);
             break;
     }
+    
+    // Modify bubble via attributes
+    if (options && options.attribute) {
+        switch(options.attribute) {
+            case "iron":
+                result = Bubble.Iron(result);
+                break;
+
+            case "ghost":
+                result = Bubble.Ghost(result);
+                break;
+
+            case "event":
+                result = Bubble.Ghost(result);
+                break;
+
+            case "big":
+                result = Bubble.Big(result);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    return result;
+
 }
 
 Bubble.Base = function(_x, _y, _type, options) {
@@ -67,6 +125,8 @@ Bubble.Base = function(_x, _y, _type, options) {
     };
 };
 
+/* Bubble Types */
+
 Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
     base.color = "rgba(0, 0, 255, .25)";
@@ -94,4 +154,60 @@ Bubble.Goal = function(base) {
     base.color = "rgba(224, 185, 90, .25)";
 
     return base;
+};
+
+Bubble.Rainbow = function(base) {
+
+};
+
+Bubble.Ammo = function(base) {
+
+};
+
+Bubble.Double = function(base) {
+
+};
+
+Bubble.Combo = function(base) {
+
+};
+
+Bubble.Reflect = function(base) {
+
+};
+
+Bubble.Bomb = function(base) {
+
+};
+
+
+/* Bubble Attributes */
+/* These are passed a complete bubble object,
+ * these functions just modify that object. */
+
+Bubble.Iron = function(base) {
+    base.color = "rgba(0, 0, 0, 1)";
+
+    base.onCollision = function(bubbles, pin) {
+        // Do nothing.
+    };
+
+    base.update = function(delta) {
+        // No movement.
+    };
+
+    return base;
+
+};
+
+Bubble.Ghost = function(base) {
+
+};
+
+Bubble.Event = function(base) {
+
+};
+
+Bubble.Big = function(base) {
+
 };
