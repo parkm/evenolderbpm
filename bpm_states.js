@@ -168,6 +168,7 @@ State.create("roundSelect", function() {
         addRound("Beginner Stage", "Round 1", "game");
         addRound("Beginner Stage", "Round 2", "game");
         addRound("Beginner Stage", "Round 3", "game");
+        addRound("Beginner Stage", "Round 4", "game");
 
         addStage("Intermediate Stage", "rgb(19, 20, 200)");
         addRound("Intermediate Stage", "Round 1", "game");
@@ -176,6 +177,11 @@ State.create("roundSelect", function() {
         addStage("Advanced Stage", "rgb(200, 20, 19)");
         addRound("Advanced Stage", "Round 1", "game");
         addRound("Advanced Stage", "Round 2", "game");
+
+        addStage("Goto State...", "rgb(19, 200, 200)");
+        for (i in State.list) {
+            addRound("Goto State...", "Goto state '" + i + "'", i);
+        }
 
         achieveButton = GUIButton("Achievements", {dynamic: false});
 
@@ -201,10 +207,6 @@ State.create("roundSelect", function() {
         buttons.push(upgradeButton);
 
         for (i in stages) {
-            for (j in stages[i].rounds) {
-                stages[i].rounds[j].button.y = -100; //This hides the round buttons above the screen so it won't give a flicker when re-positioning.
-            }
-
             stages[i].button.onClick = function() {
                 stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
             };
@@ -239,10 +241,10 @@ State.create("roundSelect", function() {
             for (j in stage.rounds) {
                 var round = stage.rounds[j];
 
-                if (stage.showRounds) {
-                    round.button.x = stage.button.x;
-                    round.button.y = (stage.button.y + stage.button.height) + (j * (round.button.height + roundButtonDistance) + stageToRoundButtonDistance);
-                    
+                round.button.x = stage.button.x;
+                round.button.y = (stage.button.y + stage.button.height) + (j * (round.button.height + roundButtonDistance) + stageToRoundButtonDistance);
+
+                if (stage.showRounds) {                    
                     round.button.state = round.state;
 
                     round.button.update(BPM.mouse);
