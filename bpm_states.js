@@ -38,7 +38,7 @@ State.create("game", function() {
         shooter.update(BPM.mouse, pins);
 
         for (i in pins) {
-            pins[i].update(bubbles);
+            pins[i].update(bubbles, pins);
         }
 
         backButton.update(BPM.mouse);

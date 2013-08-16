@@ -75,12 +75,12 @@ Pin.Base = function(_x, _y, _angle, options) {
         life: 100,
         angle: _angle,
 
-        onDeath: function() {
-
+        onDeath: function(pins) {
+            pins.splice(pins.indexOf(this), 1);
         },
 
-        onCollision: function(bubbles, bubble) {
-            bubble.onCollision(bubbles, this);
+        onCollision: function(bubbles, bubble, pins) {
+            bubble.onCollision(bubbles, this, pins);
         },
 
         init: function() {
@@ -88,7 +88,7 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
 
-        update: function(bubbles) {
+        update: function(bubbles, pins) {
             if (this.x < 0) 
                 this.speedX = -this.speedX;
             if (this.y < 0)
@@ -111,7 +111,7 @@ Pin.Base = function(_x, _y, _angle, options) {
                 var by2 = b.y + b.height;
 
                 if (x2 > b.x && this.x < bx2 && y2 > b.y && this.y < by2) {
-                    this.onCollision(bubbles, b);
+                    this.onCollision(bubbles, b, pins);
                 }           
             }
         },

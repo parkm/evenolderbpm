@@ -188,8 +188,8 @@ Bubble.Bomb = function(base) {
 Bubble.Iron = function(base) {
     base.color = "rgba(0, 0, 0, 1)";
 
-    base.onCollision = function(bubbles, pin) {
-        // Do nothing.
+    base.onCollision = function(bubbles, pin, pins) {
+        pin.onDeath(pins);
     };
 
     base.update = function(delta) {
