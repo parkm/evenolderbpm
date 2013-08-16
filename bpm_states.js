@@ -20,7 +20,7 @@ State.create("game", function() {
             State.set("roundSelect");
         };
 
-        for (var i=0; i<50; ++i) {
+        for (var i=0; i<10; ++i) {
             bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", null));
             bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "bad"));
             bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "goal"));
