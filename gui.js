@@ -173,6 +173,7 @@ function RoundSelectButton(text, color) {
             gc.fillStyle = "rgba(255, 255, 255, 0.5)";
             gc.fillRect(x, y, this.width, this.height/2);
 
+            gc.lineWidth = 4;
             gc.strokeRect(x, y,  this.width, this.height);
 
             Utils.drawText(gc, this.text, this.width/2+x, y+5, {
