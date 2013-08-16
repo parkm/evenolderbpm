@@ -20,8 +20,8 @@ State.create("game", function() {
             State.set("roundSelect");
         };
 
-        for (var i=0; i<10; ++i) {
-            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {attribute: "iron"}));
+        for (var i=0; i<50; ++i) {
+            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {attribute: ""}));
         }
 
 
@@ -139,6 +139,7 @@ State.create("roundSelect", function() {
         stages.push({
             name: _name,
             color: _color,
+            showRounds: false,
             button: RoundSelectButton(_name, _color),
             rounds: []
         });
@@ -198,6 +199,16 @@ State.create("roundSelect", function() {
         buttons.push(saveButton);
         buttons.push(resetButton);
         buttons.push(upgradeButton);
+
+        for (i in stages) {
+            for (j in stages[i].rounds) {
+                stages[i].rounds[j].button.y = -100; //This hides the round buttons above the screen so it won't give a flicker when re-positioning.
+            }
+
+            stages[i].button.onClick = function() {
+                stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
+            };
+        }
     };
 
     base.update = function(delta) {
@@ -228,20 +239,28 @@ State.create("roundSelect", function() {
             for (j in stage.rounds) {
                 var round = stage.rounds[j];
 
-                round.button.x = stage.button.x;
-                round.button.y = (stage.button.y + stage.button.height) + (j * (round.button.height + roundButtonDistance) + stageToRoundButtonDistance);
-                
-                round.button.state = round.state;
+                if (stage.showRounds) {
+                    round.button.x = stage.button.x;
+                    round.button.y = (stage.button.y + stage.button.height) + (j * (round.button.height + roundButtonDistance) + stageToRoundButtonDistance);
+                    
+                    round.button.state = round.state;
 
-                round.button.update(BPM.mouse);
+                    round.button.update(BPM.mouse);
+                }
             }
 
             if (stages[i-1]) {
-                totalHeight += ((stages[i-1].rounds.length) * (round.button.height + roundButtonDistance)) + stageChunkDistance;
+                if (stages[i-1].showRounds) {
+                    totalHeight += ((stages[i-1].rounds.length) * (round.button.height + roundButtonDistance)) + stageChunkDistance;
+                } else {
+                    totalHeight += stageChunkDistance;
+                }
             }
 
             stage.button.x = BPM.canvas.getWidth() - stage.button.width - hOffset;
             stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance;
+
+            stage.button.update(BPM.mouse);
         }
     };
 
@@ -259,9 +278,11 @@ State.create("roundSelect", function() {
 
             stage.button.render(gc);
 
-            for (j in stage.rounds) {
-                var round = stage.rounds[j];
-                round.button.render(gc);
+            if (stage.showRounds) {
+                for (j in stage.rounds) {
+                    var round = stage.rounds[j];
+                    round.button.render(gc);
+                }
             }
         }
     };
