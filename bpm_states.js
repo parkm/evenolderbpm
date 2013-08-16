@@ -47,6 +47,8 @@ State.create("game", function() {
     };
 
     base.render = function(gc) {
+        gc.drawImage(StateAssets.background, 0, 0);
+
         shooter.render(gc);
 
         for (i in bubbles) {
@@ -131,8 +133,51 @@ State.create("roundSelect", function() {
     var achieveButton, menuButton, saveButton, resetButton, upgradeButton;
 
     var TEMP_roundButton;
+    var selectStage;
+
+    var stages = [];
+
+    var addStage = function(_name, _color) {
+        stages.push({
+            name: _name,
+            color: _color,
+            button: RoundSelectButton(_name, _color),
+            rounds: []
+        });
+    };
+
+    var addRound = function(stageName, roundName, stateName) {
+        for (i in stages) {
+            var stage = stages[i];
+
+            if (stage.name === stageName) {
+                stage.rounds.push({
+                    name: roundName,
+                    state: stateName,
+                    color: stage.color,
+                    stage: stage.stageName,
+                    button: RoundSelectButton(roundName, stage.color),
+                });
+                return;
+            }
+        }
+        console.error("Error: Cannot create round, stage '" + stageName + "' does not exist.");
+    };
 
     base.init = function() {
+        addStage("Beginner Stage", "rgb(19, 200, 20)");
+        addRound("Beginner Stage", "Round 1", "game");
+        addRound("Beginner Stage", "Round 2", "game");
+        addRound("Beginner Stage", "Round 3", "game");
+
+        addStage("Intermediate Stage", "rgb(19, 20, 200)");
+        addRound("Intermediate Stage", "Round 1", "game");
+        addRound("Intermediate Stage", "Round 2", "game");
+
+        addStage("Advanced Stage", "rgb(200, 20, 19)");
+        addRound("Advanced Stage", "Round 1", "game");
+        addRound("Advanced Stage", "Round 2", "game");
+
         achieveButton = GUIButton("Achievements", {dynamic: false});
 
         menuButton = GUIButton("Main Menu", 
@@ -147,12 +192,8 @@ State.create("roundSelect", function() {
         resetButton = GUIButton("Reset Data", {dynamic: false});
         upgradeButton = GUIButton("Upgrades", {dynamic: false});
 
-        TEMP_roundButton = GUIButton("Go to the game");
-        TEMP_roundButton.onClick = function() {
-            State.set("game");
-        };
-        TEMP_roundButton.x = 300;
-        TEMP_roundButton.y = 400;
+        selectStage = RoundSelectButton("Select Stage", "#000000", true);
+        selectStage.y = 16;
 
         buttons.push(achieveButton);
         buttons.push(menuButton);
@@ -173,7 +214,37 @@ State.create("roundSelect", function() {
             b.update(BPM.mouse);
         }
 
-        TEMP_roundButton.update(BPM.mouse);
+        //Round Selection
+
+        var hOffset = 64; //Offset from the end of the canvas.
+        var roundButtonDistance = 5; //The distance between each round button.
+        var stageChunkDistance = 15; //The distance between each stage chunk.
+        var stageToRoundButtonDistance = 10; //The distance between the stage and the round buttons.
+
+        selectStage.x = BPM.canvas.getWidth() - selectStage.width - hOffset;
+
+        var totalHeight = 0; //Used to measure the height of the stage chunks.
+        for (i in stages) {
+            var stage = stages[i];
+
+            for (j in stage.rounds) {
+                var round = stage.rounds[j];
+
+                round.button.x = stage.button.x;
+                round.button.y = (stage.button.y + stage.button.height) + (j * (round.button.height + roundButtonDistance) + stageToRoundButtonDistance);
+                
+                round.button.state = round.state;
+
+                round.button.update(BPM.mouse);
+            }
+
+            if (stages[i-1]) {
+                totalHeight += ((stages[i-1].rounds.length) * (round.button.height + roundButtonDistance)) + stageChunkDistance;
+            }
+
+            stage.button.x = BPM.canvas.getWidth() - stage.button.width - hOffset;
+            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance;
+        }
     };
 
     base.render = function(gc) {
@@ -182,8 +253,19 @@ State.create("roundSelect", function() {
         for (i in buttons) {
             buttons[i].render(gc);
         }
+        
+        selectStage.render(gc);
+ 
+        for (i in stages) {
+            var stage = stages[i];
 
-        TEMP_roundButton.render(gc);
+            stage.button.render(gc);
+
+            for (j in stage.rounds) {
+                var round = stage.rounds[j];
+                round.button.render(gc);
+            }
+        }
     };
 
     return base;

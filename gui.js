@@ -63,15 +63,15 @@ function GUIButton(_text, options) {
 
         onClick: onClick, //Setting the private var public
 
-        state: "up",
+        position: "up",
 
         update: function(mouse) {
             if (mouse.isColliding(this.x, this.y, this.x + this.postWidth, this.y + this.postHeight)) {
                 if (mouse.isDown(Mouse.LEFT)) {
-                    this.state = "down";
+                    this.position = "down";
                     held = true;
                 } else {
-                    this.state = "hover";
+                    this.position = "hover";
                 }
 
                 if (mouse.isReleased(Mouse.LEFT)) {
@@ -80,7 +80,7 @@ function GUIButton(_text, options) {
                     }
                 }
             } else {
-                this.state = "up";
+                this.position = "up";
             }
         },
 
@@ -104,7 +104,7 @@ function GUIButton(_text, options) {
                 height = this.height;
             }
 
-            switch(this.state) {
+            switch(this.position) {
                 case "up":
                     up.render(gc, this.x, this.y, width, height); 
                     break;
@@ -127,6 +127,74 @@ function GUIButton(_text, options) {
 
             this.postWidth = width + topRight.width;
             this.postHeight = height + bottomRight.height;
+        },
+    }
+}
+
+function RoundSelectButton(text, color) {
+    return {
+        x: 0, y: 0,
+        postX: 0, postY: 0,
+        width: 400, height: 32,
+        text: text, 
+        color: color,
+        position: "up",
+        onClick: null,
+        state: null,
+
+        update: function(mouse) {
+            if (mouse.isColliding(this.x, this.y, this.x+this.width, this.y+this.height)) {
+                this.position = "hover";
+
+                if (mouse.isDown(Mouse.LEFT)) {
+                    this.position = "down";
+                }
+
+                if (mouse.isReleased(Mouse.LEFT)) {
+                    if (this.onClick) {
+                        this.onClick();
+                    } else if (this.state) {
+                        State.set(this.state);
+                    }
+                }
+            } else {
+                this.position = "up";
+            }
+        },
+
+        render: function(gc) {
+            var x = this.x;
+            var y = this.y;
+
+            gc.fillStyle = this.color;
+            gc.strokeStyle = "#000000";
+            gc.fillRect(x, y, this.width, this.height);
+
+            gc.fillStyle = "rgba(255, 255, 255, 0.5)";
+            gc.fillRect(x, y, this.width, this.height/2);
+
+            gc.lineWidth = 4;
+            gc.strokeRect(x, y,  this.width, this.height);
+
+            Utils.drawText(gc, this.text, this.width/2+x, y+5, {
+                fillStyle: "#FFFFFF",
+                strokeStyle: "#000000",
+                stroke: true,
+                lineWidth: 5,
+                font: "16px Arial"
+            });
+
+            switch(this.position) {
+                case "hover":
+                    gc.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    gc.fillRect(x, y, this.width, this.height);
+                    break;
+
+                case "down":
+                    gc.fillStyle = "rgba(0, 0, 0, 0.5)";
+                    gc.fillRect(x, y, this.width, this.height);
+                    break;
+            }
         },
     }
 }
