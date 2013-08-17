@@ -21,7 +21,8 @@ State.create("game", function() {
         };
 
         for (var i=0; i<50; ++i) {
-            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {attribute: ""}));
+            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {speed: 2, iron: true, action: function() {console.log("booya");}}));
+            //bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score"));
         }
 
 
@@ -38,7 +39,7 @@ State.create("game", function() {
         shooter.update(BPM.mouse, pins);
 
         for (i in pins) {
-            pins[i].update(bubbles);
+            pins[i].update({bubbles: bubbles, pins: pins});
         }
 
         backButton.update(BPM.mouse);

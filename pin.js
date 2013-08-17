@@ -66,52 +66,55 @@ function Pin(x, y, angle, options) {
 }
 
 Pin.Base = function(_x, _y, _angle, options) {
+    var speedX, speedY;
     return {
         x: _x, y: _y,
         width: 0, height: 0,
-        speedX: 0,
-        speedY: 0,
         speed: options.speed || 4,
         life: 100,
         angle: _angle,
 
-        onDeath: function() {
-
+        onDeath: function(pins) {
+            pins.splice(pins.indexOf(this), 1);
         },
-
-        onCollision: function(bubbles, bubble) {
-            bubble.onCollision(bubbles, this);
+        
+        /* args = bubbles, bubble, pins */
+        onCollision: function(args) {
+            args.pin = this;
+            args.bubble.onCollision(args);
         },
 
         init: function() {
-            this.speedX = Math.cos(this.angle * (Math.PI / 180));
-            this.speedY = -Math.sin(this.angle * (Math.PI / 180));
+            speedX = Math.cos(this.angle * (Math.PI / 180));
+            speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
-
-        update: function(bubbles) {
+        
+        /* args = bubbles, pins */
+        update: function(args) {
             if (this.x < 0) 
-                this.speedX = -this.speedX;
+                speedX = -speedX;
             if (this.y < 0)
-                this.speedY = -this.speedY;
+                speedY = -speedY;
             if (this.x > BPM.canvas.getWidth() - this.width)
-                this.speedX = -this.speedX;
+                speedX = -speedX;
             if (this.y > BPM.canvas.getHeight() - this.height)
-                this.speedY = -this.speedY;
+                speedY = -speedY;
 
-            this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
+            this.angle = -(180 / Math.PI * Math.atan2(speedY, speedX));
 
-            this.x += this.speedX * this.speed;
-            this.y += this.speedY * this.speed;
-
-            for (i in bubbles) {
-                var b = bubbles[i];
+            this.x += speedX * this.speed;
+            this.y += speedY * this.speed;
+            
+            for (i in args.bubbles) {
+                var b = args.bubbles[i];
                 var x2 = this.x + this.width;
                 var y2 = this.y + this.height;
                 var bx2 = b.x + b.width;
                 var by2 = b.y + b.height;
 
                 if (x2 > b.x && this.x < bx2 && y2 > b.y && this.y < by2) {
-                    this.onCollision(bubbles, b);
+                    args.bubble = b;
+                    this.onCollision(args);
                 }           
             }
         },
