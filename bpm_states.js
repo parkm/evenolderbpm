@@ -211,6 +211,11 @@ State.create("roundSelect", function() {
         for (i in stages) {
             stages[i].button.onClick = function() {
                 stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
+                for (j in stages) {
+                    if (j !== i) {
+                        stages[j].showRounds = false;
+                    }
+                }
             };
         }
     };
