@@ -18,13 +18,12 @@ Bubble.Base = function(_x, _y, _type, options) {
     var iron = options && options.iron;
     var action = options && options.action;
     var ghost = options && options.ghost;
+    var speedX, speedY;
     return {
         x: _x, y: _y,
         width: 32, height: 32,
         angle: (options && options.angle) || Math.random() * 360,
-        speedX: (options && options.speedX) || 0,
-        speedY: (options && options.speedY) || 0,
-        speed: (options && options.speed) || 0.75,
+        speed: options && (typeof options.speed === "number") ? options.speed : 0.75,
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
 
@@ -47,27 +46,26 @@ Bubble.Base = function(_x, _y, _type, options) {
         },
 
         init: function() {
-            this.speedX = Math.cos(this.angle * (Math.PI / 180));
-            this.speedY = -Math.sin(this.angle * (Math.PI / 180));
+            speedX = Math.cos(this.angle * (Math.PI / 180));
+            speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
 
         update: function(delta) {
             //Standard bubble movement.
             if (this.x < 0) {
-                this.speedX = -this.speedX;
+                speedX = -speedX;
             }
             if (this.y < 0) {
-                this.speedY = -this.speedY;
+                speedY = -speedY;
             }
             if (this.x > BPM.canvas.getWidth()) {
-                this.speedX = -this.speedX;
+                speedX = -speedX;
             }
             if (this.y > BPM.canvas.getHeight()) {
-                this.speedY = -this.speedY;
+                speedY = -speedY;
             }
-
-            this.x += this.speedX * this.speed;
-            this.y += this.speedY * this.speed;
+            this.x += speedX * this.speed;
+            this.y += speedY * this.speed;
 
         },
 
