@@ -3,11 +3,6 @@ BubbleAssets = {};
 function Bubble(x, y, type, options) {
     var base = Bubble.Base(x, y, type, options);
 
-    // Modify bubble via attributes
-    if (options) {
-        Bubble.AttributeFactory(base, options);
-    }
-    
     // Capitalize first letter of type
     type = type.slice(0, 1).toUpperCase() + type.slice(1);
 
@@ -15,12 +10,14 @@ function Bubble(x, y, type, options) {
     if (Bubble[type]) {
         base = Bubble[type](base);
     }
-    
 
     return base;
 }
 
 Bubble.Base = function(_x, _y, _type, options) {
+    var iron = options && options.iron;
+    var action = options && options.action;
+    var ghost = options && options.ghost;
     return {
         x: _x, y: _y,
         width: 32, height: 32,
@@ -33,10 +30,18 @@ Bubble.Base = function(_x, _y, _type, options) {
 
 
         onPop: function(bubbles, pin) {
-            bubbles.splice(bubbles.indexOf(this), 1);
+            if (!iron) {
+                bubbles.splice(bubbles.indexOf(this), 1);
+            }
         },
 
-        onCollision: function(bubbles, pin) {
+        onCollision: function(bubbles, pin, pins) {
+            if (action) {
+                action();
+            }
+            if (iron) {
+                pin.onDeath(pins);
+            }
             this.onPop(bubbles, pin);
         },
 
@@ -46,18 +51,25 @@ Bubble.Base = function(_x, _y, _type, options) {
         },
 
         update: function(delta) {
-            //Standard bubble movement.
-            if (this.x < 0) 
-                this.speedX = -this.speedX;
-            if (this.y < 0)
-                this.speedY = -this.speedY;
-            if (this.x > BPM.canvas.getWidth())
-                this.speedX = -this.speedX;
-            if (this.y > BPM.canvas.getHeight())
-                this.speedY = -this.speedY;
+            if (!iron) {
+                //Standard bubble movement.
+                if (this.x < 0) {
+                    this.speedX = -this.speedX;
+                }
+                if (this.y < 0) {
+                    this.speedY = -this.speedY;
+                }
+                if (this.x > BPM.canvas.getWidth()) {
+                    this.speedX = -this.speedX;
+                }
+                if (this.y > BPM.canvas.getHeight()) {
+                    this.speedY = -this.speedY;
+                }
 
-            this.x += this.speedX * this.speed;
-            this.y += this.speedY * this.speed;
+                this.x += this.speedX * this.speed;
+                this.y += this.speedY * this.speed;
+            }
+
         },
 
         render: function(gc) {
@@ -123,45 +135,4 @@ Bubble.Reflect = function(base) {
 
 Bubble.Bomb = function(base) {
 
-};
-
-
-/* Bubble Attributes */
-/* These are passed a complete bubble object,
- * these functions just modify that object. */
-
-Bubble.AttributeFactory = function(base, options) {
-    var s_onCollision = base.onCollision;
-    base.onCollision = function(bubbles, pin, pins) {
-        s_onCollision.call(base, bubbles, pin, pins);
-        if (options.iron) {
-            pin.onDeath(pins);
-        }
-        
-        if (options.action) {
-            options.action();
-        }
-
-        if (options.ghost) {
-
-        }
-    };
-
-    var s_update = base.update;
-    base.update = function(delta) {
-        if (!options.iron) {
-            s_onUpdate.call(base, delta);
-        }
-    };
-
-    var s_onPop = base.onPop;
-    base.onPop = function(bubbles, pin) {
-        if (!options.iron) {
-            s_onPop.call(base, bubbles, pin);
-        }
-    };
-
-    console.log(base);
-
-    return base;
 };
