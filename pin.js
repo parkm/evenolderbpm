@@ -66,11 +66,10 @@ function Pin(x, y, angle, options) {
 }
 
 Pin.Base = function(_x, _y, _angle, options) {
+    var speedX, speedY;
     return {
         x: _x, y: _y,
         width: 0, height: 0,
-        speedX: 0,
-        speedY: 0,
         speed: options.speed || 4,
         life: 100,
         angle: _angle,
@@ -86,25 +85,25 @@ Pin.Base = function(_x, _y, _angle, options) {
         },
 
         init: function() {
-            this.speedX = Math.cos(this.angle * (Math.PI / 180));
-            this.speedY = -Math.sin(this.angle * (Math.PI / 180));
+            speedX = Math.cos(this.angle * (Math.PI / 180));
+            speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
         
         /* args = bubbles, pins */
         update: function(args) {
             if (this.x < 0) 
-                this.speedX = -this.speedX;
+                speedX = -speedX;
             if (this.y < 0)
-                this.speedY = -this.speedY;
+                speedY = -speedY;
             if (this.x > BPM.canvas.getWidth() - this.width)
-                this.speedX = -this.speedX;
+                speedX = -speedX;
             if (this.y > BPM.canvas.getHeight() - this.height)
-                this.speedY = -this.speedY;
+                speedY = -speedY;
 
-            this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
+            this.angle = -(180 / Math.PI * Math.atan2(speedY, speedX));
 
-            this.x += this.speedX * this.speed;
-            this.y += this.speedY * this.speed;
+            this.x += speedX * this.speed;
+            this.y += speedY * this.speed;
             
             for (i in args.bubbles) {
                 var b = args.bubbles[i];
