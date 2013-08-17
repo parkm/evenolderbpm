@@ -135,6 +135,8 @@ State.create("roundSelect", function() {
 
     var stages = [];
 
+    var stageScroll = 0;
+
     var addStage = function(_name, _color) {
         stages.push({
             name: _name,
@@ -260,9 +262,16 @@ State.create("roundSelect", function() {
             }
 
             stage.button.x = BPM.canvas.getWidth() - stage.button.width - hOffset;
-            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance;
+            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance + stageScroll;
 
             stage.button.update(BPM.mouse);
+        }
+
+        //38 = Up arrow, 40 = Down arrow. Sets the scroll value.
+        if (BPM.keyboard.isDown(38)) {
+            stageScroll--;
+        } else if (BPM.keyboard.isDown(40)) {
+            stageScroll++;
         }
     };
 
@@ -274,7 +283,14 @@ State.create("roundSelect", function() {
         }
         
         selectStage.render(gc);
- 
+
+        gc.save();
+    
+        //Start a clipping path for the stages.
+        gc.beginPath();
+        gc.rect(0, selectStage.y + selectStage.height, BPM.canvas.getWidth(), BPM.canvas.getHeight());
+        gc.clip();
+
         for (i in stages) {
             var stage = stages[i];
 
@@ -287,6 +303,8 @@ State.create("roundSelect", function() {
                 }
             }
         }
+
+        gc.restore();
     };
 
     return base;

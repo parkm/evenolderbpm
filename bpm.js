@@ -14,6 +14,7 @@ function BPM(canvasID) {
         Loop.update = BPM.update;
 
         BPM.mouse.attach(BPM.canvas.getElement());
+        BPM.keyboard.attach(BPM.canvas.getElement());
 
         BPM.addAssets();
 
@@ -22,6 +23,7 @@ function BPM(canvasID) {
 }
 
 BPM.mouse = Mouse();
+BPM.keyboard = Keyboard();
 
 BPM.cash = 0;
 
@@ -54,6 +56,7 @@ BPM.update = function() {
     State.update(Time.delta);
 
     BPM.mouse.update();
+    BPM.keyboard.update();
 };
 
 BPM.render = function() {
