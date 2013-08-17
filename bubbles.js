@@ -2,82 +2,24 @@ BubbleAssets = {};
 
 function Bubble(x, y, type, options) {
     var base = Bubble.Base(x, y, type, options);
-
-    var result;
     
-    // Get bubble of certain type
-    switch(type) {
-        case "score":
-            result = Bubble.Score(base);
-            break;
+    // Capitalize first letter of type
+    type = type.slice(0, 1).toUpperCase() + type.slice(1);
 
-        case "bad":
-            result = Bubble.Bad(base);
-            break;
-
-        case "goal":
-            result = Bubble.Goal(base);
-            break;
-
-        case "rainbow":
-            result = Bubble.Rainbow(base);
-            break;
-
-        case "ammo":
-            result = Bubble.Ammo(base);
-            break;
-
-        case "double":
-            result = Bubble.Double(base);
-            break;
-
-        case "combo":
-            result = Bubble.Combo(base);
-            break;
-
-        case "reflect":
-            result = Bubble.Reflect(base);
-            break;
-
-        case "bomb":
-            result = Bubble.Bomb(base);
-            break;
-
-        default:
-            result = Bubble.Score(base);
-            break;
+    // Get bubble of given type
+    if (Bubble[type]) {
+        base = Bubble[type](base);
     }
     
     // Modify bubble via attributes
-    if (options && options.attribute) {
-        switch(options.attribute) {
-            case "iron":
-                result = Bubble.Iron(result);
-                break;
-
-            case "ghost":
-                result = Bubble.Ghost(result);
-                break;
-
-            case "event":
-                result = Bubble.Ghost(result);
-                break;
-
-            case "big":
-                result = Bubble.Big(result);
-                break;
-
-            default:
-                break;
-        }
+    if (options && options.attributes) {
+        Bubble.AttributeFactory(base, options.attributes);
     }
 
-    return result;
-
+    return base;
 }
 
 Bubble.Base = function(_x, _y, _type, options) {
-
     return {
         x: _x, y: _y,
         width: 32, height: 32,
@@ -88,13 +30,13 @@ Bubble.Base = function(_x, _y, _type, options) {
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
 
-        onCollision: function(bubbles, pin) {
-            this.onPop(bubbles, pin);
+
+        onPop: function(bubbles, pin) {
             bubbles.splice(bubbles.indexOf(this), 1);
         },
 
-        onPop: function(bubbles, pin) {
-
+        onCollision: function(bubbles, pin) {
+            this.onPop(bubbles, pin);
         },
 
         init: function() {
@@ -131,8 +73,10 @@ Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
     base.color = "rgba(0, 0, 255, .25)";
     base.worth = 10;
-
+    
+    var s_onPop = base.onPop;
     base.onPop = function(bubbles, pin) {
+        s_onPop.call(base, bubbles, pin);
         BPM.cash += base.worth;
     };
 
@@ -185,29 +129,44 @@ Bubble.Bomb = function(base) {
 /* These are passed a complete bubble object,
  * these functions just modify that object. */
 
-Bubble.Iron = function(base) {
-    base.color = "rgba(0, 0, 0, 1)";
+Bubble.AttributeFactory = function(base, attributes) {
 
-    base.onCollision = function(bubbles, pin, pins) {
-        pin.onDeath(pins);
-    };
+    var r = 0, g = 0, b = 0;
 
-    base.update = function(delta) {
-        // No movement.
-    };
+    if (attributes.action) {
+        g = 255;
+        
+        var s_onCollision = base.onCollision;
+        base.onCollision = function(bubbles, pin, pins) {
+            s_onCollision.call(base, bubbles, pin, pins);
+            attributes.action();
+        };
 
+    }
+
+    if (attributes.iron) {
+        b = 255;
+
+        base.onPop = function(bubbles, pin) {
+
+        };
+        
+        var s_onCollision = base.onCollision;
+        base.onCollision = function(bubbles, pin, pins) {
+            s_onCollision.call(base, bubbles, pin, pins);
+            pin.onDeath(pins);
+        };
+
+        base.update = function(delta) {
+
+        };
+    }
+
+    if (attributes.ghost) {
+
+    }
+    
+    base.color = "rgba("+r+","+g+","+b+", .25)";
+    
     return base;
-
-};
-
-Bubble.Ghost = function(base) {
-
-};
-
-Bubble.Event = function(base) {
-
-};
-
-Bubble.Big = function(base) {
-
 };
