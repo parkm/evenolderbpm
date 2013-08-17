@@ -138,8 +138,9 @@ State.create("roundSelect", function() {
 
     var stageScroll = 0;
 
-    var addStage = function(_name, _color) {
+    var addStage = function(_id, _name, _color) {
         stages.push({
+            id: _id,
             name: _name,
             color: _color,
             showRounds: false,
@@ -148,11 +149,11 @@ State.create("roundSelect", function() {
         });
     };
 
-    var addRound = function(stageName, roundName, stateName) {
+    var addRound = function(id, roundName, stateName) {
         for (i in stages) {
             var stage = stages[i];
 
-            if (stage.name === stageName) {
+            if (stage.id === id) {
                 stage.rounds.push({
                     name: roundName,
                     state: stateName,
@@ -167,23 +168,23 @@ State.create("roundSelect", function() {
     };
 
     base.init = function() {
-        addStage("Beginner Stage", "rgb(19, 200, 20)");
-        addRound("Beginner Stage", "Round 1", "game");
-        addRound("Beginner Stage", "Round 2", "game");
-        addRound("Beginner Stage", "Round 3", "game");
-        addRound("Beginner Stage", "Round 4", "game");
+        addStage(0, "Beginner Stage", "rgb(19, 200, 20)");
+        addRound(0, "Round 1", "game");
+        addRound(0, "Round 2", "game");
+        addRound(0, "Round 3", "game");
+        addRound(0, "Round 4", "game");
 
-        addStage("Intermediate Stage", "rgb(19, 20, 200)");
-        addRound("Intermediate Stage", "Round 1", "game");
-        addRound("Intermediate Stage", "Round 2", "game");
+        addStage(1, "Intermediate Stage", "rgb(19, 20, 200)");
+        addRound(1, "Round 1", "game");
+        addRound(1, "Round 2", "game");
 
-        addStage("Advanced Stage", "rgb(200, 20, 19)");
-        addRound("Advanced Stage", "Round 1", "game");
-        addRound("Advanced Stage", "Round 2", "game");
+        addStage(2, "Advanced Stage", "rgb(200, 20, 19)");
+        addRound(2, "Round 1", "game");
+        addRound(2, "Round 2", "game");
 
-        addStage("Goto State...", "rgb(19, 200, 200)");
+        addStage(3, "Goto State...", "rgb(19, 200, 200)");
         for (i in State.list) {
-            addRound("Goto State...", "Goto state '" + i + "'", i);
+            addRound(3, "Goto state '" + i + "'", i);
         }
 
         achieveButton = GUIButton("Achievements", {dynamic: false});
