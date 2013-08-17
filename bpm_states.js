@@ -189,17 +189,24 @@ State.create("roundSelect", function() {
 
         achieveButton = GUIButton("Achievements", {dynamic: false});
 
-        menuButton = GUIButton("Main Menu", 
-        {dynamic: false, 
+        menuButton = GUIButton("Main Menu", {
+            dynamic: false, 
 
-        onClick: function() {
-            State.set("mainMenu");
-        }
+            onClick: function() {
+                State.set("mainMenu");
+            }
         });
 
         saveButton = GUIButton("Save Game", {dynamic: false});
         resetButton = GUIButton("Reset Data", {dynamic: false});
-        upgradeButton = GUIButton("Upgrades", {dynamic: false});
+
+        upgradeButton = GUIButton("Upgrades", {
+            dynamic: false,
+
+            onClick: function() {
+                State.set("upgrades");
+            }
+        });
 
         selectStage = RoundSelectButton("Select Stage", "#000000", true);
         selectStage.y = 16;
@@ -312,6 +319,16 @@ State.create("roundSelect", function() {
         }
 
         gc.restore();
+    };
+
+    return base;
+});
+
+State.create("upgrades", function() {
+    var base = State();
+
+    base.init = function() {
+
     };
 
     return base;
