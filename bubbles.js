@@ -84,11 +84,11 @@ Bubble.Base = function(_x, _y, _type, options) {
 Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
     base.color = "rgba(0, 0, 255, .25)";
-    base.worth = (options && options.worth) || 10;
+    base.worth = (base.options && base.options.worth) || 10;
     
     var s_onPop = base.onPop;
-    base.onPop = function(bubbles, pin) {
-        s_onPop.call(base, bubbles, pin);
+    base.onPop = function(args) {
+        s_onPop.call(base, args);
         BPM.cash += base.worth;
     };
 
@@ -100,7 +100,7 @@ Bubble.Bad = function(base) {
 
     base.img = BubbleAssets.bad;
     base.color = "rgba(255, 0, 0, .25)";
-    base.worth = (options && options.worth) || -10;
+    base.worth = (base.options && base.options.worth) || -10;
 
     return base;
 };

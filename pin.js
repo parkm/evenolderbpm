@@ -81,7 +81,8 @@ Pin.Base = function(_x, _y, _angle, options) {
         
         /* args = bubbles, bubble, pins */
         onCollision: function(args) {
-            args.bubble.onCollision({bubble: args.bubbles, pin: this, pins: args.pins});
+            args.pin = this;
+            args.bubble.onCollision(args);
         },
 
         init: function() {
@@ -104,7 +105,7 @@ Pin.Base = function(_x, _y, _angle, options) {
 
             this.x += this.speedX * this.speed;
             this.y += this.speedY * this.speed;
-
+            
             for (i in args.bubbles) {
                 var b = args.bubbles[i];
                 var x2 = this.x + this.width;
@@ -113,7 +114,8 @@ Pin.Base = function(_x, _y, _angle, options) {
                 var by2 = b.y + b.height;
 
                 if (x2 > b.x && this.x < bx2 && y2 > b.y && this.y < by2) {
-                  this.onCollision({bubbles: args.bubbles, bubble: b, pins: args.pins});
+                    args.bubble = b;
+                    this.onCollision(args);
                 }           
             }
         },
