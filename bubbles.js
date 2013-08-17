@@ -2,6 +2,11 @@ BubbleAssets = {};
 
 function Bubble(x, y, type, options) {
     var base = Bubble.Base(x, y, type, options);
+
+    // Modify bubble via attributes
+    if (options) {
+        Bubble.AttributeFactory(base, options);
+    }
     
     // Capitalize first letter of type
     type = type.slice(0, 1).toUpperCase() + type.slice(1);
@@ -11,10 +16,6 @@ function Bubble(x, y, type, options) {
         base = Bubble[type](base);
     }
     
-    // Modify bubble via attributes
-    if (options && options.attributes) {
-        Bubble.AttributeFactory(base, options.attributes);
-    }
 
     return base;
 }
@@ -76,7 +77,7 @@ Bubble.Score = function(base) {
     
     var s_onPop = base.onPop;
     base.onPop = function(bubbles, pin) {
-        s_onPop.call(base, bubbles, pin);
+        s_onPop.apply(base, [bubbles, pin]);
         BPM.cash += base.worth;
     };
 
@@ -129,44 +130,38 @@ Bubble.Bomb = function(base) {
 /* These are passed a complete bubble object,
  * these functions just modify that object. */
 
-Bubble.AttributeFactory = function(base, attributes) {
-
-    var r = 0, g = 0, b = 0;
-
-    if (attributes.action) {
-        g = 255;
-        
-        var s_onCollision = base.onCollision;
-        base.onCollision = function(bubbles, pin, pins) {
-            s_onCollision.call(base, bubbles, pin, pins);
-            attributes.action();
-        };
-
-    }
-
-    if (attributes.iron) {
-        b = 255;
-
-        base.onPop = function(bubbles, pin) {
-
-        };
-        
-        var s_onCollision = base.onCollision;
-        base.onCollision = function(bubbles, pin, pins) {
-            s_onCollision.call(base, bubbles, pin, pins);
+Bubble.AttributeFactory = function(base, options) {
+    var s_onCollision = base.onCollision;
+    base.onCollision = function(bubbles, pin, pins) {
+        s_onCollision.call(base, bubbles, pin, pins);
+        if (options.iron) {
             pin.onDeath(pins);
-        };
+        }
+        
+        if (options.action) {
+            options.action();
+        }
 
-        base.update = function(delta) {
+        if (options.ghost) {
 
-        };
-    }
+        }
+    };
 
-    if (attributes.ghost) {
+    var s_update = base.update;
+    base.update = function(delta) {
+        if (!options.iron) {
+            s_onUpdate.call(base, delta);
+        }
+    };
 
-    }
-    
-    base.color = "rgba("+r+","+g+","+b+", .25)";
-    
+    var s_onPop = base.onPop;
+    base.onPop = function(bubbles, pin) {
+        if (!options.iron) {
+            s_onPop.call(base, bubbles, pin);
+        }
+    };
+
+    console.log(base);
+
     return base;
 };
