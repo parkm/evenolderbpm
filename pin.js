@@ -78,17 +78,19 @@ Pin.Base = function(_x, _y, _angle, options) {
         onDeath: function(pins) {
             pins.splice(pins.indexOf(this), 1);
         },
-
-        onCollision: function(bubbles, bubble, pins) {
-            bubble.onCollision(bubbles, this, pins);
+        
+        /* args = bubbles, bubble, pins */
+        onCollision: function(args) {
+            args.bubble.onCollision({bubble: args.bubbles, pin: this, pins: args.pins});
         },
 
         init: function() {
             this.speedX = Math.cos(this.angle * (Math.PI / 180));
             this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
-
-        update: function(bubbles, pins) {
+        
+        /* args = bubbles, pins */
+        update: function(args) {
             if (this.x < 0) 
                 this.speedX = -this.speedX;
             if (this.y < 0)
@@ -103,15 +105,15 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.x += this.speedX * this.speed;
             this.y += this.speedY * this.speed;
 
-            for (i in bubbles) {
-                var b = bubbles[i];
+            for (i in args.bubbles) {
+                var b = args.bubbles[i];
                 var x2 = this.x + this.width;
                 var y2 = this.y + this.height;
                 var bx2 = b.x + b.width;
                 var by2 = b.y + b.height;
 
                 if (x2 > b.x && this.x < bx2 && y2 > b.y && this.y < by2) {
-                    this.onCollision(bubbles, b, pins);
+                  this.onCollision({bubbles: args.bubbles, bubble: b, pins: args.pins});
                 }           
             }
         },

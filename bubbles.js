@@ -28,21 +28,22 @@ Bubble.Base = function(_x, _y, _type, options) {
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
 
-
-        onPop: function(bubbles, pin) {
+        /* args = bubbles */
+        onPop: function(args) {
             if (!iron) {
-                bubbles.splice(bubbles.indexOf(this), 1);
+                args.bubbles.splice(args.bubbles.indexOf(this), 1);
             }
         },
-
-        onCollision: function(bubbles, pin, pins) {
+        
+        /* args = bubbles, pin, pins */
+        onCollision: function(args) {
             if (action) {
                 action();
             }
             if (iron) {
-                pin.onDeath(pins);
+                args.pin.onDeath(args.pins);
             }
-            this.onPop(bubbles, pin);
+            this.onPop(args);
         },
 
         init: function() {
@@ -51,24 +52,22 @@ Bubble.Base = function(_x, _y, _type, options) {
         },
 
         update: function(delta) {
-            if (!iron) {
-                //Standard bubble movement.
-                if (this.x < 0) {
-                    this.speedX = -this.speedX;
-                }
-                if (this.y < 0) {
-                    this.speedY = -this.speedY;
-                }
-                if (this.x > BPM.canvas.getWidth()) {
-                    this.speedX = -this.speedX;
-                }
-                if (this.y > BPM.canvas.getHeight()) {
-                    this.speedY = -this.speedY;
-                }
-
-                this.x += this.speedX * this.speed;
-                this.y += this.speedY * this.speed;
+            //Standard bubble movement.
+            if (this.x < 0) {
+                this.speedX = -this.speedX;
             }
+            if (this.y < 0) {
+                this.speedY = -this.speedY;
+            }
+            if (this.x > BPM.canvas.getWidth()) {
+                this.speedX = -this.speedX;
+            }
+            if (this.y > BPM.canvas.getHeight()) {
+                this.speedY = -this.speedY;
+            }
+
+            this.x += this.speedX * this.speed;
+            this.y += this.speedY * this.speed;
 
         },
 
@@ -85,11 +84,11 @@ Bubble.Base = function(_x, _y, _type, options) {
 Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
     base.color = "rgba(0, 0, 255, .25)";
-    base.worth = 10;
+    base.worth = (options && options.worth) || 10;
     
     var s_onPop = base.onPop;
     base.onPop = function(bubbles, pin) {
-        s_onPop.apply(base, [bubbles, pin]);
+        s_onPop.call(base, bubbles, pin);
         BPM.cash += base.worth;
     };
 
@@ -101,7 +100,7 @@ Bubble.Bad = function(base) {
 
     base.img = BubbleAssets.bad;
     base.color = "rgba(255, 0, 0, .25)";
-    base.worth = -10;
+    base.worth = (options && options.worth) || -10;
 
     return base;
 };
