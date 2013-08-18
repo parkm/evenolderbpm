@@ -1,6 +1,8 @@
 // Holds references to all State assets
 StateAssets = {};
 
+/* GAME LEVELS */
+
 State.create("game", function() {
     var base = State(); 
 
@@ -21,7 +23,7 @@ State.create("game", function() {
         };
 
         for (var i=0; i<50; ++i) {
-            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {speed: 2, iron: true, action: function() {console.log("booya");}}));
+            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), false, {speed: 2, iron: true, action: function() {console.log("booya");}}));
             //bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score"));
         }
 
@@ -65,6 +67,9 @@ State.create("game", function() {
 
     return base;
 });
+
+
+/* MENUS */
 
 State.create("mainMenu", function() {
     var base = State();
