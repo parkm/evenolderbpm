@@ -27,8 +27,8 @@ State.create("game", function() {
             State.set("roundSelect");
         };
         
-        for (var i=0; i<50; ++i) {
-            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {speed: 0, iron: true, action: randomBubble}));
+        for (var i=0;i<4000;i+=1){
+            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "bad", {action: function() { randomBubble("score"); randomBubble("score"); }}));
         }
 
     };
