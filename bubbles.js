@@ -13,6 +13,8 @@ function Bubble(x, y, type, options) {
         }
     }
 
+    base.init();
+
     return base;
 }
 
