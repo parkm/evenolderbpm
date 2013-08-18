@@ -327,8 +327,22 @@ State.create("roundSelect", function() {
 State.create("upgrades", function() {
     var base = State();
 
-    base.init = function() {
+    var backButton;
 
+    base.init = function() {
+        backButton = GUIButton("Back", {
+            onClick: function() {
+                State.set("roundSelect");
+            }
+        });
+    };
+
+    base.update = function(delta) {
+        backButton.update(BPM.mouse);
+    };
+
+    base.render = function(gc) {
+        backButton.render(gc);
     };
 
     return base;
