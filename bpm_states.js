@@ -287,6 +287,10 @@ State.create("roundSelect", function() {
         } else if (BPM.keyboard.isDown(40)) {
             stageScroll++;
         }
+
+        if (BPM.mouse.x > selectStage.x + selectStage.width) {
+            stageScroll = -BPM.mouse.y;
+        }
     };
 
     base.render = function(gc) {
@@ -319,6 +323,9 @@ State.create("roundSelect", function() {
         }
 
         gc.restore();
+
+        gc.fillRect(selectStage.x + selectStage.width + 24, 0, 16, BPM.canvas.getHeight());
+        gc.fillRect(selectStage.x + selectStage.width + 16, -stageScroll, 32, 32);
     };
 
     return base;
