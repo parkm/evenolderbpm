@@ -1,6 +1,8 @@
 // Holds references to all State assets
 StateAssets = {};
 
+/* GAME LEVELS */
+
 State.create("game", function() {
     var base = State(); 
 
@@ -12,6 +14,11 @@ State.create("game", function() {
 
     var backButton;
 
+    var randomBubble = function(type) {
+        type = type || "score";
+        bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), type));
+    };
+
     base.init = function() {
         shooter.init();
 
@@ -19,16 +26,11 @@ State.create("game", function() {
         backButton.onClick = function() {
             State.set("roundSelect");
         };
-
+        
         for (var i=0; i<50; ++i) {
-            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {speed: 2, iron: true, action: function() {console.log("booya");}}));
-            //bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score"));
+            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {speed: 0, iron: true, action: randomBubble}));
         }
 
-
-        for (i in bubbles) {
-            bubbles[i].init();
-        }
     };
 
     base.update = function(delta) {
@@ -65,6 +67,9 @@ State.create("game", function() {
 
     return base;
 });
+
+
+/* MENUS */
 
 State.create("mainMenu", function() {
     var base = State();

@@ -3,13 +3,17 @@ BubbleAssets = {};
 function Bubble(x, y, type, options) {
     var base = Bubble.Base(x, y, type, options);
 
-    // Capitalize first letter of type
-    type = type.slice(0, 1).toUpperCase() + type.slice(1);
+    if (type) {
+        // Capitalize first letter of type
+        type = type.slice(0, 1).toUpperCase() + type.slice(1);
 
-    // Get bubble of given type
-    if (Bubble[type]) {
-        base = Bubble[type](base);
+        // Get bubble of given type
+        if (Bubble[type]) {
+            base = Bubble[type](base);
+        }
     }
+
+    base.init();
 
     return base;
 }

@@ -55,10 +55,6 @@ function Pin(x, y, angle, options) {
         case "standard":
             result = Pin.Standard(base);
             break;
-
-        case "test":
-            result = Pin.Test(Pin.Standard(base));
-            break;
     }
     
     result.init && result.init();   // Only attempt to init if it exists.
@@ -142,16 +138,3 @@ Pin.Standard = function(base) {
 
     return base;
 };
-
-Pin.Test = function(base) {
-    console.log("Test created.");
-
-    var superRender = base.render;
-    
-    base.render = function(gc) {
-        superRender.call(base, gc); // How to call a super class function.
-    };
-
-    return base;
-};
-
