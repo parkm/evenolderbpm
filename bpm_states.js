@@ -218,7 +218,7 @@ State.create("roundSelect", function() {
             }
         });
 
-        selectStage = RoundSelectButton("Select Stage", "#000000", true);
+        selectStage = RoundSelectButton("Select Stage", "#000000");
         selectStage.y = 16;
 
         buttons.push(achieveButton);
@@ -291,19 +291,6 @@ State.create("roundSelect", function() {
             stage.button.update(BPM.mouse);
         }
 
-        /*
-        //38 = Up arrow, 40 = Down arrow. Sets the scroll value.
-        if (BPM.keyboard.isDown(38)) {
-            stageScroll--;
-        } else if (BPM.keyboard.isDown(40)) {
-            stageScroll++;
-        }
-
-        if (BPM.mouse.x > selectStage.x + selectStage.width) {
-            stageScroll = -BPM.mouse.y;
-        }
-        */
-
         // Constraint object for scrolling
         // Scrolls down when mouse is at bottom of the screen, up when at the top.
         var scrollBox = {left: selectStage.x, right: selectStage.x + selectStage.width, top: BPM.canvas.getHeight() - 60, bottom: 60, collision: function(testObj) {
@@ -320,8 +307,12 @@ State.create("roundSelect", function() {
         var col = scrollBox.collision(BPM.mouse);
         var scrollSpeed = 2;
         if (col === "bottom") {
-            stageScroll += scrollSpeed;
+            if (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance) {
+                stageScroll += scrollSpeed;
+            }
         } else if (col === "top") {
+            // TODO: Add constraints to prevent scrolling unless necessary.
+            // Not adding now in order to test scrolling
             stageScroll -= scrollSpeed;
         }
     };
@@ -357,8 +348,6 @@ State.create("roundSelect", function() {
 
         gc.restore();
 
-        gc.fillRect(selectStage.x + selectStage.width + 24, 0, 16, BPM.canvas.getHeight());
-        gc.fillRect(selectStage.x + selectStage.width + 16, -stageScroll, 32, 32);
     };
 
     return base;
