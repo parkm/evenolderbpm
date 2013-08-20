@@ -194,17 +194,24 @@ State.create("roundSelect", function() {
 
         achieveButton = GUIButton("Achievements", {dynamic: false});
 
-        menuButton = GUIButton("Main Menu", 
-        {dynamic: false, 
+        menuButton = GUIButton("Main Menu", {
+            dynamic: false, 
 
-        onClick: function() {
-            State.set("mainMenu");
-        }
+            onClick: function() {
+                State.set("mainMenu");
+            }
         });
 
         saveButton = GUIButton("Save Game", {dynamic: false});
         resetButton = GUIButton("Reset Data", {dynamic: false});
-        upgradeButton = GUIButton("Upgrades", {dynamic: false});
+
+        upgradeButton = GUIButton("Upgrades", {
+            dynamic: false,
+
+            onClick: function() {
+                State.set("upgrades");
+            }
+        });
 
         selectStage = RoundSelectButton("Select Stage", "#000000", true);
         selectStage.y = 16;
@@ -285,6 +292,10 @@ State.create("roundSelect", function() {
         } else if (BPM.keyboard.isDown(40)) {
             stageScroll++;
         }
+
+        if (BPM.mouse.x > selectStage.x + selectStage.width) {
+            stageScroll = -BPM.mouse.y;
+        }
     };
 
     base.render = function(gc) {
@@ -317,6 +328,33 @@ State.create("roundSelect", function() {
         }
 
         gc.restore();
+
+        gc.fillRect(selectStage.x + selectStage.width + 24, 0, 16, BPM.canvas.getHeight());
+        gc.fillRect(selectStage.x + selectStage.width + 16, -stageScroll, 32, 32);
+    };
+
+    return base;
+});
+
+State.create("upgrades", function() {
+    var base = State();
+
+    var backButton;
+
+    base.init = function() {
+        backButton = GUIButton("Back", {
+            onClick: function() {
+                State.set("roundSelect");
+            }
+        });
+    };
+
+    base.update = function(delta) {
+        backButton.update(BPM.mouse);
+    };
+
+    base.render = function(gc) {
+        backButton.render(gc);
     };
 
     return base;
