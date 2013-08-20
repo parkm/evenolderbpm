@@ -291,6 +291,7 @@ State.create("roundSelect", function() {
             stage.button.update(BPM.mouse);
         }
 
+        /*
         //38 = Up arrow, 40 = Down arrow. Sets the scroll value.
         if (BPM.keyboard.isDown(38)) {
             stageScroll--;
@@ -300,6 +301,26 @@ State.create("roundSelect", function() {
 
         if (BPM.mouse.x > selectStage.x + selectStage.width) {
             stageScroll = -BPM.mouse.y;
+        }
+        */
+
+        // Constraints for mouse box
+        var scrollBox = {left: selectStage.x, right: selectStage.x + selectStage.width, top: BPM.canvas.getHeight() - 60, bottom: 60, collision: function(testObj) {
+            if (testObj.x >= this.left && testObj.x <= this.right) {
+                if (testObj.y >= this.top) {
+                    return "bottom";
+                } else if (testObj.y <= this.bottom) {
+                    return "top";
+                }
+            }
+            return false;
+        }};
+        
+        var col = scrollBox.collision(BPM.mouse);
+        if (col === "bottom") {
+            stageScroll++;
+        } else if (col === "top") {
+            stageScroll--;
         }
     };
 
