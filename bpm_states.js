@@ -26,9 +26,14 @@ State.create("game", function() {
         backButton.onClick = function() {
             State.set("roundSelect");
         };
+
+        var randX = Math.random() * BPM.canvas.getWidth();
+        var randY = Math.random() * BPM.canvas.getHeight();
+        var pushBubble = function(bub) { bubbles.push(bub); };
+
         
         for (var i=0;i<4000;i+=1){
-            bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "bad", {action: function() { randomBubble("score"); randomBubble("score"); }}));
+            bubbles.push(Bubble(randX, randY, "bad", {speed: 2, action: function() { pushBubble(Bubble(randX, randY, "bad", {action: function() { randomBubble("score"); }}));}}));
         }
 
     };
