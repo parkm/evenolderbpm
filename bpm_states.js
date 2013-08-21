@@ -448,8 +448,8 @@ State.create("upgrades", function() {
         backButton.update(BPM.mouse);
 
         purchaseButton.update(BPM.mouse);
-        purchaseButton.x = BPM.canvas.getWidth() - purchaseButton.postWidth;
-        purchaseButton.y = BPM.canvas.getHeight() - purchaseButton.postHeight;
+        purchaseButton.x = BPM.canvas.getWidth() / 4 + BPM.canvas.getWidth()/2 - purchaseButton.postWidth/2;
+        purchaseButton.y = BPM.canvas.getHeight() - purchaseButton.postHeight - 7;
 
         for (i in dividers) {
             var divider = dividers[i];
@@ -472,6 +472,14 @@ State.create("upgrades", function() {
 
     base.render = function(gc) {
         gc.drawImage(StateAssets.background, 0, 0);
+
+        var boxPos = Rect(BPM.canvas.getWidth() / 2, 0, BPM.canvas.getWidth() / 2, BPM.canvas.getHeight());
+        gc.fillStyle = "#000000";
+        gc.globalAlpha = 0.5;
+        gc.fillRect(boxPos.x, boxPos.y, boxPos.width, boxPos.height);
+        gc.globalAlpha = 1;
+        gc.lineWidth = 4;
+        gc.strokeRect(boxPos.x, boxPos.y+4, boxPos.width-4, boxPos.height-7);
 
         backButton.render(gc);
 
