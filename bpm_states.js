@@ -362,11 +362,11 @@ State.create("upgrades", function() {
 
     var activeUpgrade = null;
 
-    var addDivider = function(_id, _name, _parent) {
+    var addDivider = function(_id, _name, _updates) {
         dividers.push({
             id: _id,
             name: _name,
-            parent: _parent,
+            updates: _updates,
             upgrades: [],
             button: RoundSelectButton(_name, "#000000"),
         });
@@ -395,10 +395,12 @@ State.create("upgrades", function() {
 
         purchaseButton = GUIButton("Purchase", {
             onClick: function() {
-                if (!activeUpgrade.isMaxed()) {
-                    if (BPM.cash >= activeUpgrade.price) {
-                        activeUpgrade.onPurchase();
-                        BPM.cash -= activeUpgrade.price;
+                if (activeUpgrade) {
+                    if (!activeUpgrade.isMaxed()) {
+                        if (BPM.cash >= activeUpgrade.price) {
+                            activeUpgrade.onPurchase();
+                            BPM.cash -= activeUpgrade.price;
+                        }
                     }
                 }
             }
@@ -406,11 +408,16 @@ State.create("upgrades", function() {
 
         addDivider(0, "Upgrades");
         addUpgrade(0, testUpgrade);
+        addUpgrade(0, poopUpgrade);
 
-        for (i in dividers[0].upgrades) {
-            dividers[0].upgrades[i].button.onClick = function() {
-                activeUpgrade = dividers[0].upgrades[i];
-            };
+        for (i in dividers) {
+            var divider = dividers[i];
+
+            for (j in divider.upgrades) {
+                divider.upgrades[j].button.onClick = function() {
+                    activeUpgrade = divider.upgrades[j];
+                };
+            }
         }
     };
 
@@ -422,10 +429,18 @@ State.create("upgrades", function() {
         purchaseButton.x = BPM.canvas.getWidth() - purchaseButton.postWidth;
         purchaseButton.y = BPM.canvas.getHeight() - purchaseButton.postHeight;
 
-        for (i in dividers[0].upgrades) {
-            var u = dividers[0].upgrades[i];
+        for (i in dividers) {
+            var divider = dividers[i];
 
-            u.button.update(BPM.mouse);
+            if (divider.updates) {
+                divider.button.update(BPM.mouse);
+            }
+
+            for (j in divider.upgrades) {
+                var upg = divider.upgrades[j];
+
+                upg.button.update(BPM.mouse);
+            }
         }
     };
 
@@ -436,10 +451,17 @@ State.create("upgrades", function() {
 
         purchaseButton.render(gc);
 
-        for (i in dividers[0].upgrades) {
-            var u = dividers[0].upgrades[i];
+        for (i in dividers) {
+            var divider = dividers[i];
+            divider.button.render(gc);
 
-            u.button.render(gc);
+            for (j in divider.upgrades) {
+                var upg = divider.upgrades[j];
+
+                upg.button.y = (divider.button.y + divider.button.height) + (j * upg.button.height);
+
+                upg.button.render(gc);
+            }
         }
 
         var formatting = {
@@ -463,7 +485,7 @@ State.create("upgrades", function() {
 
         formatting.font = "24px Arial";
 
-        Utils.drawText(gc, BPM.cash, 150, BPM.canvas.getHeight() - 26, formatting);
+        Utils.drawText(gc, "$" + BPM.cash, 150, BPM.canvas.getHeight() - 26, formatting);
     };
 
     return base;

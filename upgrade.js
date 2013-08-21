@@ -36,3 +36,10 @@ testUpgrade.update = function() {
     testUpgrade.price = (testUpgrade.level+1) * 2;
     testUpgrade.value = (testUpgrade.level+1) * 5;
 };
+
+var poopUpgrade = Upgrade("Poop Upgrade", "Just a poop", 5);
+
+poopUpgrade.update = function() {
+    poopUpgrade.price = (poopUpgrade.level+1) * 2;
+    poopUpgrade.value = (poopUpgrade.level+1) * 5;
+};
