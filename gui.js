@@ -222,7 +222,11 @@ function FloatText(_text, _x, _y, _formatting) {
         },
 
         render: function(gc) {
+            gc.globalAlpha = 1 - (this.timer / (this.time * 1000));
+
             Utils.drawText(gc, this.text, this.x, this.y, this.formatting);
+
+            gc.globalAlpha = 1;
         },
     }
 }

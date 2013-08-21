@@ -388,8 +388,14 @@ State.create("upgrades", function() {
         }
     };
 
-    var addFloatText = function(text, x, y, formatting) {
-        var ft = FloatText(text, x, y, formatting);
+    var addFloatText = function(text, x, y) {
+        var ft = FloatText(text, x, y, {
+            fillStyle: "#FFFFFF",
+            strokeStyle: "#000000",
+            stroke: true,
+            lineWidth: 4,
+            font: "24px Arial",
+        });
 
         ft.onDeath = function() {
             floatText.splice(floatText.indexOf(ft), 1);
