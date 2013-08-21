@@ -294,7 +294,7 @@ State.create("roundSelect", function() {
 
         // Constraint object for scrolling
         // Scrolls down when mouse is at bottom of the screen, up when at the top.
-        var scrollBox = {left: selectStage.x, right: selectStage.x + selectStage.width, top: BPM.canvas.getHeight() - 60, bottom: 60, collision: function(testObj) {
+        var scrollBox = {left: selectStage.x, right: selectStage.x + selectStage.width, top: BPM.canvas.getHeight() - 60, bottom: 30, collision: function(testObj) {
             if (testObj.x >= this.left && testObj.x <= this.right) {
                 if (testObj.y >= this.top) {
                     return "bottom";
