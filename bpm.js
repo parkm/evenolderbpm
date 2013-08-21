@@ -48,7 +48,7 @@ BPM.addAssets = function() {
 };
 
 BPM.init = function() {
-    State.set("mainMenu");
+    State.set("roundSelect");
     Loop.run();
 };
 

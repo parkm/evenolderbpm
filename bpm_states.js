@@ -178,6 +178,12 @@ State.create("roundSelect", function() {
     };
 
     base.init = function() {
+        addStage(-1, "Goto State...", "rgb(19, 200, 200)");
+        for (i in State.list) {
+            addRound(-1, "Goto state '" + i + "'", i);
+        }
+        stages[0].showRounds = true;
+
         addStage(0, "Beginner Stage", "rgb(19, 200, 20)");
         addRound(0, "Round 1", "game");
         addRound(0, "Round 2", "game");
@@ -191,11 +197,6 @@ State.create("roundSelect", function() {
         addStage(2, "Advanced Stage", "rgb(200, 20, 19)");
         addRound(2, "Round 1", "game");
         addRound(2, "Round 2", "game");
-
-        addStage(3, "Goto State...", "rgb(19, 200, 200)");
-        for (i in State.list) {
-            addRound(3, "Goto state '" + i + "'", i);
-        }
 
         achieveButton = GUIButton("Achievements", {dynamic: false});
 
