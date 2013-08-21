@@ -368,6 +368,7 @@ State.create("upgrades", function() {
             name: _name,
             parent: _parent,
             upgrades: [],
+            button: RoundSelectButton(_name, "#000000"),
         });
     };
 
@@ -397,6 +398,7 @@ State.create("upgrades", function() {
                 if (!activeUpgrade.isMaxed()) {
                     if (BPM.cash >= activeUpgrade.price) {
                         activeUpgrade.onPurchase();
+                        BPM.cash -= activeUpgrade.price;
                     }
                 }
             }
@@ -428,6 +430,8 @@ State.create("upgrades", function() {
     };
 
     base.render = function(gc) {
+        gc.drawImage(StateAssets.background, 0, 0);
+
         backButton.render(gc);
 
         purchaseButton.render(gc);
@@ -438,24 +442,28 @@ State.create("upgrades", function() {
             u.button.render(gc);
         }
 
+        var formatting = {
+            fillStyle: "#FFFFFF",
+            strokeStyle: "#000000",
+            textAlign: "center",
+            font: "32px Arial",
+            lineWidth: 4,
+            stroke: true,
+        }
+
         if (activeUpgrade) {
             var x = BPM.canvas.getWidth() / 4 + BPM.canvas.getWidth()/2;
             var y = 24;
-
-            var formatting = {
-                fillStyle: "#FFFFFF",
-                strokeStyle: "#000000",
-                textAlign: "center",
-                font: "32px Arial",
-                lineWidth: 4,
-                stroke: true,
-            }
 
             Utils.drawText(gc, activeUpgrade.name, x, y, formatting);
             Utils.drawText(gc, "LVL " + activeUpgrade.level + " / " + activeUpgrade.levels, x, y + 37, formatting);
             Utils.drawText(gc, "$" + activeUpgrade.price, x, y + 37*2, formatting);
             Utils.drawText(gc, activeUpgrade.description, x, y + 37*3, formatting);
         }
+
+        formatting.font = "24px Arial";
+
+        Utils.drawText(gc, BPM.cash, 150, BPM.canvas.getHeight() - 26, formatting);
     };
 
     return base;
