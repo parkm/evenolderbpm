@@ -362,6 +362,8 @@ State.create("upgrades", function() {
 
     var activeUpgrade = null;
 
+    var floatText = [];
+
     var addDivider = function(_id, _name, _updates) {
         dividers.push({
             id: _id,
@@ -386,6 +388,16 @@ State.create("upgrades", function() {
         }
     };
 
+    var addFloatText = function(text, x, y, formatting) {
+        var ft = FloatText(text, x, y, formatting);
+
+        ft.onDeath = function() {
+            floatText.splice(floatText.indexOf(ft), 1);
+        };
+
+        floatText.push(ft);
+    };
+
     base.init = function() {
         backButton = GUIButton("Back", {
             onClick: function() {
@@ -398,9 +410,13 @@ State.create("upgrades", function() {
                 if (activeUpgrade) {
                     if (!activeUpgrade.isMaxed()) {
                         if (BPM.cash >= activeUpgrade.price) {
-                            activeUpgrade.onPurchase();
                             BPM.cash -= activeUpgrade.price;
+                            activeUpgrade.onPurchase();
+                        } else {
+                            addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
                         }
+                    } else {
+                        addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
                     }
                 }
             }
@@ -441,6 +457,10 @@ State.create("upgrades", function() {
 
                 upg.button.update(BPM.mouse);
             }
+        }
+
+        for (i in floatText) {
+            floatText[i].update(delta);
         }
     };
 
@@ -486,6 +506,10 @@ State.create("upgrades", function() {
         formatting.font = "24px Arial";
 
         Utils.drawText(gc, "$" + BPM.cash, 150, BPM.canvas.getHeight() - 26, formatting);
+
+        for (i in floatText) {
+            floatText[i].render(gc);
+        }
     };
 
     return base;

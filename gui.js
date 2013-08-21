@@ -198,3 +198,31 @@ function RoundSelectButton(text, color) {
         },
     }
 }
+
+function FloatText(_text, _x, _y, _formatting) {
+    return {
+        text: _text,
+        x: _x,
+        y: _y,
+        formatting: _formatting,
+        time: 2,
+        timer: 0,
+
+        onDeath: function() {
+
+        },
+
+        update: function(delta) {
+            this.y--;
+            this.timer += delta;
+
+            if (this.timer >= this.time * 1000) {
+                this.onDeath();
+            }
+        },
+
+        render: function(gc) {
+            Utils.drawText(gc, this.text, this.x, this.y, this.formatting);
+        },
+    }
+}
