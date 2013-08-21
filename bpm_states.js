@@ -358,20 +358,67 @@ State.create("upgrades", function() {
 
     var backButton;
 
+    var dividers = [];
+
+    var activeUpgrade = null;
+
+    var addDivider = function(_id, _name, _parent) {
+        dividers.push({
+            id: _id,
+            name: _name,
+            parent: _parent,
+            upgrades: [],
+        });
+    };
+
+    var addUpgrade = function(dividerID, upgrade) {
+        for (i in dividers) {
+            if (dividers[i].id === dividerID) {
+                upgrade.button = RoundSelectButton(upgrade.name, "#000000");
+                dividers[i].upgrades.push(upgrade);
+            }
+        }
+    };
+
     base.init = function() {
         backButton = GUIButton("Back", {
             onClick: function() {
                 State.set("roundSelect");
             }
         });
+
+        addDivider(0, "Upgrades");
+        addUpgrade(0, testUpgrade);
+
+        for (i in dividers[0].upgrades) {
+            dividers[0].upgrades[i].button.onClick = function() {
+                activeUpgrade = dividers[0].upgrades[i];
+            };
+        }
     };
 
     base.update = function(delta) {
         backButton.update(BPM.mouse);
+
+        for (i in dividers[0].upgrades) {
+            var u = dividers[0].upgrades[i];
+
+            u.button.update(BPM.mouse);
+        }
     };
 
     base.render = function(gc) {
         backButton.render(gc);
+
+        for (i in dividers[0].upgrades) {
+            var u = dividers[0].upgrades[i];
+
+            u.button.render(gc);
+        }
+
+        if (activeUpgrade) {
+            Utils.drawText(gc, activeUpgrade.name, 100, 100);
+        }
     };
 
     return base;
