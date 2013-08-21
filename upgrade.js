@@ -33,6 +33,6 @@ function Upgrade(_name, _description, _levels) {
 var testUpgrade = Upgrade("Test Upgrade", "Just a test", 10);
 
 testUpgrade.update = function() {
-    testUpgrade.price = (level+1) * 2;
-    testUpgrade.value = (level+1) * 5;
+    testUpgrade.price = (testUpgrade.level+1) * 2;
+    testUpgrade.value = (testUpgrade.level+1) * 5;
 };

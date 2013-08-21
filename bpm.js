@@ -25,7 +25,7 @@ function BPM(canvasID) {
 BPM.mouse = Mouse();
 BPM.keyboard = Keyboard();
 
-BPM.cash = 0;
+BPM.cash = 100000;
 
 BPM.addAssets = function() {
     // Pin Assets

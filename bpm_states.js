@@ -356,7 +356,7 @@ State.create("roundSelect", function() {
 State.create("upgrades", function() {
     var base = State();
 
-    var backButton;
+    var backButton, purchaseButton;
 
     var dividers = [];
 
@@ -392,6 +392,16 @@ State.create("upgrades", function() {
             }
         });
 
+        purchaseButton = GUIButton("Purchase", {
+            onClick: function() {
+                if (!activeUpgrade.isMaxed()) {
+                    if (BPM.cash >= activeUpgrade.price) {
+                        activeUpgrade.onPurchase();
+                    }
+                }
+            }
+        });
+
         addDivider(0, "Upgrades");
         addUpgrade(0, testUpgrade);
 
@@ -406,6 +416,10 @@ State.create("upgrades", function() {
         backButton.y = BPM.canvas.getHeight() - backButton.postHeight;
         backButton.update(BPM.mouse);
 
+        purchaseButton.update(BPM.mouse);
+        purchaseButton.x = BPM.canvas.getWidth() - purchaseButton.postWidth;
+        purchaseButton.y = BPM.canvas.getHeight() - purchaseButton.postHeight;
+
         for (i in dividers[0].upgrades) {
             var u = dividers[0].upgrades[i];
 
@@ -415,6 +429,8 @@ State.create("upgrades", function() {
 
     base.render = function(gc) {
         backButton.render(gc);
+
+        purchaseButton.render(gc);
 
         for (i in dividers[0].upgrades) {
             var u = dividers[0].upgrades[i];
@@ -426,14 +442,19 @@ State.create("upgrades", function() {
             var x = BPM.canvas.getWidth() / 4 + BPM.canvas.getWidth()/2;
             var y = 24;
 
-            Utils.drawText(gc, activeUpgrade.name, x, y, {
+            var formatting = {
                 fillStyle: "#FFFFFF",
                 strokeStyle: "#000000",
                 textAlign: "center",
                 font: "32px Arial",
+                lineWidth: 4,
                 stroke: true,
-            });
-            Utils.drawText(gc, "LVL " + activeUpgrade.level + " / " + activeUpgrade.levels, x, y + 37);
+            }
+
+            Utils.drawText(gc, activeUpgrade.name, x, y, formatting);
+            Utils.drawText(gc, "LVL " + activeUpgrade.level + " / " + activeUpgrade.levels, x, y + 37, formatting);
+            Utils.drawText(gc, "$" + activeUpgrade.price, x, y + 37*2, formatting);
+            Utils.drawText(gc, activeUpgrade.description, x, y + 37*3, formatting);
         }
     };
 
