@@ -374,7 +374,12 @@ State.create("upgrades", function() {
     var addUpgrade = function(dividerID, upgrade) {
         for (i in dividers) {
             if (dividers[i].id === dividerID) {
-                upgrade.button = RoundSelectButton(upgrade.name, "#000000");
+                var button = RoundSelectButton(upgrade.name, "#000000");
+                button.x = 32;
+                button.y = 24;
+                button.width = 345;
+
+                upgrade.button = button;
                 dividers[i].upgrades.push(upgrade);
             }
         }
@@ -398,6 +403,7 @@ State.create("upgrades", function() {
     };
 
     base.update = function(delta) {
+        backButton.y = BPM.canvas.getHeight() - backButton.postHeight;
         backButton.update(BPM.mouse);
 
         for (i in dividers[0].upgrades) {
@@ -417,7 +423,17 @@ State.create("upgrades", function() {
         }
 
         if (activeUpgrade) {
-            Utils.drawText(gc, activeUpgrade.name, 100, 100);
+            var x = BPM.canvas.getWidth() / 4 + BPM.canvas.getWidth()/2;
+            var y = 24;
+
+            Utils.drawText(gc, activeUpgrade.name, x, y, {
+                fillStyle: "#FFFFFF",
+                strokeStyle: "#000000",
+                textAlign: "center",
+                font: "32px Arial",
+                stroke: true,
+            });
+            Utils.drawText(gc, "LVL " + activeUpgrade.level + " / " + activeUpgrade.levels, x, y + 37);
         }
     };
 
