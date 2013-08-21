@@ -30,16 +30,12 @@ function Upgrade(_name, _description, _levels) {
     }
 }
 
-var testUpgrade = Upgrade("Test Upgrade", "Just a test", 10);
+Upgrade.list = [];
 
-testUpgrade.update = function() {
-    testUpgrade.price = (testUpgrade.level+1) * 2;
-    testUpgrade.value = (testUpgrade.level+1) * 5;
+Upgrade.create = function(id, callback) {
+    Upgrade.list[id] = callback();
 };
 
-var poopUpgrade = Upgrade("Poop Upgrade", "Just a poop", 5);
-
-poopUpgrade.update = function() {
-    poopUpgrade.price = (poopUpgrade.level+1) * 2;
-    poopUpgrade.value = (poopUpgrade.level+1) * 5;
+Upgrade.get = function(id) {
+    return Upgrade.list[id];
 };

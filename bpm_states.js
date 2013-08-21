@@ -377,13 +377,22 @@ State.create("upgrades", function() {
     var addUpgrade = function(dividerID, upgrade) {
         for (i in dividers) {
             if (dividers[i].id === dividerID) {
-                var button = RoundSelectButton(upgrade.name, "#000000");
+                var upg;
+
+                if (typeof upgrade === "string") {
+                    upg = Upgrade.get(upgrade);
+                } else {
+                    upg = upgrade;
+                }
+
+                var button = RoundSelectButton(upg.name, "#000000");
                 button.x = 32;
                 button.y = 24;
                 button.width = 345;
 
-                upgrade.button = button;
-                dividers[i].upgrades.push(upgrade);
+                upg.button = button;
+
+                dividers[i].upgrades.push(upg);
             }
         }
     };
@@ -429,8 +438,8 @@ State.create("upgrades", function() {
         });
 
         addDivider(0, "Upgrades");
-        addUpgrade(0, testUpgrade);
-        addUpgrade(0, poopUpgrade);
+        addUpgrade(0, "test");
+        addUpgrade(0, "poop");
 
         for (i in dividers) {
             var divider = dividers[i];
@@ -449,7 +458,7 @@ State.create("upgrades", function() {
 
         purchaseButton.update(BPM.mouse);
         purchaseButton.x = BPM.canvas.getWidth() / 4 + BPM.canvas.getWidth()/2 - purchaseButton.postWidth/2;
-        purchaseButton.y = BPM.canvas.getHeight() - purchaseButton.postHeight - 7;
+        purchaseButton.y = BPM.canvas.getHeight() - purchaseButton.postHeight - 6;
 
         for (i in dividers) {
             var divider = dividers[i];
