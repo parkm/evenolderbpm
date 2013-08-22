@@ -6,66 +6,47 @@ StateAssets = {};
 State.create("game", function() {
     var base = State(); 
 
-    var shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
-
-    var pins = [];
-
-    var bubbles = [];
-
-    var backButton;
-
-    var randomBubble = function(type) {
-        type = type || "score";
-        bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), type));
-    };
+    base.bubbles = [];
+    base.pins = [];
+    base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
 
     base.init = function() {
-        shooter.init();
+        base.shooter.init();
 
-        backButton = GUIButton("Back");
-        backButton.onClick = function() {
+        base.backButton = GUIButton("Back");
+        base.backButton.onClick = function() {
             State.set("roundSelect");
         };
-
-        var randX = Math.random() * BPM.canvas.getWidth();
-        var randY = Math.random() * BPM.canvas.getHeight();
-        var pushBubble = function(bub) { bubbles.push(bub); };
-
-        
-        for (var i=0;i<4000;i+=1){
-            bubbles.push(Bubble(randX, randY, "bad", {speed: 2, action: function() { pushBubble(Bubble(randX, randY, "bad", {action: function() { randomBubble("score"); }}));}}));
-        }
-
     };
 
     base.update = function(delta) {
-        for (i in bubbles) {
-            bubbles[i].update(delta);
+        for (i in base.bubbles) {
+            base.bubbles[i].update(delta);
         }
 
-        shooter.update(BPM.mouse, pins);
+        base.shooter.update(BPM.mouse, base.pins);
 
-        for (i in pins) {
-            pins[i].update({bubbles: bubbles, pins: pins, delta: delta});
+        for (i in base.pins) {
+            base.pins[i].update({bubbles: base.bubbles, pins: base.pins, delta: delta});
         }
 
-        backButton.update(BPM.mouse);
+        base.backButton.update(BPM.mouse);
     };
 
     base.render = function(gc) {
         gc.drawImage(StateAssets.background, 0, 0);
 
-        shooter.render(gc);
+        base.shooter.render(gc);
 
-        for (i in bubbles) {
-            bubbles[i].render(gc);
+        for (i in base.bubbles) {
+            base.bubbles[i].render(gc);
         }
 
-        for (i in pins) {
-            pins[i].render(gc);
+        for (i in base.pins) {
+            base.pins[i].render(gc);
         }
 
-        backButton.render(gc);
+        base.backButton.render(gc);
 
         Utils.drawText(gc, "$" + BPM.cash, 200, 0);
     };
@@ -73,6 +54,30 @@ State.create("game", function() {
     return base;
 });
 
+State.create("dogpantzTest", function() {
+    var base = State.list["game"]();
+
+    var superInit = base.init;
+
+    var randomBubble = function(type) {
+        type = type || "score";
+        base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), type));
+    };
+
+    base.init = function() {
+        superInit.call(base);
+
+        var randX = Math.random() * BPM.canvas.getWidth();
+        var randY = Math.random() * BPM.canvas.getHeight();
+        var pushBubble = function(bub) { base.bubbles.push(bub); };
+        
+        for (var i=0;i<4000;i+=1){
+            base.bubbles.push(Bubble(randX, randY, "bad", {speed: 2, action: function() { pushBubble(Bubble(randX, randY, "bad", {action: function() { randomBubble("score"); }}));}}));
+        }
+    };
+
+    return base;
+});
 
 /* MENUS */
 
