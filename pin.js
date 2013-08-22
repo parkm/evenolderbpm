@@ -67,7 +67,8 @@ Pin.Base = function(_x, _y, _angle, options) {
         x: _x, y: _y,
         width: 0, height: 0,
         speed: options.speed || 4,
-        life: 100,
+        life: 10,
+        lifeTimer: 0,
         angle: _angle,
 
         onDeath: function(pins) {
@@ -85,8 +86,14 @@ Pin.Base = function(_x, _y, _angle, options) {
             speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
         
-        /* args = bubbles, pins */
+        /* args = bubbles, pins, delta */
         update: function(args) {
+            this.lifeTimer += args.delta;
+
+            if (this.lifeTimer >= this.life * 1000) {
+                this.onDeath(args.pins);
+            }
+
             if (this.x < 0) 
                 speedX = -speedX;
             if (this.y < 0)
@@ -133,7 +140,11 @@ Pin.Standard = function(base) {
         base.img.originY = base.img.getHeight()/2;
         base.img.angle = -this.angle;
 
+        gc.globalAlpha = 1 - (this.lifeTimer / (this.life * 1000));
+
         base.img.render(gc);
+
+        gc.globalAlpha = 1;
     };
 
     return base;
