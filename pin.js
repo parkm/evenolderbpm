@@ -4,6 +4,9 @@ var PinAssets = {};
  */
 
 function PinShooter(_x, _y, options) {
+    var charge = 0;
+    var chargeSpeed = 1;
+    var pinSpeed = 0.06;
     return {
         x: _x, y: _y,
         angle: 0,
@@ -11,7 +14,7 @@ function PinShooter(_x, _y, options) {
         pins: (options && options.pins) || 10000,
 
         onShoot: function(pins) {
-            pins.push(Pin(this.x, this.y, -this.angle, {type: "standard"}));
+            pins.push(Pin(this.x, this.y, -this.angle, {speed: pinSpeed * charge, type: "standard"}));
             this.pins -= 1;
         },
 
@@ -28,11 +31,20 @@ function PinShooter(_x, _y, options) {
             this.img.originY = this.img.getHeight()/2;
             this.img.angle = this.angle;
 
-            if (mouse.isPressed(Mouse.LEFT)) {
-                if (this.pins > 0) {
-                    this.onShoot(pins);
+            if (mouse.isDown(Mouse.LEFT)) {
+                if (charge < 100) {
+                    charge += chargeSpeed;
                 }
             }
+
+            if (mouse.isReleased(Mouse.LEFT)) {
+                if (this.pins > 0) {
+                    console.log("Charge level: " + charge + "  Pin speed: " + pinSpeed * charge);
+                    this.onShoot(pins);
+                    charge = 0;
+                }
+            }
+
         },
 
         render: function(gc) {
