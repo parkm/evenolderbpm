@@ -4,7 +4,10 @@ Design {
     Design Upgrades
 }
 
-Pins {}
+Pins {
+    Pin shooter charge up
+    Pin upgrades
+}
 
 Bubbles {
     Add the rest of the bubble types.
@@ -12,3 +15,8 @@ Bubbles {
 }
  
 States {}
+
+Obstacles {
+    Add walls
+    Other obstacles?
+}
