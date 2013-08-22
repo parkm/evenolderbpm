@@ -1,0 +1,21 @@
+Current TODO:
+
+Design {
+    Design Upgrades
+}
+
+Pins {
+    Add Pin fading
+    Add Pin count to launcher
+}
+
+Bubbles {
+    Add the rest of the bubble types.
+    Add the rest of the attribute effects.
+}
+ 
+States {
+    roundSelect {
+        Add scrolling constraint when scrolling down is not necessary.
+    }
+}
