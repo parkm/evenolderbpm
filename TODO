@@ -11,8 +11,4 @@ Bubbles {
     Add the rest of the attribute effects.
 }
  
-States {
-    roundSelect {
-        Add scrolling constraint when scrolling down is not necessary.
-    }
-}
+States {}

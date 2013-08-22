@@ -186,8 +186,9 @@ State.create("roundSelect", function() {
         addRound(0, "Round 4", "game");
 
         addStage(1, "Intermediate Stage", "rgb(19, 20, 200)");
-        addRound(1, "Round 1", "game");
-        addRound(1, "Round 2", "game");
+        for (var j=0; j<20; ++j) {
+            addRound(1, "Round " + (j+1), "game");
+        }
 
         addStage(2, "Advanced Stage", "rgb(200, 20, 19)");
         addRound(2, "Round 1", "game");
@@ -229,11 +230,12 @@ State.create("roundSelect", function() {
         for (i in stages) {
             stages[i].button.onClick = function() {
                 stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
+                /* Hides the rounds for all the other stages.
                 for (j in stages) {
                     if (j !== i) {
                         stages[j].showRounds = false;
                     }
-                }
+                }*/
             };
         }
     };
@@ -259,7 +261,9 @@ State.create("roundSelect", function() {
 
         selectStage.x = BPM.canvas.getWidth() - selectStage.width - hOffset;
 
-        var totalHeight = 0; //Used to measure the height of the stage chunks.
+        var aboveHeight = 0; //Tracks the height of the stages and rounds above the current stage or round. 
+        var totalHeight = 0; //Tracks the total height of all stages and rounds.
+
         for (i in stages) {
             var stage = stages[i];
 
@@ -273,21 +277,23 @@ State.create("roundSelect", function() {
                     round.button.state = round.state;
 
                     round.button.update(BPM.mouse);
+                    totalHeight += round.button.height + roundButtonDistance;
                 }
             }
 
             if (stages[i-1]) {
                 if (stages[i-1].showRounds) {
-                    totalHeight += ((stages[i-1].rounds.length) * (round.button.height + roundButtonDistance)) + stageChunkDistance;
+                    aboveHeight += ((stages[i-1].rounds.length) * (round.button.height + roundButtonDistance)) + stageChunkDistance;
                 } else {
-                    totalHeight += stageChunkDistance;
+                    aboveHeight += stageChunkDistance;
                 }
             }
 
             stage.button.x = BPM.canvas.getWidth() - stage.button.width - hOffset;
-            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance + stageScrollField.scroll;
+            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + aboveHeight + stageChunkDistance + stageScrollField.scroll;
 
             stage.button.update(BPM.mouse);
+            totalHeight += stage.button.height + stageChunkDistance + stageToRoundButtonDistance;
         }
 
         //Stage Scroll Field
@@ -305,7 +311,9 @@ State.create("roundSelect", function() {
             return (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance)
         };
 
-        // TODO: Add a top constraint to rpevent scrolling unless necessary.
+        stageScrollField.getTopConstraint = function() {
+            return (totalHeight + 100 + stageScrollField.scroll >= BPM.canvas.getHeight())
+        };
 
         stageScrollField.update();
     };
