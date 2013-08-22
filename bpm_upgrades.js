@@ -10,11 +10,11 @@ Upgrade.create("test", function() {
 });
 
 Upgrade.create("poop", function() {
-    var base = Upgrade("Poop Upgrade", "Just a poop", 10);
+    var base = Upgrade("Poop Upgrade", "Just a poop", 4);
 
     base.update = function() {
-        base.price = (base.level+1) * 2;
-        base.value = (base.level+1) * 5;
+        base.price = (base.level+1) * 25;
+        base.value = (base.level+1) * 3;
     };
 
     return base;
