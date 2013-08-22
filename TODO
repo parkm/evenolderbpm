@@ -4,9 +4,7 @@ Design {
     Design Upgrades
 }
 
-Pins {
-    Add Pin count to launcher
-}
+Pins {}
 
 Bubbles {
     Add the rest of the bubble types.

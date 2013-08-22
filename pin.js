@@ -10,8 +10,9 @@ function PinShooter(_x, _y, options) {
         img: Graphic(PinAssets.arrow),
         pins: (options && options.pins) || 10,
 
-        shoot: function() {
-
+        onShoot: function(pins) {
+            pins.push(Pin(this.x, this.y, -this.angle, {type: "standard"}));
+            this.pins -= 1;
         },
 
         init: function() {
@@ -28,12 +29,25 @@ function PinShooter(_x, _y, options) {
             this.img.angle = this.angle;
 
             if (mouse.isPressed(Mouse.LEFT)) {
-                pins.push(Pin(this.x, this.y, -this.angle, {type: "standard"}));
+                if (this.pins > 0) {
+                    this.onShoot(pins);
+                }
             }
         },
 
         render: function(gc) {
-            this.img.render(gc);
+            if (this.pins > 0) {
+                Utils.drawText(gc, "Pins: " + this.pins, this.x, this.y + 24, {
+                    fillStyle: "#FFFFFF",
+                    strokeStyle: "#000000",
+                    textAlign: "center",
+                    font: "24px Arial",
+                    lineWidth: 4,
+                    stroke: true,              
+                });
+
+                this.img.render(gc);
+            }
         }
     };
 
