@@ -230,3 +230,64 @@ function FloatText(_text, _x, _y, _formatting) {
         },
     }
 }
+
+function ScrollField() {
+    return {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+
+        left: 0, 
+        right: 0, 
+        top: 0, 
+        bottom: 0, 
+
+        scroll: 0,
+        scrollSpeed: 0,
+
+        update: function() {
+            var col = this.collision(BPM.mouse);
+
+            if (col === "bottom") {
+                if (this.getBottomConstraint()) {
+                    this.scroll += this.scrollSpeed;
+                }
+            } else if (col === "top") {
+                if (this.getTopConstraint()) {
+                    this.scroll -= this.scrollSpeed;
+                }
+            }
+        },
+
+        collision: function(testObj) {
+            if (testObj.x >= this.left && testObj.x <= this.right) {
+                if (testObj.y >= this.top) {
+                    return "bottom";
+                } else if (testObj.y <= this.bottom) {
+                    return "top";
+                }
+            }
+            return false;
+        },
+
+        getTopConstraint: function() {
+            return true;
+        },
+
+        getBottomConstraint: function() {
+            return true;
+        },
+
+        startClipping: function(gc) {
+            gc.save();
+            gc.beginPath();
+            gc.rect(this.x, this.y, this.width, this.height);
+            gc.clip();
+        },
+
+        stopClipping: function(gc) {
+            gc.restore();
+        },
+    }
+}

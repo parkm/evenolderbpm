@@ -146,7 +146,7 @@ State.create("roundSelect", function() {
 
     var stages = [];
 
-    var stageScroll = 0;
+    var stageScrollField = ScrollField();
 
     var addStage = function(_id, _name, _color) {
         stages.push({
@@ -219,6 +219,9 @@ State.create("roundSelect", function() {
             }
         });
 
+        stageScrollField.width = BPM.canvas.getWidth();
+        stageScrollField.height = BPM.canvas.getHeight();
+
         selectStage = RoundSelectButton("Select Stage", "#000000");
         selectStage.y = 16;
 
@@ -251,6 +254,8 @@ State.create("roundSelect", function() {
 
             b.update(BPM.mouse);
         }
+
+        stageScrollField.y = selectStage.y + selectStage.height;
 
         //Round Selection
 
@@ -287,35 +292,27 @@ State.create("roundSelect", function() {
             }
 
             stage.button.x = BPM.canvas.getWidth() - stage.button.width - hOffset;
-            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance + stageScroll;
+            stage.button.y = (selectStage.y + selectStage.height) + ((stage.button.height) * i) + totalHeight + stageChunkDistance + stageScrollField.scroll;
 
             stage.button.update(BPM.mouse);
         }
 
-        // Constraint object for scrolling
-        // Scrolls down when mouse is at bottom of the screen, up when at the top.
-        var scrollBox = {left: selectStage.x, right: selectStage.x + selectStage.width, top: BPM.canvas.getHeight() - 60, bottom: 30, collision: function(testObj) {
-            if (testObj.x >= this.left && testObj.x <= this.right) {
-                if (testObj.y >= this.top) {
-                    return "bottom";
-                } else if (testObj.y <= this.bottom) {
-                    return "top";
-                }
-            }
-            return false;
-        }};
+        //Stage Scroll Field
+
+        stageScrollField.left = selectStage.x;
+        stageScrollField.right = selectStage.x + selectStage.width;
+        stageScrollField.top = BPM.canvas.getHeight() - 60;
+        stageScrollField.bottom = 30;
+
+        stageScrollField.scrollSpeed = 2;
         
-        var col = scrollBox.collision(BPM.mouse);
-        var scrollSpeed = 2;
-        if (col === "bottom") {
-            if (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance) {
-                stageScroll += scrollSpeed;
-            }
-        } else if (col === "top") {
-            // TODO: Add constraints to prevent scrolling unless necessary.
-            // Not adding now in order to test scrolling
-            stageScroll -= scrollSpeed;
-        }
+        stageScrollField.getBottomConstraint = function() {
+            return (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance)
+        };
+
+        // TODO: Add a top constraint to rpevent scrolling unless necessary.
+
+        stageScrollField.update();
     };
 
     base.render = function(gc) {
@@ -327,12 +324,7 @@ State.create("roundSelect", function() {
         
         selectStage.render(gc);
 
-        gc.save();
-    
-        //Start a clipping path for the stages.
-        gc.beginPath();
-        gc.rect(0, selectStage.y + selectStage.height, BPM.canvas.getWidth(), BPM.canvas.getHeight());
-        gc.clip();
+        stageScrollField.startClipping(gc);
 
         for (i in stages) {
             var stage = stages[i];
@@ -347,7 +339,7 @@ State.create("roundSelect", function() {
             }
         }
 
-        gc.restore();
+        stageScrollField.stopClipping(gc);
 
     };
 
