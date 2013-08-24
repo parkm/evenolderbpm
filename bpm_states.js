@@ -10,6 +10,8 @@ State.create("game", function() {
     base.pins = [];
     base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
 
+    base.walls = [];
+
     base.init = function() {
         base.shooter.init();
 
@@ -27,7 +29,7 @@ State.create("game", function() {
         base.shooter.update(BPM.mouse, base.pins);
 
         for (i in base.pins) {
-            base.pins[i].update({bubbles: base.bubbles, pins: base.pins, delta: delta});
+            base.pins[i].update({bubbles: base.bubbles, pins: base.pins, delta: delta, walls: base.walls});
         }
 
         base.backButton.update(BPM.mouse);
@@ -37,6 +39,10 @@ State.create("game", function() {
         gc.drawImage(StateAssets.background, 0, 0);
 
         base.shooter.render(gc);
+
+        for (i in base.walls) {
+            base.walls[i].render(gc);
+        }
 
         for (i in base.bubbles) {
             base.bubbles[i].render(gc);
@@ -74,6 +80,25 @@ State.create("dogpantzTest", function() {
         for (var i=0;i<4000;i+=1){
             base.bubbles.push(Bubble(randX, randY, "bad", {speed: 2, action: function() { pushBubble(Bubble(randX, randY, "bad", {action: function() { randomBubble("score"); }}));}}));
         }
+    };
+
+    return base;
+});
+
+State.create("donkeyTest", function() {
+    var base = State.list["game"]();
+
+    var wall = Wall();
+    wall.x = 100;
+    wall.y = 100;
+    wall.width = 100;
+    wall.height = 100;
+
+    var superInit = base.init;
+    base.init = function() {
+        superInit.call(base);
+
+        base.walls.push(wall);
     };
 
     return base;

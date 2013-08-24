@@ -111,8 +111,21 @@ Pin.Base = function(_x, _y, _angle, options) {
             speedX = Math.cos(this.angle * (Math.PI / 180));
             speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
+
+        isColliding: function(x, y, width, height) {
+            var thisx2 = this.x + this.width;
+            var thisy2 = this.y + this.height;
+            var x2 = x + width;
+            var y2 = y + height;
+
+            if (thisx2 > x && this.x < x2 && thisy2 > y && this.y < y2) {
+                return true;
+            } else {
+                return false;
+            }
+        },
         
-        /* args = bubbles, pins, delta */
+        /* args = bubbles, pins, delta, walls */
         update: function(args) {
             this.lifeTimer += args.delta;
 
@@ -136,15 +149,21 @@ Pin.Base = function(_x, _y, _angle, options) {
             
             for (i in args.bubbles) {
                 var b = args.bubbles[i];
-                var x2 = this.x + this.width;
-                var y2 = this.y + this.height;
-                var bx2 = b.x + b.width;
-                var by2 = b.y + b.height;
 
-                if (x2 > b.x && this.x < bx2 && y2 > b.y && this.y < by2) {
+                if (this.isColliding(b.x, b.y, b.width, b.height)) {
                     args.bubble = b;
                     this.onCollision(args);
                 }           
+            }
+
+            for (i in args.walls) {
+                var w = args.walls[i];
+
+                if (this.isColliding(w.x, w.y, w.width, w.height)) {
+                    w.onCollision(this, args.pins);
+                    speedX = -speedX;
+                    speedY = -speedY;
+                }
             }
         },
 

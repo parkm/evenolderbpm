@@ -39,6 +39,7 @@ BPM.addAssets = function() {
 
     // State Assets
     StateAssets.background = Assets.add("background", "assets/blue-background.jpg");
+    StateAssets.wall = Assets.add("wall", "assets/wall.png");
 
     // GUI Assets
     GUIAssets.buttonUp = Assets.add("buttonUp", "assets/button-up.png");
