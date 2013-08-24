@@ -6,7 +6,7 @@ function Wall() {
     nineSlice.right = Rect(30, 2, 2, 28);
     nineSlice.bottomRight = Rect(30, 30, 2, 2);
     nineSlice.bottom = Rect(2, 30, 28, 2);
-    nineSlice.bottomLeft = Rect(0, 31, 2, 2);
+    nineSlice.bottomLeft = Rect(0, 30, 2, 2);
     nineSlice.left = Rect(0, 2, 2, 28);
     nineSlice.center = Rect(2, 2, 28, 28);
 
