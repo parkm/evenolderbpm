@@ -89,9 +89,9 @@ State.create("donkeyTest", function() {
     var base = State.list["game"]();
 
     var wall = Wall();
-    wall.x = 100;
+    wall.x = 600;
     wall.y = 100;
-    wall.width = 100;
+    wall.width = 32;
     wall.height = 100;
 
     var superInit = base.init;

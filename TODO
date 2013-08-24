@@ -17,6 +17,5 @@ Bubbles {
 States {}
 
 Obstacles {
-    Fix pin reflection on collision with walls.
     Other obstacles?
 }

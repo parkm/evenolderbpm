@@ -161,8 +161,18 @@ Pin.Base = function(_x, _y, _angle, options) {
 
                 if (this.isColliding(w.x, w.y, w.width, w.height)) {
                     w.onCollision(this, args.pins);
-                    speedX = -speedX;
-                    speedY = -speedY;
+
+                    if (this.x <= w.x + w.width && this.x > w.x + w.width - this.speed
+                    || this.x + this.width >= w.x && this.x + this.width < w.x + this.speed
+                    ) {
+                        speedX = -speedX;
+                    }
+
+                    if (this.y <= w.y + w.height && this.y > w.y + w.height - this.speed
+                    || this.y + this.height >= w.y && this.y + this.height < w.y + this.speed
+                    ) {
+                        speedY = -speedY;
+                    }
                 }
             }
         },

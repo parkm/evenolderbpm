@@ -15,7 +15,7 @@ function Wall() {
         width: 0, height: 0,
 
         onCollision: function(pin, pins) {
-            console.log("WALL HIT!");
+            
         },
 
         render: function(gc) {
