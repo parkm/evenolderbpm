@@ -99,6 +99,12 @@ State.create("donkeyTest", function() {
         superInit.call(base);
 
         base.walls.push(wall);
+
+        base.bubbles.push(Bubble(32, 32, "score", {
+            ghost: true,
+            ghostPositions: [vec2(0, 0), vec2(300, 100), vec2(0, 480), vec2(480, 0)],
+            ghostInterval: 3,
+        }));
     };
 
     return base;

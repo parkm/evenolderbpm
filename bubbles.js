@@ -21,7 +21,15 @@ function Bubble(x, y, type, options) {
 Bubble.Base = function(_x, _y, _type, options) {
     var iron = options && options.iron;
     var action = options && options.action;
+
     var ghost = options && options.ghost;
+    var ghostTimer = 0;
+    var ghostIndex = 0;
+    if (ghost) {
+        var ghostPositions = options.ghostPositions || console.error("Ghost positions not set for a ghost bubble!");
+        var ghostInterval = options.ghostInterval || 1;
+    }
+
     var speedX, speedY;
     return {
         x: _x, y: _y,
@@ -43,9 +51,11 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (action) {
                 action();
             }
+
             if (iron) {
                 args.pin.onDeath(args.pins);
             }
+
             this.onPop(args);
         },
 
@@ -55,6 +65,22 @@ Bubble.Base = function(_x, _y, _type, options) {
         },
 
         update: function(delta) {
+            if (ghost) {
+                ghostTimer += delta;
+
+                if (ghostTimer >= ghostInterval * 1000) {
+                    ghostIndex++;
+
+                    if (ghostIndex >= ghostPositions.length) {
+                        ghostIndex = 0;
+                    }
+
+                    this.x = ghostPositions[ghostIndex].x;
+                    this.y = ghostPositions[ghostIndex].y;
+                    ghostTimer = 0;
+                }
+            }
+
             //Standard bubble movement.
             if (this.x < 0) {
                 speedX = -speedX;
@@ -68,15 +94,24 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (this.y > BPM.canvas.getHeight()) {
                 speedY = -speedY;
             }
+            
             this.x += speedX * this.speed;
             this.y += speedY * this.speed;
 
         },
 
         render: function(gc) {
+            if (ghost) {
+                gc.globalAlpha = 1 - (ghostTimer / (ghostInterval * 1000));
+            }
+
             gc.fillStyle = this.color;
             gc.fillRect(this.x, this.y, this.img.width, this.img.height);
             gc.drawImage(this.img, this.x, this.y);
+
+            if (ghost) {
+                gc.globalAlpha = 1;
+            }
         }
     };
 };
