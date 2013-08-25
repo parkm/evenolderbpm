@@ -37,6 +37,7 @@ BPM.addAssets = function() {
     BubbleAssets.bad = Assets.add("bubbleBad", "assets/bubbles/bubble.png");
     BubbleAssets.goal = Assets.add("bubbleGoal", "assets/bubbles/bubble.png");
     BubbleAssets.double = Assets.add("bubbleDouble", "assets/bubbles/bubble.png");
+    BubbleAssets.reflect = Assets.add("bubbleReflect", "assets/bubbles/bubble.png");
 
     // State Assets
     StateAssets.background = Assets.add("background", "assets/blue-background.jpg");

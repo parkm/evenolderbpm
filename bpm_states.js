@@ -106,8 +106,12 @@ State.create("donkeyTest", function() {
             ghostInterval: 3,
         }));
 
-        for (var i=0; i<100; ++i) {
+        for (var i=0; i<10; ++i) {
             base.bubbles.push(Bubble(100, 200, "double"));
+        }
+
+        for (var i=0; i<10; ++i) {
+            base.bubbles.push(Bubble(300, 200, "reflect"));
         }
     };
 

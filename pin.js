@@ -88,7 +88,6 @@ function Pin(x, y, angle, options) {
 }
 
 Pin.Base = function(_x, _y, _angle, options) {
-    var speedX, speedY;
     return {
         x: _x, y: _y,
         width: 0, height: 0,
@@ -96,6 +95,7 @@ Pin.Base = function(_x, _y, _angle, options) {
         life: 10,
         lifeTimer: 0,
         angle: _angle,
+        speedX: 0, speedY: 0,
 
         onDeath: function(pins) {
             pins.splice(pins.indexOf(this), 1);
@@ -108,8 +108,8 @@ Pin.Base = function(_x, _y, _angle, options) {
         },
 
         init: function() {
-            speedX = Math.cos(this.angle * (Math.PI / 180));
-            speedY = -Math.sin(this.angle * (Math.PI / 180));
+            this.speedX = Math.cos(this.angle * (Math.PI / 180));
+            this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
 
         isColliding: function(x, y, width, height) {
@@ -134,18 +134,18 @@ Pin.Base = function(_x, _y, _angle, options) {
             }
 
             if (this.x < 0) 
-                speedX = -speedX;
+                this.speedX = -this.speedX;
             if (this.y < 0)
-                speedY = -speedY;
+                this.speedY = -this.speedY;
             if (this.x > BPM.canvas.getWidth() - this.width)
-                speedX = -speedX;
+                this.speedX = -this.speedX;
             if (this.y > BPM.canvas.getHeight() - this.height)
-                speedY = -speedY;
+                this.speedY = -this.speedY;
 
-            this.angle = -(180 / Math.PI * Math.atan2(speedY, speedX));
+            this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
 
-            this.x += speedX * this.speed;
-            this.y += speedY * this.speed;
+            this.x += this.speedX * this.speed;
+            this.y += this.speedY * this.speed;
             
             for (i in args.bubbles) {
                 var b = args.bubbles[i];
@@ -165,13 +165,13 @@ Pin.Base = function(_x, _y, _angle, options) {
                     if (this.x <= w.x + w.width && this.x > w.x + w.width - this.speed
                     || this.x + this.width >= w.x && this.x + this.width < w.x + this.speed
                     ) {
-                        speedX = -speedX;
+                        this.speedX = -this.speedX;
                     }
 
                     if (this.y <= w.y + w.height && this.y > w.y + w.height - this.speed
                     || this.y + this.height >= w.y && this.y + this.height < w.y + this.speed
                     ) {
-                        speedY = -speedY;
+                        this.speedY = -this.speedY;
                     }
                 }
             }

@@ -177,7 +177,18 @@ Bubble.Combo = function(base) {
 };
 
 Bubble.Reflect = function(base) {
+    base.img = BubbleAssets.reflect;
+    base.color = "rgba(255, 100, 0, .25)";
 
+    var superOnPop = base.onPop;
+    base.onPop = function(args) {
+        args.pin.speedX = -args.pin.speedX;
+        args.pin.speedY = -args.pin.speedY;
+
+        superOnPop.call(base, args);
+    }; 
+
+    return base;
 };
 
 Bubble.Bomb = function(base) {

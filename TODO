@@ -19,3 +19,7 @@ States {}
 Obstacles {
     Other obstacles?
 }
+
+Other {
+    Add the combo functionality.
+}
