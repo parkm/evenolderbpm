@@ -105,6 +105,10 @@ State.create("donkeyTest", function() {
             ghostPositions: [vec2(0, 0), vec2(300, 100), vec2(0, 480), vec2(480, 0)],
             ghostInterval: 3,
         }));
+
+        for (var i=0; i<100; ++i) {
+            base.bubbles.push(Bubble(100, 200, "double"));
+        }
     };
 
     return base;

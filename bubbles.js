@@ -34,12 +34,13 @@ Bubble.Base = function(_x, _y, _type, options) {
     return {
         x: _x, y: _y,
         width: 32, height: 32,
+        type: _type,
         angle: (options && options.angle) || Math.random() * 360,
         speed: options && (typeof options.speed === "number") ? options.speed : 0.75,
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
 
-        /* args = bubbles */
+        /* args = bubbles, pin, pins */
         onPop: function(args) {
             if (!iron) {
                 args.bubbles.splice(args.bubbles.indexOf(this), 1);
@@ -94,7 +95,7 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (this.y > BPM.canvas.getHeight()) {
                 speedY = -speedY;
             }
-            
+
             this.x += speedX * this.speed;
             this.y += speedY * this.speed;
 
@@ -158,7 +159,17 @@ Bubble.Ammo = function(base) {
 };
 
 Bubble.Double = function(base) {
+    base.img = BubbleAssets.double;
+    base.color = "rgba(0, 255, 0, .25)";
 
+    var superOnPop = base.onPop;
+    base.onPop = function(args) {
+        args.pins.push(Pin(base.x, base.y, args.pin.angle-45, {speed: args.pin.speed, type: "standard"}));
+
+        superOnPop.call(base, args);
+    };
+
+    return base;
 };
 
 Bubble.Combo = function(base) {
