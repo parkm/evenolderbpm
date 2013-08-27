@@ -4,8 +4,12 @@ var PinAssets = {};
  */
 
 function PinShooter(_x, _y, options) {
+    // TODO: Implement base shooting speed, add additional 25% with charge.
+    // preCharge is convenient percentage scale for chargeSpeed
+    var preCharge = .8;
     var charge = 0;
-    var chargeSpeed = 1;
+    var chargeSpeed = 1 + (preCharge * 10);
+    var chargeBox;
     var pinSpeed = 0.06;
     return {
         x: _x, y: _y,
@@ -19,10 +23,32 @@ function PinShooter(_x, _y, options) {
         },
 
         init: function() {
+            // Create a charge box based off PinShooter's x, y
+            if (options ? options.chargeBox !== false : true) {
+                chargeBox = {
+                    x: this.x + 24,
+                    y: this.y - 10,
+                    width: 7,
+                    height: 20,
+                    border: 2,
+                    render: function(gc) {
+                        if (charge > 100) charge = 100;
+                        // Invisible if charge = 0
+                        // Outer Rect
+                        gc.fillStyle = "rgba(255, 255, 255, " + charge * 0.01 + ")";
+                        gc.fillRect(this.x - this.border, this.y - this.border, this.width + this.border * 2, this.height + this.border * 2);
+                        // Inner Rect
+                        var dif = this.height * (charge * 0.01);
+                        gc.fillStyle = "rgba(255, 0, 0, " + charge * 0.01 + ")";
+                        gc.fillRect(this.x, this.y - dif + this.height, this.width, dif);
+                    }
+                };
+            }
 
         },
 
         update: function(mouse, pins) {
+            if (charge > 100) charge = 100;
             this.angle = (180 / Math.PI * Math.atan2((mouse.getY() - this.y), (mouse.getX() - this.x)));
 
             this.img.x = this.x;
@@ -30,6 +56,9 @@ function PinShooter(_x, _y, options) {
             this.img.originX = this.img.getWidth()/2;
             this.img.originY = this.img.getHeight()/2;
             this.img.angle = this.angle;
+
+            chargeBox && (chargeBox.x = mouse.getX() + 25);
+            chargeBox && (chargeBox.y = mouse.getY() + 15);
 
             if (mouse.isDown(Mouse.LEFT)) {
                 if (charge < 100) {
@@ -55,8 +84,10 @@ function PinShooter(_x, _y, options) {
                     textAlign: "center",
                     font: "24px Arial",
                     lineWidth: 4,
-                    stroke: true,              
+                    stroke: true,
                 });
+                
+                chargeBox && chargeBox.render(gc);
 
                 this.img.render(gc);
             }
