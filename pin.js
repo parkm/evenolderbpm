@@ -122,6 +122,7 @@ function Pin(x, y, angle, options) {
 
 Pin.Base = function(_x, _y, _angle, options) {
     return {
+        type: "pin",
         x: _x, y: _y,
         width: 0, height: 0,
         speed: options.speed || 4,

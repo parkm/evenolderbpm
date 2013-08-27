@@ -11,6 +11,7 @@ function Wall() {
     nineSlice.center = Rect(2, 2, 28, 28);
 
     return {
+        type: "wall",
         x: 0, y: 0,
         width: 0, height: 0,
 

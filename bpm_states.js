@@ -12,6 +12,8 @@ State.create("game", function() {
 
     base.walls = [];
 
+    base.objects = [];
+
     base.init = function() {
         base.shooter.init();
 
@@ -29,10 +31,27 @@ State.create("game", function() {
         base.shooter.update(BPM.mouse, base.pins);
 
         for (i in base.pins) {
-            base.pins[i].update({bubbles: base.bubbles, pins: base.pins, delta: delta, walls: base.walls});
+            base.pins[i].update({
+                bubbles: base.bubbles, 
+                pins: base.pins, 
+                delta: delta, 
+                walls: base.walls,
+                objects: base.objects,
+            });
         }
 
         base.backButton.update(BPM.mouse);
+
+        //Sort objects based on depth.
+        base.objects.sort(function(a, b) {
+            return b.depth - a.depth;
+        });
+
+        for (i in base.objects) {
+            if (base.objects[i].update) {
+                base.objects[i].update({delta: delta, objects: base.objects});
+            }
+        } 
     };
 
     base.render = function(gc) {
@@ -50,6 +69,12 @@ State.create("game", function() {
 
         for (i in base.pins) {
             base.pins[i].render(gc);
+        }
+
+        for (i in base.objects) {
+            if (base.objects[i].render) {
+                base.objects[i].render(gc);
+            }
         }
 
         base.backButton.render(gc);

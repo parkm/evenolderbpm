@@ -32,6 +32,7 @@ Bubble.Base = function(_x, _y, _type, options) {
 
     var speedX, speedY;
     return {
+        type: "bubble",
         x: _x, y: _y,
         width: 32, height: 32,
         type: _type,
@@ -44,8 +45,9 @@ Bubble.Base = function(_x, _y, _type, options) {
         /* args = bubbles, pin, pins */
         onPop: function(args) {
             if (!iron) {
-                var pop = Bubble(this.x, this.y, "pop", {bubbles: args.bubbles});
-                args.bubbles.push(pop);
+                var pop = PopEffect(this.x, this.y);
+                pop.init();
+                args.objects.push(pop);
                 args.bubbles.splice(args.bubbles.indexOf(this), 1);
             }
         },
@@ -119,43 +121,40 @@ Bubble.Base = function(_x, _y, _type, options) {
     };
 };
 
-/* Bubble Types */
-
-Bubble.Pop = function(base) {
-    /* TODO:
-    Remove this and use a separate array to keep track of effects. 
-    */        
+function PopEffect(x, y) {     
     var complete = false;
+    return {
+        x: x, y: y,
 
-    base.init = function() {
-        base.anim = Animation(BubbleAssets.pop, 90, 100);
-        base.anim.onComplete = function() {
-            complete = true;
-        };
-    };
+        init: function() {
+            this.anim = Animation(BubbleAssets.pop, 90, 100);
+            this.anim.onComplete = function() {
+                complete = true;
+            };
+        },
 
-    base.update = function(delta) {
-        base.anim.x = base.x - base.width;
-        base.anim.y = base.y - base.height;
-        base.anim.update(delta);
+        update: function(args) {
+            this.anim.x = this.x - 32;
+            this.anim.y = this.y - 32;
+            this.anim.update(args.delta);
 
-        if (complete) {
-            var bubbles = base.options.bubbles;
-            bubbles.splice(bubbles.indexOf(this), 1);
-            complete = false;
-        }
-    };
+            if (complete) {
+                args.objects.splice(args.objects.indexOf(this), 1);
+                complete = false;
+            }
+        },
 
-    base.render = function(gc) {
-        base.anim.render(gc);
-    };
+        render: function(gc) {
+            this.anim.render(gc);
+        },
 
-    base.onPop = function(args) {};
+        onPop: function(args) {},
 
-    base.onCollision = function(args) {};
-
-    return base;
+        onCollision: function(args) {},
+    }
 }
+
+/* Bubble Types */
 
 Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
