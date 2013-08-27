@@ -23,7 +23,8 @@ function PinShooter(_x, _y, options) {
         },
 
         init: function() {
-            // Create a charge box based off PinShooter's x, y
+            // Create a charge box based off PinShooter's x, y (by default)
+            // Provide option to not use chargeBox.
             if (options ? options.chargeBox !== false : true) {
                 chargeBox = {
                     x: this.x + 24,
@@ -57,6 +58,7 @@ function PinShooter(_x, _y, options) {
             this.img.originY = this.img.getHeight()/2;
             this.img.angle = this.angle;
 
+            // show chargeBox under mouse
             chargeBox && (chargeBox.x = mouse.getX() + 25);
             chargeBox && (chargeBox.y = mouse.getY() + 15);
 
