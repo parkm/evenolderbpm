@@ -121,7 +121,10 @@ Bubble.Base = function(_x, _y, _type, options) {
 
 /* Bubble Types */
 
-Bubble.Pop = function(base) {        
+Bubble.Pop = function(base) {
+    /* TODO:
+    Remove this and use a separate array to keep track of effects. 
+    */        
     var complete = false;
 
     base.init = function() {
