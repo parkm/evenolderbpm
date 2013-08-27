@@ -111,9 +111,19 @@ State.create("donkeyTest", function() {
         }
 
         for (var i=0; i<10; ++i) {
-            base.bubbles.push(Bubble(300, 200, "reflect"));
+            base.bubbles.push(Bubble(300, 100, "reflect"));
         }
     };
+
+    var superUpdate = base.update;
+    base.update = function(delta) {
+        superUpdate.call(base, delta);
+    };
+
+    var superRender = base.render;
+    base.render = function(gc) {
+        superRender.call(base, gc);
+    }; 
 
     return base;
 });

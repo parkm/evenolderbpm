@@ -39,10 +39,13 @@ Bubble.Base = function(_x, _y, _type, options) {
         speed: options && (typeof options.speed === "number") ? options.speed : 0.75,
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
+        options: options,
 
         /* args = bubbles, pin, pins */
         onPop: function(args) {
             if (!iron) {
+                var pop = Bubble(this.x, this.y, "pop", {bubbles: args.bubbles});
+                args.bubbles.push(pop);
                 args.bubbles.splice(args.bubbles.indexOf(this), 1);
             }
         },
@@ -98,7 +101,6 @@ Bubble.Base = function(_x, _y, _type, options) {
 
             this.x += speedX * this.speed;
             this.y += speedY * this.speed;
-
         },
 
         render: function(gc) {
@@ -118,6 +120,39 @@ Bubble.Base = function(_x, _y, _type, options) {
 };
 
 /* Bubble Types */
+
+Bubble.Pop = function(base) {        
+    var complete = false;
+
+    base.init = function() {
+        base.anim = Animation(BubbleAssets.pop, 90, 100);
+        base.anim.onComplete = function() {
+            complete = true;
+        };
+    };
+
+    base.update = function(delta) {
+        base.anim.x = base.x - base.width;
+        base.anim.y = base.y - base.height;
+        base.anim.update(delta);
+
+        if (complete) {
+            var bubbles = base.options.bubbles;
+            bubbles.splice(bubbles.indexOf(this), 1);
+            complete = false;
+        }
+    };
+
+    base.render = function(gc) {
+        base.anim.render(gc);
+    };
+
+    base.onPop = function(args) {};
+
+    base.onCollision = function(args) {};
+
+    return base;
+}
 
 Bubble.Score = function(base) {
     base.img = BubbleAssets.score;

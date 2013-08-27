@@ -33,6 +33,7 @@ BPM.addAssets = function() {
     PinAssets.pin = Assets.add("pin", "assets/pin.png");
 
     // Bubble Assets
+    BubbleAssets.pop = Assets.add("pop", "assets/bubbles/pop-90x100-strip7.png");
     BubbleAssets.score = Assets.add("bubbleScore", "assets/bubbles/bubble.png");
     BubbleAssets.bad = Assets.add("bubbleBad", "assets/bubbles/bubble.png");
     BubbleAssets.goal = Assets.add("bubbleGoal", "assets/bubbles/bubble.png");
