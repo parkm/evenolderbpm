@@ -19,6 +19,40 @@ function Wall() {
             
         },
 
+        isColliding: function(x, y, width, height) {
+            var thisx2 = this.x + this.width;
+            var thisy2 = this.y + this.height;
+            var x2 = x + width;
+            var y2 = y + height;
+
+            if (thisx2 > x && this.x < x2 && thisy2 > y && this.y < y2) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        isCollidingDirection: function(direction, pos, length, speed) {
+            var thisPos;
+            var thisLength;
+
+            if (direction === "horizontal") {
+                thisLength = this.width;
+                thisPos = this.x;
+            } else if (direction === "vertical") {
+                thisLength = this.height;
+                thisPos = this.y;
+            }
+
+            if (pos <= thisPos + thisLength && pos > thisPos + thisLength - speed
+            || pos + length >= thisPos && pos + length < thisPos + speed
+            ) {
+                return true;
+            }
+
+            return false;
+        },
+
         render: function(gc) {
             nineSlice.render(gc, this.x, this.y, this.width, this.height);
         },

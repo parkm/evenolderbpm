@@ -145,19 +145,6 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.speedX = Math.cos(this.angle * (Math.PI / 180));
             this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
-
-        isColliding: function(x, y, width, height) {
-            var thisx2 = this.x + this.width;
-            var thisy2 = this.y + this.height;
-            var x2 = x + width;
-            var y2 = y + height;
-
-            if (thisx2 > x && this.x < x2 && thisy2 > y && this.y < y2) {
-                return true;
-            } else {
-                return false;
-            }
-        },
         
         /* args = bubbles, pins, delta, walls */
         update: function(args) {
@@ -186,19 +173,15 @@ Pin.Base = function(_x, _y, _angle, options) {
             for (i in state.walls) {
                 var w = state.walls[i];
 
-                if (this.isColliding(w.x, w.y, w.width, w.height)) {
+                if (w.isColliding(this.x, this.y, this.width, this.height)) {
                     w.onCollision(this, state.pins);
 
-                    if (this.x <= w.x + w.width && this.x > w.x + w.width - this.speed
-                    || this.x + this.width >= w.x && this.x + this.width < w.x + this.speed
-                    ) {
-                        this.speedX = -this.speedX;
+                    if (w.isCollidingDirection("horizontal", this.x, this.width, this.speed)) {
+                        this.speedX = -this.speedX; 
                     }
 
-                    if (this.y <= w.y + w.height && this.y > w.y + w.height - this.speed
-                    || this.y + this.height >= w.y && this.y + this.height < w.y + this.speed
-                    ) {
-                        this.speedY = -this.speedY;
+                    if (w.isCollidingDirection("vertical", this.y, this.height, this.speed)) {
+                        this.speedY = -this.speedY; 
                     }
                 }
             }

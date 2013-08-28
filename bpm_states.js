@@ -139,7 +139,7 @@ State.create("donkeyTest", function() {
     var wall = Wall();
     wall.x = 600;
     wall.y = 100;
-    wall.width = 32;
+    wall.width = 100;
     wall.height = 100;
 
     var superInit = base.init;
