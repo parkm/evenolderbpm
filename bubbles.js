@@ -42,7 +42,7 @@ Bubble.Base = function(_x, _y, _type, options) {
         img: BubbleAssets.score,
         options: options,
 
-        /* args = bubbles, pin, pins */
+        /* args = delta, state */
         onPop: function(args) {
             if (!iron) {
                 var pop = PopEffect(this.x, this.y);
@@ -53,7 +53,7 @@ Bubble.Base = function(_x, _y, _type, options) {
             args.state.combo++;
         },
         
-        /* args = bubbles, pin, pins */
+        /* args = delta, state */
         onCollision: function(args) {
             if (action) {
                 action();
@@ -84,6 +84,7 @@ Bubble.Base = function(_x, _y, _type, options) {
             speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
 
+        /* args = delta, state */
         update: function(args) {
             if (ghost) {
                 ghostTimer += args.delta;
@@ -175,11 +176,12 @@ function PopEffect(x, y) {
     }
 }
 
-function Explosion(x, y) {
+function Explosion(x, y, pin) {
     var complete = false;
     return {
         x: x, y: y,
         width: 124, height: 150,
+        pin: pin,
 
         init: function() {
             this.anim = Animation(BubbleAssets.explode, this.width, this.height);
@@ -203,6 +205,7 @@ function Explosion(x, y) {
                 var bubble = args.state.bubbles[i];
 
                 if (bubble.isColliding(this.anim.x, this.anim.y, this.width, this.height)) {
+                    args.pin = this.pin;
                     bubble.onPop(args);
                 }
             }
@@ -324,7 +327,7 @@ Bubble.Bomb = function(base) {
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        var expl = Explosion(this.x, this.y);
+        var expl = Explosion(this.x, this.y, args.pin);
         expl.init();
 
         args.state.objects.push(expl);

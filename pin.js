@@ -135,7 +135,7 @@ Pin.Base = function(_x, _y, _angle, options) {
             pins.splice(pins.indexOf(this), 1);
         },
         
-        /* args = bubbles, bubble, pins */
+        /* args = delta, state */
         onCollision: function(args) {
             args.pin = this;
             args.bubble.onCollision(args);
@@ -146,7 +146,7 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
         
-        /* args = bubbles, pins, delta, walls */
+        /* args = delta, state */
         update: function(args) {
             var state = args.state;
 
