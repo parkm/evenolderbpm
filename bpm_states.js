@@ -159,7 +159,7 @@ State.create("donkeyTest", function() {
         }
 
         for (var i=0; i<10; ++i) {
-            base.bubbles.push(Bubble(300, 100, "combo"));
+            base.bubbles.push(Bubble(300, 100, "ammo"));
         }
     };
 

@@ -40,6 +40,7 @@ BPM.addAssets = function() {
     BubbleAssets.double = Assets.add("bubbleDouble", "assets/bubbles/bubble.png");
     BubbleAssets.reflect = Assets.add("bubbleReflect", "assets/bubbles/bubble.png");
     BubbleAssets.combo = Assets.add("bubbleCombo", "assets/bubbles/bubble.png");
+    BubbleAssets.ammo = Assets.add("bubbleAmmo", "assets/bubbles/bubble.png");
     BubbleAssets.glare = Assets.add("bubbleGlare", "assets/bubbles/bubble-glare.png");
 
     // State Assets

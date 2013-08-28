@@ -204,7 +204,17 @@ Bubble.Rainbow = function(base) {
 };
 
 Bubble.Ammo = function(base) {
+    base.img = BubbleAssets.ammo;
+    base.color = "rgba(30, 170, 200, .25)";
 
+    var superOnPop = base.onPop;
+    base.onPop = function(args) {
+        args.state.shooter.pins++;
+
+        superOnPop.call(base, args);
+    };
+
+    return base;
 };
 
 Bubble.Double = function(base) {
