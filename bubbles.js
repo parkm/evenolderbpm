@@ -115,6 +115,8 @@ Bubble.Base = function(_x, _y, _type, options) {
             gc.fillRect(this.x, this.y, this.img.width, this.img.height);
             gc.drawImage(this.img, this.x, this.y);
 
+            gc.drawImage(BubbleAssets.glare, this.x, this.y);
+
             if (ghost) {
                 gc.globalAlpha = 1;
             }
@@ -220,7 +222,17 @@ Bubble.Double = function(base) {
 };
 
 Bubble.Combo = function(base) {
+    base.img = BubbleAssets.combo;
+    base.color = "rgba(180, 58, 186, .25)";
 
+    var superOnPop = base.onPop;
+    base.onPop = function(args) {
+        args.state.combo += args.state.multiplier + 1;
+
+        superOnPop.call(base, args);
+    };
+
+    return base;
 };
 
 Bubble.Reflect = function(base) {
