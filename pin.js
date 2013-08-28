@@ -182,15 +182,6 @@ Pin.Base = function(_x, _y, _angle, options) {
 
             this.x += this.speedX * this.speed;
             this.y += this.speedY * this.speed;
-            
-            for (i in state.bubbles) {
-                var b = state.bubbles[i];
-
-                if (this.isColliding(b.x, b.y, b.width, b.height)) {
-                    args.bubble = b;
-                    this.onCollision(args);
-                }           
-            }
 
             for (i in state.walls) {
                 var w = state.walls[i];

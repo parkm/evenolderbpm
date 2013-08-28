@@ -66,14 +66,27 @@ Bubble.Base = function(_x, _y, _type, options) {
             this.onPop(args);
         },
 
+        isColliding: function(x, y, width, height) {
+            var thisx2 = this.x + this.width;
+            var thisy2 = this.y + this.height;
+            var x2 = x + width;
+            var y2 = y + height;
+
+            if (thisx2 > x && this.x < x2 && thisy2 > y && this.y < y2) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         init: function() {
             speedX = Math.cos(this.angle * (Math.PI / 180));
             speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
 
-        update: function(delta) {
+        update: function(args) {
             if (ghost) {
-                ghostTimer += delta;
+                ghostTimer += args.delta;
 
                 if (ghostTimer >= ghostInterval * 1000) {
                     ghostIndex++;
@@ -104,6 +117,15 @@ Bubble.Base = function(_x, _y, _type, options) {
 
             this.x += speedX * this.speed;
             this.y += speedY * this.speed;
+
+            for (i in args.state.pins) {
+                var pin = args.state.pins[i];
+
+                if (this.isColliding(pin.x, pin.y, pin.width, pin.height)) {
+                    args.pin = pin;
+                    this.onCollision(args);
+                }           
+            }
         },
 
         render: function(gc) {
@@ -142,7 +164,7 @@ function PopEffect(x, y) {
             this.anim.update(args.delta);
 
             if (complete) {
-                args.objects.splice(args.objects.indexOf(this), 1);
+                args.state.objects.splice(args.state.objects.indexOf(this), 1);
                 complete = false;
             }
         },
@@ -150,10 +172,46 @@ function PopEffect(x, y) {
         render: function(gc) {
             this.anim.render(gc);
         },
+    }
+}
 
-        onPop: function(args) {},
+function Explosion(x, y) {
+    var complete = false;
+    return {
+        x: x, y: y,
+        width: 124, height: 150,
 
-        onCollision: function(args) {},
+        init: function() {
+            this.anim = Animation(BubbleAssets.explode, this.width, this.height);
+            this.anim.onComplete = function() {
+                complete = true;
+            };
+        },
+
+        update: function(args) {
+            this.anim.x = this.x - this.width/2;
+            this.anim.y = this.y - this.height/2;
+
+            this.anim.update(args.delta);
+
+            if (complete) {
+                args.state.objects.splice(args.state.objects.indexOf(this), 1);
+                complete = false;
+            }
+
+            for (i in args.state.bubbles) {
+                var bubble = args.state.bubbles[i];
+
+                if (bubble.isColliding(this.anim.x, this.anim.y, this.width, this.height)) {
+                    bubble.onPop(args);
+                }
+            }
+        },
+
+        render: function(gc) {
+            this.anim.render(gc);
+        },
+
     }
 }
 
@@ -261,5 +319,18 @@ Bubble.Reflect = function(base) {
 };
 
 Bubble.Bomb = function(base) {
+    base.img = BubbleAssets.bomb;
+    base.color = "rgba(0, 0, 0, .25)";
 
+    var superOnPop = base.onPop;
+    base.onPop = function(args) {
+        var expl = Explosion(this.x, this.y);
+        expl.init();
+
+        args.state.objects.push(expl);
+
+        superOnPop.call(base, args);
+    }; 
+
+    return base;
 };

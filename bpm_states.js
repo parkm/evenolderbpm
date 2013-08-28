@@ -28,7 +28,7 @@ State.create("game", function() {
 
     base.update = function(delta) {
         for (i in base.bubbles) {
-            base.bubbles[i].update(delta);
+            base.bubbles[i].update({delta: delta, state: base});
         }
 
         base.shooter.update(BPM.mouse, base.pins);
@@ -49,7 +49,7 @@ State.create("game", function() {
 
         for (i in base.objects) {
             if (base.objects[i].update) {
-                base.objects[i].update({delta: delta, objects: base.objects});
+                base.objects[i].update({delta: delta, state: base});
             }
         } 
 
@@ -154,12 +154,12 @@ State.create("donkeyTest", function() {
             ghostInterval: 3,
         }));
 
-        for (var i=0; i<10; ++i) {
-            base.bubbles.push(Bubble(100, 200, "double"));
+        for (var i=0; i<100; ++i) {
+            base.bubbles.push(Bubble(100, 200, "score"));
         }
 
         for (var i=0; i<10; ++i) {
-            base.bubbles.push(Bubble(300, 100, "ammo"));
+            base.bubbles.push(Bubble(300, 100, "bomb"));
         }
     };
 

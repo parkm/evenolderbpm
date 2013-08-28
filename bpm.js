@@ -33,7 +33,10 @@ BPM.addAssets = function() {
     PinAssets.pin = Assets.add("pin", "assets/pin.png");
 
     // Bubble Assets
+    BubbleAssets.explode = Assets.add("explosion", "assets/explode-124x150-strip23.png");
     BubbleAssets.pop = Assets.add("pop", "assets/bubbles/pop-90x100-strip7.png");
+    BubbleAssets.glare = Assets.add("bubbleGlare", "assets/bubbles/bubble-glare.png");
+
     BubbleAssets.score = Assets.add("bubbleScore", "assets/bubbles/bubble.png");
     BubbleAssets.bad = Assets.add("bubbleBad", "assets/bubbles/bubble.png");
     BubbleAssets.goal = Assets.add("bubbleGoal", "assets/bubbles/bubble.png");
@@ -41,7 +44,7 @@ BPM.addAssets = function() {
     BubbleAssets.reflect = Assets.add("bubbleReflect", "assets/bubbles/bubble.png");
     BubbleAssets.combo = Assets.add("bubbleCombo", "assets/bubbles/bubble.png");
     BubbleAssets.ammo = Assets.add("bubbleAmmo", "assets/bubbles/bubble.png");
-    BubbleAssets.glare = Assets.add("bubbleGlare", "assets/bubbles/bubble-glare.png");
+    BubbleAssets.bomb = Assets.add("bubbleBomb", "assets/bubbles/bubble.png");
 
     // State Assets
     StateAssets.background = Assets.add("background", "assets/blue-background.jpg");
