@@ -50,6 +50,7 @@ Bubble.Base = function(_x, _y, _type, options) {
                 args.state.objects.push(pop);
                 args.state.bubbles.splice(args.state.bubbles.indexOf(this), 1);
             }
+            args.state.combo++;
         },
         
         /* args = bubbles, pin, pins */
@@ -163,8 +164,17 @@ Bubble.Score = function(base) {
     
     var s_onPop = base.onPop;
     base.onPop = function(args) {
+        var value;
+
         s_onPop.call(base, args);
-        BPM.cash += base.worth;
+
+        if (base.worth > 0) {
+            value = base.worth * args.state.multiplier;
+        } else {
+            value = base.worth;
+        }
+
+        BPM.cash += value;
     };
 
     return base;

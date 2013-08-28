@@ -8,11 +8,14 @@ State.create("game", function() {
 
     base.bubbles = [];
     base.pins = [];
+    base.walls = [];
+    base.objects = [];
+
     base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
 
-    base.walls = [];
-
-    base.objects = [];
+    base.multiplier = 1;
+    base.combo = 0; 
+    base.comboGoal = 4; //The amount of bubbles needed to pop in order to increase the multiplier.
 
     base.init = function() {
         base.shooter.init();
@@ -49,6 +52,18 @@ State.create("game", function() {
                 base.objects[i].update({delta: delta, objects: base.objects});
             }
         } 
+
+        if (base.combo >= base.comboGoal) {
+            base.multiplier++;
+            base.combo = 0;
+            base.comboGoal = Math.round(base.comboGoal * 1.5);
+        }
+
+        if (base.pins.length == 0) {
+            base.combo = 0;
+            base.comboGoal = 4;
+            base.multiplier = 1;
+        }
     };
 
     base.render = function(gc) {
@@ -76,7 +91,18 @@ State.create("game", function() {
 
         base.backButton.render(gc);
 
-        Utils.drawText(gc, "$" + BPM.cash, 200, 0);
+        var formatting = {
+            fillStyle: "#FFFFFF",
+            strokeStyle: "#000000",
+            font: "16px Arial",
+            stroke: true,
+            lineWidth: 4,
+            textAlign: "left",
+        };
+
+        Utils.drawText(gc, "$" + BPM.cash, 0, BPM.canvas.getHeight()-100, formatting);
+        Utils.drawText(gc, base.combo + " / " + base.comboGoal, 200, 0, formatting);
+        Utils.drawText(gc, "x" + base.multiplier, 300, 0, formatting);
     };
 
     return base;
