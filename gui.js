@@ -245,15 +245,16 @@ function ScrollField() {
 
         scroll: 0,
         scrollSpeed: 0,
+        invert: false,
 
         update: function() {
             var col = this.collision(BPM.mouse);
 
-            if (col === "bottom") {
+            if (col === (this.invert ? "top" : "bottom")) {
                 if (this.getBottomConstraint()) {
                     this.scroll += this.scrollSpeed;
                 }
-            } else if (col === "top") {
+            } else if (col === (this.invert ? "bottom" : "top")) {
                 if (this.getTopConstraint()) {
                     this.scroll -= this.scrollSpeed;
                 }

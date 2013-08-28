@@ -148,7 +148,7 @@ State.create("donkeyTest", function() {
 
         base.walls.push(wall);
 
-        base.bubbles.push(Bubble(32, 32, "score", {
+        base.bubbles.push(Bubble(32, 32, "double", {
             ghost: true,
             ghostPositions: [vec2(0, 0), vec2(300, 100), vec2(0, 480), vec2(480, 0)],
             ghostInterval: 3,
@@ -314,6 +314,7 @@ State.create("roundSelect", function() {
 
         stageScrollField.width = BPM.canvas.getWidth();
         stageScrollField.height = BPM.canvas.getHeight();
+        stageScrollField.invert = true;
 
         selectStage = RoundSelectButton("Select Stage", "#000000");
         selectStage.y = 16;
@@ -405,11 +406,11 @@ State.create("roundSelect", function() {
         stageScrollField.scrollSpeed = 2;
         
         stageScrollField.getBottomConstraint = function() {
-            return (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance)
+            return (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance);
         };
 
         stageScrollField.getTopConstraint = function() {
-            return (totalHeight + 100 + stageScrollField.scroll >= BPM.canvas.getHeight())
+            return (totalHeight + 100 + stageScrollField.scroll >= BPM.canvas.getHeight());
         };
 
         stageScrollField.update();
