@@ -47,8 +47,8 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (!iron) {
                 var pop = PopEffect(this.x, this.y);
                 pop.init();
-                args.objects.push(pop);
-                args.bubbles.splice(args.bubbles.indexOf(this), 1);
+                args.state.objects.push(pop);
+                args.state.bubbles.splice(args.state.bubbles.indexOf(this), 1);
             }
         },
         
@@ -59,7 +59,7 @@ Bubble.Base = function(_x, _y, _type, options) {
             }
 
             if (iron) {
-                args.pin.onDeath(args.pins);
+                args.pin.onDeath(args.state.pins);
             }
 
             this.onPop(args);
@@ -201,7 +201,7 @@ Bubble.Double = function(base) {
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        args.pins.push(Pin(base.x, base.y, args.pin.angle-45, {speed: args.pin.speed, type: "standard"}));
+        args.state.pins.push(Pin(base.x, base.y, args.pin.angle-45, {speed: args.pin.speed, type: "standard"}));
 
         superOnPop.call(base, args);
     };

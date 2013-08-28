@@ -161,10 +161,12 @@ Pin.Base = function(_x, _y, _angle, options) {
         
         /* args = bubbles, pins, delta, walls */
         update: function(args) {
+            var state = args.state;
+
             this.lifeTimer += args.delta;
 
             if (this.lifeTimer >= this.life * 1000) {
-                this.onDeath(args.pins);
+                this.onDeath(state.pins);
             }
 
             if (this.x < 0) 
@@ -181,8 +183,8 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.x += this.speedX * this.speed;
             this.y += this.speedY * this.speed;
             
-            for (i in args.bubbles) {
-                var b = args.bubbles[i];
+            for (i in state.bubbles) {
+                var b = state.bubbles[i];
 
                 if (this.isColliding(b.x, b.y, b.width, b.height)) {
                     args.bubble = b;
@@ -190,11 +192,11 @@ Pin.Base = function(_x, _y, _angle, options) {
                 }           
             }
 
-            for (i in args.walls) {
-                var w = args.walls[i];
+            for (i in state.walls) {
+                var w = state.walls[i];
 
                 if (this.isColliding(w.x, w.y, w.width, w.height)) {
-                    w.onCollision(this, args.pins);
+                    w.onCollision(this, state.pins);
 
                     if (this.x <= w.x + w.width && this.x > w.x + w.width - this.speed
                     || this.x + this.width >= w.x && this.x + this.width < w.x + this.speed

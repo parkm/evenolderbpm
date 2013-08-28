@@ -32,11 +32,8 @@ State.create("game", function() {
 
         for (i in base.pins) {
             base.pins[i].update({
-                bubbles: base.bubbles, 
-                pins: base.pins, 
                 delta: delta, 
-                walls: base.walls,
-                objects: base.objects,
+                state: base,
             });
         }
 
