@@ -228,14 +228,24 @@ Bubble.Score = function(base) {
     var s_onPop = base.onPop;
     base.onPop = function(args) {
         var value;
+        var ftColor;
 
         s_onPop.call(base, args);
 
         if (base.worth > 0) {
             value = base.worth * args.state.multiplier;
+            ftColor = "#FFFFFF";
         } else {
             value = base.worth;
+            ftColor = "#FF0000";
         }
+
+        args.state.addFloatText(FloatText(value, this.x, this.y, {
+            stroke: true,
+            fillStyle: ftColor,
+            font: "16px Arial",
+            lineWidth: 3,
+        }));
 
         BPM.cash += value;
     };
@@ -260,10 +270,6 @@ Bubble.Goal = function(base) {
     return base;
 };
 
-Bubble.Rainbow = function(base) {
-
-};
-
 Bubble.Ammo = function(base) {
     base.img = BubbleAssets.ammo;
     base.color = "rgba(30, 170, 200, .25)";
@@ -271,6 +277,12 @@ Bubble.Ammo = function(base) {
     var superOnPop = base.onPop;
     base.onPop = function(args) {
         args.state.shooter.pins++;
+
+        args.state.addFloatText(FloatText("Pin +1", this.x, this.y, {
+            stroke: true,
+            font: "16px Arial",
+            lineWidth: 3,         
+        }));
 
         superOnPop.call(base, args);
     };
@@ -298,7 +310,16 @@ Bubble.Combo = function(base) {
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        args.state.combo += args.state.multiplier + 1;
+        var val = args.state.multiplier + 1
+
+        args.state.combo += val;
+
+        args.state.addFloatText(FloatText(val + " pops!", this.x, this.y, {
+            stroke: true,
+            fillStyle: "#FFEE00",
+            font: "18px Arial",
+            lineWidth: 3,            
+        }));
 
         superOnPop.call(base, args);
     };

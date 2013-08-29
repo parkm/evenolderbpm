@@ -208,16 +208,16 @@ function FloatText(_text, _x, _y, _formatting) {
         time: 2,
         timer: 0,
 
-        onDeath: function() {
+        onDeath: function(args) {
 
         },
 
-        update: function(delta) {
+        update: function(args) {
             this.y--;
-            this.timer += delta;
+            this.timer += args.delta;
 
             if (this.timer >= this.time * 1000) {
-                this.onDeath();
+                this.onDeath(args);
             }
         },
 

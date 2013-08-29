@@ -17,6 +17,14 @@ State.create("game", function() {
     base.combo = 0; 
     base.comboGoal = 4; //The amount of bubbles needed to pop in order to increase the multiplier.
 
+    base.addFloatText = function(floatText) {
+        floatText.onDeath = function(args) {
+            base.objects.splice(base.objects.indexOf(floatText), 1);
+        };
+
+        base.objects.push(floatText);
+    };
+
     base.init = function() {
         base.shooter.init();
 
@@ -154,12 +162,10 @@ State.create("donkeyTest", function() {
             ghostInterval: 3,
         }));
 
-        for (var i=0; i<100; ++i) {
-            base.bubbles.push(Bubble(100, 200, "score"));
-        }
-
-        for (var i=0; i<10; ++i) {
-            base.bubbles.push(Bubble(300, 100, "bomb"));
+        for (i in Bubble) {
+            for (j=0; j<10; ++j) {
+                base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i));
+            }
         }
     };
 
@@ -500,7 +506,7 @@ State.create("upgrades", function() {
             font: "24px Arial",
         });
 
-        ft.onDeath = function() {
+        ft.onDeath = function(args) {
             floatText.splice(floatText.indexOf(ft), 1);
         };
 
@@ -569,7 +575,7 @@ State.create("upgrades", function() {
         }
 
         for (i in floatText) {
-            floatText[i].update(delta);
+            floatText[i].update({delta: delta, state: base});
         }
     };
 
