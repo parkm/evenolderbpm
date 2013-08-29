@@ -173,7 +173,7 @@ function PopEffect(x, y) {
         render: function(gc) {
             this.anim.render(gc);
         },
-    }
+    };
 }
 
 function Explosion(x, y, pin) {
