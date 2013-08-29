@@ -1,0 +1,18 @@
+<level width="800" height="600">
+  <bubbles>
+    <Bubble id="0" x="416" y="96" speed="-1" moveAngle="-1" iron="False" type="goal" randomPosition="False" count="1" />
+    <Bubble id="1" x="736" y="160" speed="-1" moveAngle="-1" iron="False" type="goal" randomPosition="False" count="1" />
+    <Bubble id="2" x="224" y="448" speed="-1" moveAngle="-1" iron="False" type="goal" randomPosition="False" count="1" />
+    <Bubble id="3" x="544" y="448" speed="-1" moveAngle="-1" iron="False" type="goal" randomPosition="False" count="1" />
+    <Bubble id="4" x="32" y="32" speed="-1" moveAngle="-1" iron="False" type="goal" randomPosition="False" count="1" />
+    <Bubble id="5" x="416" y="256" speed="0" moveAngle="-1" iron="False" type="goal" randomPosition="False" count="1" />
+    <Bubble id="6" x="0" y="0" speed="-1" moveAngle="-1" iron="False" type="score" randomPosition="True" count="20" />
+    <Bubble id="8" x="64" y="0" speed="-1" moveAngle="-1" iron="False" type="double" randomPosition="True" count="3" />
+    <Bubble id="9" x="128" y="0" speed="-1" moveAngle="-1" iron="False" type="combo" randomPosition="True" count="5" />
+  </bubbles>
+  <walls>
+    <Wall id="0" x="128" y="64" width="112" height="352" />
+    <Wall id="1" x="608" y="80" width="48" height="416" />
+    <Wall id="2" x="208" y="528" width="384" height="48" />
+  </walls>
+</level>
