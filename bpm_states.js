@@ -67,7 +67,7 @@ State.create("game", function() {
             base.comboGoal = Math.round(base.comboGoal * 1.5);
         }
 
-        if (base.pins.length == 0) {
+        if (base.pins.length === 0) {
             base.combo = 0;
             base.comboGoal = 4;
             base.multiplier = 1;
