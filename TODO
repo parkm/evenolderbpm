@@ -6,6 +6,7 @@ Design {
 
 Pins {
     Pin upgrades
+    Pin shooter charge box depth needs to be upfront - currently hides behind most graphics
 }
 
 Bubbles {
@@ -20,10 +21,3 @@ Obstacles {
 }
 
 Other {}
-
-
-CGF:
-
-loader {
-    privatize add function - should not be called by anything other than itself.
-}

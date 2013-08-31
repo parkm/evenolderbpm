@@ -55,6 +55,13 @@ BPM.addAssets = function() {
     GUIAssets.buttonHover = Assets.add("buttonHover", "assets/button-hover.png");
     GUIAssets.buttonDown = Assets.add("buttonDown", "assets/button-down.png");
 
+    // Levels
+    var xml = Assets.loader.xml;
+    var url = "http://127.0.0.1:1337";
+    var path = "assets/levels/";
+    StateAssets.game = xml.load(url, path + "test-level.oel");
+    console.log(StateAssets.game);
+
 };
 
 BPM.init = function() {
