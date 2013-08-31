@@ -1,4 +1,5 @@
-function Utils() {}
+var Utils = {};
+
 Utils.drawText = function(gc, text, x, y, options) {
     if (options) {
         gc.fillStyle = options.fillStyle || "#FFFFFF";
@@ -46,5 +47,4 @@ Assets.get = function(id) {
         }
     }
 };
-
 

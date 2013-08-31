@@ -20,3 +20,10 @@ Obstacles {
 }
 
 Other {}
+
+
+CGF:
+
+loader {
+    privatize add function - should not be called by anything other than itself.
+}
