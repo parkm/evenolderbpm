@@ -64,8 +64,8 @@
         <RectColor A="255" R="0" G="255" B="255" />
       </ImageDefinition>
       <ValueDefinitions>
-        <ValueDefinition xsi:type="FloatValueDefinition" Name="speed" Default="-1" Min="-1" Max="100" Round="0.1" />
-        <ValueDefinition xsi:type="IntValueDefinition" Name="moveAngle" Default="-1" Min="-1" Max="360" ShowSlider="false" />
+        <ValueDefinition xsi:type="StringValueDefinition" Name="speed" Default="null" MaxChars="-1" MultiLine="false" />
+        <ValueDefinition xsi:type="StringValueDefinition" Name="moveAngle" Default="null" MaxChars="-1" MultiLine="false" />
         <ValueDefinition xsi:type="BoolValueDefinition" Name="iron" Default="false" />
         <ValueDefinition xsi:type="StringValueDefinition" Name="type" Default="goal" MaxChars="-1" MultiLine="false" />
         <ValueDefinition xsi:type="BoolValueDefinition" Name="randomPosition" Default="false" />

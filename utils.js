@@ -17,6 +17,14 @@ Utils.drawText = function(gc, text, x, y, options) {
     gc.fillText(text, x, y);
 };
 
+// Converts given string to Boolean
+Utils.stringToBool = function(string) {
+    switch (string.toLowerCase()) {
+        case "false": case "no": case "0": case "": return false;
+        default: return true;
+    }
+};
+
 /*
 ### Assets ###
 

@@ -36,17 +36,22 @@ State.create("game", function(data) {
         };
 
         // Load all bubbles from JSON state data if it exists.
-        if (base.data) {
-            var d = base.data;
-            if (d.bubbles && d.bubbles.Bubble) {
-                var bubbles = d.bubbles.Bubble;
-                for (var i = 0; i < bubbles.length; i += 1) {
-                    var bub = Bubble(+bubbles[i].x, +bubbles[i].y, bubbles[i].type);
-                    base.bubbles.push(bub);
+        if (base.data && (base.data.bubbles && base.data.bubbles.Bubble)) {
+            var bubbles = base.data.bubbles.Bubble;
+            for (var i = 0; i < bubbles.length; i += 1) {
+                var b = bubbles[i];
+                // Convert bool strings to Boolean
+                b.iron = Utils.stringToBool(b.iron);
+                b.randomPosition = Utils.stringToBool(b.randomPosition);
+                for (var j = 0; j < +b.count; j += 1) {
+                    if (b.randomPosition) {
+                        b.x = Math.random() * BPM.canvas.getWidth();
+                        b.y = Math.random() * BPM.canvas.getHeight();
+                    }
+                    base.bubbles.push(Bubble(+b.x, +b.y, b.type, {speed: +b.speed, angle: +b.moveAngle, iron: b.iron}));
                 }
             }
         }
-
     };
 
     base.update = function(delta) {
