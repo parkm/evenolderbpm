@@ -12,6 +12,7 @@ Pins {
 Bubbles {
     Add the rest of the bubble types.
     Add the rest of the attribute effects.
+    Add collisions with walls
 }
  
 States {}
