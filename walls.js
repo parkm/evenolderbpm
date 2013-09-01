@@ -1,4 +1,5 @@
 function Wall(options) {
+    options = options || {};
     var nineSlice = NineSlice(StateAssets.wall);
     nineSlice.topLeft = Rect(0, 0, 2, 2);
     nineSlice.top = Rect(2, 0, 28, 2);
