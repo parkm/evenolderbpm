@@ -3,8 +3,10 @@ StateAssets = {};
 
 /* GAME LEVELS */
 
-State.create("game", function() {
-    var base = State(); 
+State.create("game", function(data) {
+    var base = State();
+
+    base.data = data;
 
     base.bubbles = [];
     base.pins = [];
@@ -32,6 +34,19 @@ State.create("game", function() {
         base.backButton.onClick = function() {
             State.set("roundSelect");
         };
+
+        // Load all bubbles from JSON state data if it exists.
+        if (base.data) {
+            var d = base.data;
+            if (d.bubbles && d.bubbles.Bubble) {
+                var bubbles = d.bubbles.Bubble;
+                for (var i = 0; i < bubbles.length; i += 1) {
+                    var bub = Bubble(+bubbles[i].x, +bubbles[i].y, bubbles[i].type);
+                    base.bubbles.push(bub);
+                }
+            }
+        }
+
     };
 
     base.update = function(delta) {
@@ -114,6 +129,13 @@ State.create("game", function() {
     };
 
     return base;
+});
+
+State.create("xmlTest", function() {
+    var base = State.list["game"](StateAssets.testLevel);
+
+    return base;
+
 });
 
 State.create("dogpantzTest", function() {
