@@ -1,4 +1,4 @@
-function Wall() {
+function Wall(options) {
     var nineSlice = NineSlice(StateAssets.wall);
     nineSlice.topLeft = Rect(0, 0, 2, 2);
     nineSlice.top = Rect(2, 0, 28, 2);
@@ -12,8 +12,8 @@ function Wall() {
 
     return {
         type: "wall",
-        x: 0, y: 0,
-        width: 0, height: 0,
+        x: options.x || 0, y: options.y || 0,
+        width: options.width || 0, height: options.height || 0,
 
         onCollision: function(pin, pins) {
             
