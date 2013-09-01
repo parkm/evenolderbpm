@@ -43,9 +43,10 @@ State.create("game", function(data) {
                 var bubbles = d.bubbles.Bubble;
                 for (var i = 0; i < bubbles.length; i += 1) {
                     var b = bubbles[i];
-                    // Convert bool strings to Boolean
-                    b.iron = Utils.stringToBool(b.iron);
-                    b.randomPosition = Utils.stringToBool(b.randomPosition);
+                    // Convert bool strings to Boolean.
+                    // Must check type because the converted values get stored in base.data.
+                    if (typeof b.iron !== "boolean") b.iron = Utils.stringToBool(b.iron);
+                    if (typeof b.randomPosition !== "boolean") b.randomPosition = Utils.stringToBool(b.randomPosition);
                     for (var j = 0; j < +b.count; j += 1) {
                         if (b.randomPosition) {
                             b.x = Math.random() * BPM.canvas.getWidth();
@@ -56,6 +57,18 @@ State.create("game", function(data) {
                 }
             }
             // Walls
+            if (d.walls && d.walls.Wall) {
+                var walls = d.walls.Wall;
+                for (var i = 0; i < walls.length; i += 1) {
+                    var wall = walls[i];
+                    base.walls.push(Wall({
+                        x: +wall.x,
+                        y: +wall.y,
+                        width: +wall.width,
+                        height: +wall.height
+                    }));
+                }
+            }
         }
 
     };

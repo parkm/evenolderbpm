@@ -19,9 +19,14 @@ Utils.drawText = function(gc, text, x, y, options) {
 
 // Converts given string to Boolean
 Utils.stringToBool = function(string) {
-    switch (string.toLowerCase()) {
-        case "false": case "no": case "0": case "": return false;
-        default: return true;
+    if (typeof string === "string") {
+        switch (string.toLowerCase()) {
+            case "false": case "no": case "0": case "": return false;
+            default: return true;
+        }
+    } else {
+        console.error("Error: stringToBool conversion: typeof " + string + " !== \"string\"");
+        return string;
     }
 };
 
