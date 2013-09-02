@@ -127,6 +127,21 @@ Bubble.Base = function(_x, _y, _type, options) {
                     this.onCollision(args);
                 }           
             }
+
+            for (i in args.state.walls) {
+                var w = args.state.walls[i];
+
+                if (w.isColliding(this.x, this.y, this.width, this.height)) {
+
+                    if (w.isCollidingDirection("horizontal", this.x, this.width, this.speed)) {
+                        speedX = -speedX;
+                    }
+
+                    if (w.isCollidingDirection("vertical", this.y, this.height, this.speed)) {
+                        speedY = -speedY; 
+                    }
+                }
+            }
         },
 
         render: function(gc) {
