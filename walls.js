@@ -9,7 +9,8 @@ function Wall(options) {
     nineSlice.bottom = Rect(2, 30, 28, 2);
     nineSlice.bottomLeft = Rect(0, 30, 2, 2);
     nineSlice.left = Rect(0, 2, 2, 28);
-    nineSlice.center = Rect(2, 2, 28, 28);
+
+    var center = Rect(2, 2, 28, 28);
 
     return {
         type: "wall",
@@ -55,6 +56,19 @@ function Wall(options) {
         },
 
         render: function(gc) {
+            gc.save();
+            gc.beginPath();
+            gc.rect(this.x, this.y, this.width, this.height);
+            gc.clip();
+
+            for (var i=0; i<this.width/center.width; ++i) {
+                for (var j=0; j<this.height/center.height; ++j) {
+                    gc.drawImage(StateAssets.wall, center.x, center.y, center.width, center.height, this.x + i*center.width, this.y + j*center.height, center.width, center.height);
+                }
+            }
+
+            gc.restore();
+
             nineSlice.render(gc, this.x, this.y, this.width, this.height);
         },
     }
