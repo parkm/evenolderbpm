@@ -6,7 +6,7 @@
  * Base class for states. If you don't inherit from this class, make sure you structure it the same way.
  * Also base for Static State object.
  */
-function State(data) {
+function State() {
     return {
         paused: false,
         init: function() {

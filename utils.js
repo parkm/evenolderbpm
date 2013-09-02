@@ -61,3 +61,20 @@ Assets.get = function(id) {
     }
 };
 
+// Convenient wrapper to load JSON level data (from XML file)
+// and assign to an assetHolder object with given name
+Assets.addLevel = function(assetHolder, name, filepath) {
+    // Type checking
+    if (typeof name !== "string") {
+        console.error("Error adding level. Name of level data must be a string.");
+        return 0;
+    }
+    if (typeof assetHolder !== "object") {
+        console.error("Error adding level. Please specify an object to store level data.");
+        return 0;
+    }
+
+    Assets.loader.json(filepath, function(data) {
+        assetHolder[name] = data;
+    });
+};

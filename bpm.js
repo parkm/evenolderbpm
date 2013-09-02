@@ -56,10 +56,8 @@ BPM.addAssets = function() {
     GUIAssets.buttonDown = Assets.add("buttonDown", "assets/button-down.png");
 
     // Levels
-    var json = Assets.loader.json;
     var path = "assets/levels/";
-    json.load(path + "test-level.oel", function(data) { StateAssets.testLevel = data; console.log(StateAssets.testLevel); });
-
+    Assets.addLevel(StateAssets, "testLevel", path + "test-level.oel");
 };
 
 BPM.init = function() {
