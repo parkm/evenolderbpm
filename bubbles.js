@@ -140,6 +140,17 @@ Bubble.Base = function(_x, _y, _type, options) {
 
             gc.drawImage(BubbleAssets.glare, this.x, this.y);
 
+            if (iron) {
+                Utils.drawText(gc, "IRON", this.x + this.width/2, this.y, {
+                    font: "12px Arial",
+                    textAlign: "center",
+                    stroke: true,
+                    lineWidth: 1,
+                });
+                gc.fillStyle = "rgba(0, 0, 0, .10)"
+                gc.fillRect(this.x, this.y, this.width, this.height);
+            }
+
             if (ghost) {
                 gc.globalAlpha = 1;
             }
@@ -265,7 +276,7 @@ Bubble.Bad = function(base) {
 
 Bubble.Goal = function(base) {
     base.img = BubbleAssets.goal;
-    base.color = "rgba(224, 185, 90, .25)";
+    base.color = "rgba(255, 255, 0, .25)";
 
     return base;
 };
