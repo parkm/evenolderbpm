@@ -116,8 +116,6 @@ State.create("game", function(data) {
     base.render = function(gc) {
         gc.drawImage(StateAssets.background, 0, 0);
 
-        base.shooter.render(gc);
-
         for (i in base.walls) {
             base.walls[i].render(gc);
         }
@@ -150,6 +148,8 @@ State.create("game", function(data) {
         Utils.drawText(gc, "$" + BPM.cash, 0, BPM.canvas.getHeight()-100, formatting);
         Utils.drawText(gc, base.combo + " / " + base.comboGoal, 200, 0, formatting);
         Utils.drawText(gc, "x" + base.multiplier, 300, 0, formatting);
+
+        base.shooter.render(gc);
     };
 
     return base;
