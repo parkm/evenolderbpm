@@ -38,24 +38,6 @@ State.create("game", function(data) {
         /* Load all game objects from JSON state data if it exists. */
         if (base.data) {
             var d = base.data;
-            // Bubbles
-            if (d.bubbles && d.bubbles.Bubble) {
-                var bubbles = d.bubbles.Bubble;
-                for (var i = 0; i < bubbles.length; i += 1) {
-                    var b = bubbles[i];
-                    // Convert bool strings to Boolean.
-                    // Must check type because the converted values get stored in base.data.
-                    if (typeof b.iron !== "boolean") b.iron = Utils.stringToBool(b.iron);
-                    if (typeof b.randomPosition !== "boolean") b.randomPosition = Utils.stringToBool(b.randomPosition);
-                    for (var j = 0; j < +b.count; j += 1) {
-                        if (b.randomPosition) {
-                            b.x = Math.random() * BPM.canvas.getWidth();
-                            b.y = Math.random() * BPM.canvas.getHeight();
-                        }
-                        base.bubbles.push(Bubble(+b.x, +b.y, b.type, {speed: +b.speed, angle: +b.moveAngle, iron: b.iron}));
-                    }
-                }
-            }
             // Walls
             if (d.walls && d.walls.Wall) {
                 var walls = d.walls.Wall;
@@ -67,6 +49,37 @@ State.create("game", function(data) {
                         width: +wall.width,
                         height: +wall.height
                     }));
+                }
+            }
+
+            // Bubbles
+            if (d.bubbles && d.bubbles.Bubble) {
+                var bubbles = d.bubbles.Bubble;
+                for (var i = 0; i < bubbles.length; i += 1) {
+                    var b = bubbles[i];
+                    // Convert bool strings to Boolean.
+                    // Must check type because the converted values get stored in base.data.
+                    if (typeof b.iron !== "boolean") b.iron = Utils.stringToBool(b.iron);
+                    if (typeof b.randomPosition !== "boolean") b.randomPosition = Utils.stringToBool(b.randomPosition);
+                    for (var j = 0; j < +b.count; j += 1) {
+                        var bInstance = Bubble(+b.x, +b.y, b.type, {speed: +b.speed, angle: +b.moveAngle, iron: b.iron});
+
+                        if (b.randomPosition) {
+                            bInstance.x = Math.random() * BPM.canvas.getWidth();
+                            bInstance.y = Math.random() * BPM.canvas.getHeight();
+
+                            //Check if bubble is in a wall. If it is then randomize the position and then check again.
+                            //This is a bit shoddy and needs some work. Most of the bubbles avoid walls but some are still there.
+                            for (k in base.walls) {
+                                while (base.walls[k].isColliding(bInstance.x, bInstance.y, bInstance.width, bInstance.height)) {
+                                    bInstance.x = Math.random() * BPM.canvas.getWidth();
+                                    bInstance.y = Math.random() * BPM.canvas.getHeight();
+                                }
+                            }
+                        }
+
+                        base.bubbles.push(bInstance);
+                    }
                 }
             }
         }
