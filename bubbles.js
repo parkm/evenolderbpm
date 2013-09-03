@@ -233,7 +233,7 @@ function Explosion(x, y, pin) {
                 if (bubble.isColliding(this.anim.x, this.anim.y, this.width, this.height)) {
                     args.pin = this.pin;
                     bubble.onPop(args);
-                }
+                } 
             }
         },
 
@@ -372,15 +372,37 @@ Bubble.Bomb = function(base) {
     base.img = BubbleAssets.bomb;
     base.color = "rgba(0, 0, 0, .25)";
 
+    base.exploded = false;
+    base.explosionTimer = 0;
+    base.explosionDelay = 0.5;
+
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        var expl = Explosion(this.x, this.y, args.pin);
-        expl.init();
+        if (!base.exploded) {
+            var expl = Explosion(this.x, this.y, args.pin);
+            expl.init();
 
-        args.state.objects.push(expl);
+            args.state.objects.push(expl);
+
+            base.exploded = true;
+        }
 
         superOnPop.call(base, args);
     }; 
+
+    var superUpdate = base.update;
+    base.update = function(args) {
+        superUpdate.call(base, args);
+
+        if (base.exploded) {
+            base.explosionTimer += args.delta;
+
+            if (base.explosionTimer >= base.explosionDelay * 1000) {
+                base.exploded = false;
+                base.explosionTimer = 0;
+            }
+        }
+    };
 
     return base;
 };
