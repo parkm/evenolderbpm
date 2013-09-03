@@ -5,7 +5,6 @@ assets/bubbles/*.*
 # Ignore everything in include
 include/*.*
 include/cgf/*
-include/*/*
 
 # Ignore all archives
 *.7z

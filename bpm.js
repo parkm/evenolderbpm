@@ -56,7 +56,7 @@ BPM.addAssets = function() {
     GUIAssets.buttonDown = Assets.add("buttonDown", "assets/button-down.png");
 
     // Levels
-    var path = "assets/levels/";
+    var path = "include/levels/";
     Assets.addLevel(StateAssets, "testLevel", path + "test-level.oel");
 };
 
