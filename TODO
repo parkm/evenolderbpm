@@ -18,3 +18,11 @@ States {}
 Other {
     Implement original gameplay for the 'Classic' game mode. (Might wanna do this after upgrade ui is finished)
 }
+
+# Ideas:
+
+State.addRound {
+    Put all of the xml loading code that's currently in State.create("game",...) in it's inner State.create callback.
+        Pros: This would simplify the game parent state. The better abstraction would be useful when constructing new stuff in the round.
+        Cons: the only way to create a level from editor data would be to use State.addRound.
+}
