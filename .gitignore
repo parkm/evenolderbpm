@@ -3,8 +3,9 @@ assets/*.*
 assets/bubbles/*.*
 
 # Ignore everything in include
-include/*.*
 include/cgf/*
+include/.gitignore
+include/example
 
 # Ignore all archives
 *.7z
