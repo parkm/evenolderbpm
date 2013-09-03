@@ -1,8 +1,27 @@
 // Holds references to all State assets
 StateAssets = {};
 
+
+// Creates rounds by inheriting from Game state.
+// name - name of round
+// data - optional; level data. Defaults to StateAssets[name]
+State.addRound = function(name, data) {
+    if (typeof name !== "string") {
+        console.error("Error @ State.addRound: param 'name' must be a string.");
+        return;
+    }
+    data = data || (StateAssets && StateAssets[name]);
+    State.create(name, function() {
+        var base = State.list["game"](data);
+
+        return base;
+    });
+};
+
+
 /* GAME LEVELS */
 
+// Main Game state from which all other game states will inherit.
 State.create("game", function(data) {
     var base = State();
 
