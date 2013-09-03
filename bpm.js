@@ -16,7 +16,7 @@ function BPM(canvasID) {
         BPM.mouse.attach(BPM.canvas.getElement());
         BPM.keyboard.attach(BPM.canvas.getElement());
 
-        BPM.addAssets();
+        Assets();
 
         Assets.loader.load(BPM.init);
     });
@@ -26,39 +26,6 @@ BPM.mouse = Mouse();
 BPM.keyboard = Keyboard();
 
 BPM.cash = 100000;
-
-BPM.addAssets = function() {
-    // Pin Assets
-    PinAssets.arrow = Assets.add("arrow", "assets/arrow.png");
-    PinAssets.pin = Assets.add("pin", "assets/pin.png");
-
-    // Bubble Assets
-    BubbleAssets.explode = Assets.add("explosion", "assets/explode-124x150-strip23.png");
-    BubbleAssets.pop = Assets.add("pop", "assets/bubbles/pop-90x100-strip7.png");
-    BubbleAssets.glare = Assets.add("bubbleGlare", "assets/bubbles/bubble-glare.png");
-
-    BubbleAssets.score = Assets.add("bubbleScore", "assets/bubbles/bubble.png");
-    BubbleAssets.bad = Assets.add("bubbleBad", "assets/bubbles/bubble.png");
-    BubbleAssets.goal = Assets.add("bubbleGoal", "assets/bubbles/bubble.png");
-    BubbleAssets.double = Assets.add("bubbleDouble", "assets/bubbles/bubble.png");
-    BubbleAssets.reflect = Assets.add("bubbleReflect", "assets/bubbles/bubble.png");
-    BubbleAssets.combo = Assets.add("bubbleCombo", "assets/bubbles/bubble.png");
-    BubbleAssets.ammo = Assets.add("bubbleAmmo", "assets/bubbles/bubble.png");
-    BubbleAssets.bomb = Assets.add("bubbleBomb", "assets/bubbles/bubble.png");
-
-    // State Assets
-    StateAssets.background = Assets.add("background", "assets/blue-background.jpg");
-    StateAssets.wall = Assets.add("wall", "assets/wall.png");
-
-    // GUI Assets
-    GUIAssets.buttonUp = Assets.add("buttonUp", "assets/button-up.png");
-    GUIAssets.buttonHover = Assets.add("buttonHover", "assets/button-hover.png");
-    GUIAssets.buttonDown = Assets.add("buttonDown", "assets/button-down.png");
-
-    // Levels
-    var path = "include/levels/";
-    Assets.addLevel(StateAssets, "testLevel", path + "test-level.oel");
-};
 
 BPM.init = function() {
     State.set("roundSelect");
@@ -85,3 +52,92 @@ BPM.render = function() {
         lineWidth: 3
     });
 };
+
+
+
+/*
+### Assets ###
+
+Global object that handles the process of loading and obtaining assets.
+
+*/
+
+function Assets() {
+    path = {
+        levels: "include/levels/",
+        assets: "assets/",
+        bubbles: "assets/bubbles/"
+    };
+
+    // Pin Assets
+    PinAssets.arrow = Assets.add("arrow", path.assets + "arrow.png");
+    PinAssets.pin = Assets.add("pin", path.assets + "pin.png");
+
+    // Bubble Assets
+    BubbleAssets.explode = Assets.add("explosion", path.assets + "explode-124x150-strip23.png");
+    BubbleAssets.pop = Assets.add("pop", path.bubbles + "pop-90x100-strip7.png");
+    BubbleAssets.glare = Assets.add("bubbleGlare", path.bubbles + "bubble-glare.png");
+
+    BubbleAssets.score = Assets.add("bubbleScore", path.bubbles + "bubble.png");
+    BubbleAssets.bad = Assets.add("bubbleBad", path.bubbles + "bubble.png");
+    BubbleAssets.goal = Assets.add("bubbleGoal", path.bubbles + "bubble.png");
+    BubbleAssets.double = Assets.add("bubbleDouble", path.bubbles + "bubble.png");
+    BubbleAssets.reflect = Assets.add("bubbleReflect", path.bubbles + "bubble.png");
+    BubbleAssets.combo = Assets.add("bubbleCombo", path.bubbles + "bubble.png");
+    BubbleAssets.ammo = Assets.add("bubbleAmmo", path.bubbles + "bubble.png");
+    BubbleAssets.bomb = Assets.add("bubbleBomb", path.bubbles + "bubble.png");
+
+    // State Assets
+    StateAssets.background = Assets.add("background", path.assets + "blue-background.jpg");
+    StateAssets.wall = Assets.add("wall", path.assets + "wall.png");
+
+    // GUI Assets
+    GUIAssets.buttonUp = Assets.add("buttonUp", path.assets + "button-up.png");
+    GUIAssets.buttonHover = Assets.add("buttonHover", path.assets + "button-hover.png");
+    GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
+
+    // Levels
+    Assets.addLevel(StateAssets, "testLevel", path.levels + "test-level.oel");
+}
+
+
+Assets.list = [];
+Assets.loader = Loader();
+
+// Add to asset list, return added image
+Assets.add = function(_id, assetName) {
+    Assets.list.push({
+        id: _id,
+        image: Assets.loader.image(assetName),
+    });
+
+    var len = Assets.list.length - 1;
+    return Assets.list[len].image;
+};
+
+Assets.get = function(id) {
+    for (i in Assets.list) {
+        if (Assets.list[i].id === id) {
+            return Assets.list[i].image;
+        }
+    }
+};
+
+// Convenient wrapper to load JSON level data (from XML file)
+// and assign to an assetHolder object with given name
+Assets.addLevel = function(assetHolder, name, filepath) {
+    // Type checking
+    if (typeof name !== "string") {
+        console.error("Error adding level. Name of level data must be a string.");
+        return 0;
+    }
+    if (typeof assetHolder !== "object") {
+        console.error("Error adding level. Please specify an object to store level data.");
+        return 0;
+    }
+
+    Assets.loader.json(filepath, function(data) {
+        assetHolder[name] = data;
+    });
+};
+
