@@ -65,17 +65,21 @@ State.create("game", function(data) {
                         var bInstance = Bubble(+b.x, +b.y, b.type, {speed: +b.speed, angle: +b.moveAngle, iron: b.iron});
 
                         if (b.randomPosition) {
-                            bInstance.x = Math.random() * BPM.canvas.getWidth();
-                            bInstance.y = Math.random() * BPM.canvas.getHeight();
+                            var isColliding;
 
-                            //Check if bubble is in a wall. If it is then randomize the position and then check again.
-                            //This is a bit shoddy and needs some work. Most of the bubbles avoid walls but some are still there.
-                            for (k in base.walls) {
-                                while (base.walls[k].isColliding(bInstance.x, bInstance.y, bInstance.width, bInstance.height)) {
-                                    bInstance.x = Math.random() * BPM.canvas.getWidth();
-                                    bInstance.y = Math.random() * BPM.canvas.getHeight();
-                                }
-                            }
+                            //Checks if the newest random position is colliding with any of the walls.
+                            do {
+                                isColliding = false;
+
+                                bInstance.x = Math.random() * BPM.canvas.getWidth();
+                                bInstance.y = Math.random() * BPM.canvas.getHeight();
+
+                                for (k in base.walls) {
+                                    if (base.walls[k].isColliding(bInstance.x, bInstance.y, bInstance.width, bInstance.height)) {
+                                        isColliding = true;
+                                    }
+                                }       
+                            } while (isColliding);
                         }
 
                         base.bubbles.push(bInstance);

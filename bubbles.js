@@ -132,7 +132,6 @@ Bubble.Base = function(_x, _y, _type, options) {
                 var w = args.state.walls[i];
 
                 if (w.isColliding(this.x, this.y, this.width, this.height)) {
-
                     if (w.isCollidingDirection("horizontal", this.x, this.width, this.speed)) {
                         speedX = -speedX;
                     }
