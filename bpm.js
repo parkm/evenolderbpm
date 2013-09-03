@@ -16,9 +16,7 @@ function BPM(canvasID) {
         BPM.mouse.attach(BPM.canvas.getElement());
         BPM.keyboard.attach(BPM.canvas.getElement());
 
-        Assets();
-
-        Assets.loader.load(BPM.init);
+        Assets().load(BPM.init);
     });
 }
 
@@ -98,6 +96,9 @@ function Assets() {
 
     // Levels
     Assets.addLevel(StateAssets, "testLevel", path.levels + "test-level.oel");
+    
+    // Returning self to cascade.
+    return Assets;
 }
 
 
@@ -123,17 +124,21 @@ Assets.get = function(id) {
     }
 };
 
+Assets.load = function(callback) {
+    Assets.loader.load(callback);
+};
+
 // Convenient wrapper to load JSON level data (from XML file)
 // and assign to an assetHolder object with given name
 Assets.addLevel = function(assetHolder, name, filepath) {
     // Type checking
     if (typeof name !== "string") {
-        console.error("Error adding level. Name of level data must be a string.");
-        return 0;
+        console.error("Error @ Assets.addLevel: Name of level data must be a string.");
+        return;
     }
     if (typeof assetHolder !== "object") {
-        console.error("Error adding level. Please specify an object to store level data.");
-        return 0;
+        console.error("Error @ Assets.addLevel: Please specify an object to store level data.");
+        return;
     }
 
     Assets.loader.json(filepath, function(data) {
