@@ -56,32 +56,28 @@ State.create("game", function(data) {
 
         /* Load all game objects from JSON state data if it exists. */
         if (base.data) {
-            var d = base.data;
+            var data = base.data;
             // Walls
-            if (d.walls && d.walls.Wall) {
-                var walls = d.walls.Wall;
+            if (data.walls) {
+                var walls = data.walls;
                 for (var i = 0; i < walls.length; i += 1) {
                     var wall = walls[i];
                     base.walls.push(Wall({
-                        x: +wall.x,
-                        y: +wall.y,
-                        width: +wall.width,
-                        height: +wall.height
+                        x: wall.x,
+                        y: wall.y,
+                        width: wall.width,
+                        height: wall.height
                     }));
                 }
             }
 
             // Bubbles
-            if (d.bubbles && d.bubbles.Bubble) {
-                var bubbles = d.bubbles.Bubble;
+            if (data.bubbles) {
+                var bubbles = data.bubbles;
                 for (var i = 0; i < bubbles.length; i += 1) {
                     var b = bubbles[i];
-                    // Convert bool strings to Boolean.
-                    // Must check type because the converted values get stored in base.data.
-                    if (typeof b.iron !== "boolean") b.iron = Utils.stringToBool(b.iron);
-                    if (typeof b.randomPosition !== "boolean") b.randomPosition = Utils.stringToBool(b.randomPosition);
-                    for (var j = 0; j < +b.count; j += 1) {
-                        var bInstance = Bubble(+b.x, +b.y, b.type, {speed: +b.speed, angle: +b.moveAngle, iron: b.iron});
+                    for (var j = 0; j < b.count; j += 1) {
+                        var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron});
 
                         if (b.randomPosition) {
                             var isColliding;
