@@ -263,11 +263,11 @@ State.create("mainMenu", function() {
         }});
 
         timeTrialButton = GUIButton("Time Trial", {dynamic: false});
-        gambleButton = GUIButton("Gamble", {dynamic: false});
+        classicButton = GUIButton("Classic", {dynamic: false});
 
         buttons.push(startGameButton);
         buttons.push(timeTrialButton);
-        buttons.push(gambleButton);
+        buttons.push(classicButton);
     };
 
     base.update = function(delta) {

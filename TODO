@@ -11,13 +11,10 @@ Pins {
 Bubbles {
     Add the rest of the bubble types.
     Add the rest of the attribute effects.
-    Make the inside wall check for randomized bubbles better.
 }
  
 States {}
 
-Obstacles {
-    Other obstacles?
+Other {
+    Implement original gameplay for the 'Classic' game mode. (Might wanna do this after upgrade ui is finished)
 }
-
-Other {}
