@@ -67,7 +67,7 @@ State.create("game", function(data) {
                         if (b.randomPosition) {
                             var isColliding;
 
-                            //Checks if the newest random position is colliding with any of the walls.
+                            //Checks if the newest random position is colliding with any of the walls. If so continue the loop until that is false.
                             do {
                                 isColliding = false;
 
