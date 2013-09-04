@@ -20,12 +20,18 @@ function BPM(canvasID) {
     });
 }
 
+// For debugging
+BPM.dbg = true;
+
 BPM.mouse = Mouse();
 BPM.keyboard = Keyboard();
 
 BPM.cash = 100000;
 
 BPM.init = function() {
+    if (BPM.dbg) {
+        console.log("BPM Initialized");
+    }
     BPMStates();
     State.set("roundSelect");
     Loop.run();
