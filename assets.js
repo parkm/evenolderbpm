@@ -42,7 +42,7 @@ function Assets() {
     // Levels
     Assets.addLevel(StateAssets, "testLevel", path.levels + "test-level.oel");
     //Assets.addLevel(StateAssets, "testLevelJSON", path.levels + "test-level.json");
-    
+
     // Returning self to cascade.
     return Assets;
 }
@@ -91,45 +91,61 @@ Assets.addLevel = function(assetHolder, name, filepath) {
     var parseData = function(data, editor) {
         if (typeof editor === "string") {
             editor = editor.toLowerCase();
-            switch(editor) {
-                case "ogmo":
-                    data.walls = data.walls.Wall;
-                    for (var i = 0; i < data.walls.length; i++) {
-                        var wall = data.walls[i];
-                        wall.x = +wall.x;
-                        wall.y = +wall.y;
-                        wall.height = +wall.height;
-                        wall.width = +wall.width;
+            if (editor === "ogmo") {
+                //console.log("case ogmo" + filepath + " " + editor);
+                //console.log(data);
+                data.walls = data.walls.Wall;
+                data.bubbles = data.bubbles.Bubble;
+                // Convert data
+                for (var i = 0; i < data.walls.length; i++) {
+                    var wall = data.walls[i];
+                    wall.x = +wall.x;
+                    wall.y = +wall.y;
+                    wall.height = +wall.height;
+                    wall.width = +wall.width;
+                }
+                for (var i = 0; i < data.bubbles.length; i++) {
+                    var bubble = data.bubbles[i];
+                    bubble.angle = +bubble.moveAngle;
+                    bubble.x = +bubble.x;
+                    bubble.y = +bubble.y;
+                    bubble.count = +bubble.count;
+                    bubble.speed = +bubble.speed;
+                    bubble.iron = bubble.iron && Utils.stringToBool(bubble.iron);
+                    bubble.randomPosition = bubble.randomPosition && Utils.stringToBool(bubble.randomPosition);
+                }
+            } else if (editor === "tiled") {
+                //console.log("case tiled " + filepath + " " + editor);
+                //console.log(data);
+                /*
+                if (!(data.layers && data.layers.length)) return;
+                for (var i = 0; i < data.layers.length; i++) {
+                    if (data.layers[i].name === "walls") {
+                        data.walls = data.layers[i].objects;
+                    } else if (data.layers[i].name === "bubbles") {
+                        data.bubbles = data.layers[i].objects;
                     }
-                    data.bubbles = data.bubbles.Bubble;
-                    for (var i = 0; i < data.bubbles.length; i++) {
-                        var bubble = data.bubbles[i];
-                        bubble.angle = +bubble.moveAngle;
-                        bubble.x = +bubble.x;
-                        bubble.y = +bubble.y;
-                        bubble.count = +bubble.count;
-                        bubble.speed = +bubble.speed;
-                        bubble.iron = Utils.stringToBool(bubble.iron);
-                        bubble.randomPosition = Utils.stringToBool(bubble.randomPosition);
-                    }
-
-                    break;
-
-                case "tiled":
-
-                    break;
+                }
+                
+                for (var i = 0; i < data.bubbles.length; i++) {
+                    var bubble = data.bubbles[i];
+                    bubble.speed = bubble.properties.speed;
+                    bubble.angle = bubble.properties.angle;
+                } */
             }
-
         }
         return data;
     };
 
     var loadType = function(type, editor) {
+        if (typeof Assets.loader[type] !== "function") {
+            console.error("Error loading level data type '" + type + "': Unsupported type");
+            return;
+        }
         Assets.loader[type](filepath, function(data) {
             assetHolder[name] = parseData(data, editor);
         });
     };
-
 
     if (filepath.slice(-4) === "json") {
         loadType("json", "tiled");

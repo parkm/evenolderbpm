@@ -78,12 +78,13 @@
                 {
                  "ellipse":true,
                  "height":34,
-                 "name":"random",
+                 "name":"random score",
                  "properties":
                     {
-                     "count":"20"
+                     "count":"20",
+                     "randomPosition":"true"
                     },
-                 "type":"score, bad",
+                 "type":"score",
                  "visible":true,
                  "width":113,
                  "x":7,
@@ -271,6 +272,21 @@
                  "width":0,
                  "x":544,
                  "y":512
+                }, 
+                {
+                 "ellipse":true,
+                 "height":34,
+                 "name":"random bad",
+                 "properties":
+                    {
+                     "count":"20",
+                     "randomPosition":"true"
+                    },
+                 "type":"bad",
+                 "visible":true,
+                 "width":113,
+                 "x":159,
+                 "y":564
                 }],
          "opacity":1,
          "type":"objectgroup",

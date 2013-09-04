@@ -26,6 +26,7 @@ BPM.keyboard = Keyboard();
 BPM.cash = 100000;
 
 BPM.init = function() {
+    BPMStates();
     State.set("roundSelect");
     Loop.run();
 };
