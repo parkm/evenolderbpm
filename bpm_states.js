@@ -309,6 +309,24 @@ State.create("roundSelect", function() {
 
     var stageScrollField = ScrollField();
 
+    var floatText = [];
+
+    var addFloatText = function(text, x, y) {
+        var ft = FloatText(text, x, y, {
+            fillStyle: "#FFFFFF",
+            strokeStyle: "#000000",
+            stroke: true,
+            lineWidth: 4,
+            font: "24px Arial",
+        });
+
+        ft.onDeath = function(args) {
+            floatText.splice(floatText.indexOf(ft), 1);
+        };
+
+        floatText.push(ft);
+    };
+
     var addStage = function(_id, _name, _color) {
         stages.push({
             id: _id,
@@ -370,8 +388,21 @@ State.create("roundSelect", function() {
             }
         });
 
-        saveButton = GUIButton("Save Game", {dynamic: false});
-        resetButton = GUIButton("Reset Data", {dynamic: false});
+        saveButton = GUIButton("Save Game", {
+            dynamic: false,
+            onClick: function() {
+                BPM.saveData();
+                addFloatText("Game saved", saveButton.x + saveButton.width, saveButton.y);
+            }
+        });
+
+        resetButton = GUIButton("Reset Data", {
+            dynamic: false,
+            onClick: function() {
+                BPM.clearData();
+                addFloatText("Game data has reset", resetButton.x + resetButton.width, resetButton.y);
+            }
+        });
 
         upgradeButton = GUIButton("Upgrades", {
             dynamic: false,
@@ -483,6 +514,10 @@ State.create("roundSelect", function() {
         };
 
         stageScrollField.update();
+
+        for (i in floatText) {
+            floatText[i].update({delta: delta, state: base});
+        }
     };
 
     base.render = function(gc) {
@@ -511,6 +546,9 @@ State.create("roundSelect", function() {
 
         stageScrollField.stopClipping(gc);
 
+        for (i in floatText) {
+            floatText[i].render(gc);
+        }
     };
 
     return base;
