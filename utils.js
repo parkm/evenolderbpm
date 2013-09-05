@@ -30,6 +30,21 @@ Utils.stringToBool = function(string) {
     }
 };
 
+Utils.saveData = function() {
+    $.cookie("cash", BPM.cash, {expires: 365});
+};
+
+Utils.loadData = function() {
+    var cash = parseInt($.cookie("cash"));
+    if (cash) {
+        BPM.cash = cash;
+    }
+};
+
+Utils.clearData = function() {
+    BPM.cash = 10000;
+};
+
 /*
 ### Assets ###
 

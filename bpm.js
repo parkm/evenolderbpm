@@ -61,7 +61,7 @@ BPM.addAssets = function() {
 };
 
 BPM.init = function() {
-    BPM.loadData();
+    Utils.loadData();
     State.set("roundSelect");
     Loop.run();
 };
@@ -85,19 +85,4 @@ BPM.render = function() {
         stroke: true,
         lineWidth: 3
     });
-};
-
-BPM.saveData = function() {
-    $.cookie("cash", BPM.cash, {expires: 365});
-};
-
-BPM.loadData = function() {
-    var cash = parseInt($.cookie("cash"));
-    if (cash) {
-        BPM.cash = cash;
-    }
-};
-
-BPM.clearData = function() {
-    BPM.cash = 10000;
 };

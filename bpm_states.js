@@ -391,7 +391,7 @@ State.create("roundSelect", function() {
         saveButton = GUIButton("Save Game", {
             dynamic: false,
             onClick: function() {
-                BPM.saveData();
+                Utils.saveData();
                 addFloatText("Game saved", saveButton.x + saveButton.width, saveButton.y);
             }
         });
@@ -399,7 +399,7 @@ State.create("roundSelect", function() {
         resetButton = GUIButton("Reset Data", {
             dynamic: false,
             onClick: function() {
-                BPM.clearData();
+                Utils.clearData();
                 addFloatText("Game data has reset", resetButton.x + resetButton.width, resetButton.y);
             }
         });
