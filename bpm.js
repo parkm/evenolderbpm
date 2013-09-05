@@ -92,8 +92,10 @@ BPM.saveData = function() {
 };
 
 BPM.loadData = function() {
-    console.log($.cookie("cash"));
-    BPM.cash = parseInt($.cookie("cash"));
+    var cash = parseInt($.cookie("cash"));
+    if (cash) {
+        BPM.cash = cash;
+    }
 };
 
 BPM.clearData = function() {
