@@ -184,6 +184,10 @@ State.create("classicRound", function() {
                 base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
             }
         }
+
+        base.backButton.onClick = function() {
+            State.set("classicRoundSelect");
+        };
     };
 
     return base;
@@ -602,8 +606,16 @@ State.create("roundSelect", function() {
 State.create("classicRoundSelect", function() {
     var base = BaseRoundSelection();
 
+    var gotoRoundButton;
+
     base.init = function() {
         base.createButtons();
+
+        gotoRoundButton = GUIButton("Next Round", {
+            onClick: function() {
+                State.set("classicRound");
+            }
+        });
 
         base.upgradeButton.onClick = function() {
             base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
@@ -612,6 +624,10 @@ State.create("classicRoundSelect", function() {
 
     base.update = function(delta) {
         base.updateButtons();
+        gotoRoundButton.update(BPM.mouse);
+
+        gotoRoundButton.x = BPM.canvas.getWidth()/2 - gotoRoundButton.postWidth/2;
+        gotoRoundButton.y = BPM.canvas.getHeight() - gotoRoundButton.postHeight;
 
         for (i in base.floatText) {
             base.floatText[i].update({delta: delta, state: base});
@@ -619,7 +635,11 @@ State.create("classicRoundSelect", function() {
     };
 
     base.render = function(gc) {
+        gc.drawImage(StateAssets.background, 0, 0);
+
         base.renderButtons(gc);
+
+        gotoRoundButton.render(gc);
 
         for (i in base.floatText) {
             base.floatText[i].render(gc);
