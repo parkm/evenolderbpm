@@ -172,11 +172,27 @@ State.create("game", function(data) {
     return base;
 });
 
+State.create("classicRound", function() {
+    var base = State.list["game"]();
+
+    var superInit = base.init;
+    base.init = function() {
+        superInit.call(base);
+
+        for (i in Bubble) {
+            for (j=0; j<10; ++j) {
+                base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
+            }
+        }
+    };
+
+    return base;
+});
+
 State.create("xmlTest", function() {
     var base = State.list["game"](StateAssets.testLevel);
 
     return base;
-
 });
 
 State.create("dogpantzTest", function() {
