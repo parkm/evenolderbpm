@@ -263,8 +263,32 @@ State.create("donkeyTest", function() {
 
 /* MENUS */
 
-State.create("mainMenu", function() {
+function BaseMenu() {
     var base = State();
+
+    base.floatText = [];
+
+    base.addFloatText = function(text, x, y) {
+        var ft = FloatText(text, x, y, {
+            fillStyle: "#FFFFFF",
+            strokeStyle: "#000000",
+            stroke: true,
+            lineWidth: 4,
+            font: "24px Arial",
+        });
+
+        ft.onDeath = function(args) {
+            base.floatText.splice(base.floatText.indexOf(ft), 1);
+        };
+
+        base.floatText.push(ft);
+    };
+
+    return base;
+}
+
+State.create("mainMenu", function() {
+    var base = BaseMenu();
 
     var buttons = [];
 
@@ -313,7 +337,7 @@ State.create("mainMenu", function() {
 });
 
 State.create("roundSelect", function() {
-    var base = State();
+    var base = BaseMenu();
 
     var buttons = [];
 
@@ -324,24 +348,6 @@ State.create("roundSelect", function() {
     var stages = [];
 
     var stageScrollField = ScrollField();
-
-    var floatText = [];
-
-    var addFloatText = function(text, x, y) {
-        var ft = FloatText(text, x, y, {
-            fillStyle: "#FFFFFF",
-            strokeStyle: "#000000",
-            stroke: true,
-            lineWidth: 4,
-            font: "24px Arial",
-        });
-
-        ft.onDeath = function(args) {
-            floatText.splice(floatText.indexOf(ft), 1);
-        };
-
-        floatText.push(ft);
-    };
 
     var addStage = function(_id, _name, _color) {
         stages.push({
@@ -408,7 +414,7 @@ State.create("roundSelect", function() {
             dynamic: false,
             onClick: function() {
                 Utils.saveData();
-                addFloatText("Game saved", saveButton.x + saveButton.width, saveButton.y);
+                base.addFloatText("Game saved", saveButton.x + saveButton.width, saveButton.y);
             }
         });
 
@@ -416,7 +422,7 @@ State.create("roundSelect", function() {
             dynamic: false,
             onClick: function() {
                 Utils.clearData();
-                addFloatText("Game data has reset", resetButton.x + resetButton.width, resetButton.y);
+                base.addFloatText("Game data has reset", resetButton.x + resetButton.width, resetButton.y);
             }
         });
 
@@ -531,8 +537,8 @@ State.create("roundSelect", function() {
 
         stageScrollField.update();
 
-        for (i in floatText) {
-            floatText[i].update({delta: delta, state: base});
+        for (i in base.floatText) {
+            base.floatText[i].update({delta: delta, state: base});
         }
     };
 
@@ -562,24 +568,28 @@ State.create("roundSelect", function() {
 
         stageScrollField.stopClipping(gc);
 
-        for (i in floatText) {
-            floatText[i].render(gc);
+        for (i in base.floatText) {
+            base.floatText[i].render(gc);
         }
     };
 
     return base;
 });
 
-State.create("upgrades", function() {
+State.create("classicRoundSelect", function() {
     var base = State();
+
+    return base;
+});
+
+State.create("upgrades", function() {
+    var base = BaseMenu();
 
     var backButton, purchaseButton;
 
     var dividers = [];
 
     var activeUpgrade = null;
-
-    var floatText = [];
 
     var addDivider = function(_id, _name, _updates) {
         dividers.push({
@@ -614,22 +624,6 @@ State.create("upgrades", function() {
         }
     };
 
-    var addFloatText = function(text, x, y) {
-        var ft = FloatText(text, x, y, {
-            fillStyle: "#FFFFFF",
-            strokeStyle: "#000000",
-            stroke: true,
-            lineWidth: 4,
-            font: "24px Arial",
-        });
-
-        ft.onDeath = function(args) {
-            floatText.splice(floatText.indexOf(ft), 1);
-        };
-
-        floatText.push(ft);
-    };
-
     base.init = function() {
         backButton = GUIButton("Back", {
             onClick: function() {
@@ -645,10 +639,10 @@ State.create("upgrades", function() {
                             BPM.cash -= activeUpgrade.price;
                             activeUpgrade.onPurchase();
                         } else {
-                            addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
+                            base.addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
                         }
                     } else {
-                        addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
+                        base.addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
                     }
                 }
             }
@@ -691,8 +685,8 @@ State.create("upgrades", function() {
             }
         }
 
-        for (i in floatText) {
-            floatText[i].update({delta: delta, state: base});
+        for (i in base.floatText) {
+            base.floatText[i].update({delta: delta, state: base});
         }
     };
 
@@ -747,8 +741,8 @@ State.create("upgrades", function() {
 
         Utils.drawText(gc, "$" + BPM.cash, 150, BPM.canvas.getHeight() - 26, formatting);
 
-        for (i in floatText) {
-            floatText[i].render(gc);
+        for (i in base.floatText) {
+            base.floatText[i].render(gc);
         }
     };
 
