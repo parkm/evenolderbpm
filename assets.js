@@ -40,8 +40,8 @@ function Assets() {
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
     // Levels
+    Assets.addLevel(StateAssets, "testLevelJSON", path.levels + "test-level.json");
     Assets.addLevel(StateAssets, "testLevel", path.levels + "test-level.oel");
-    //Assets.addLevel(StateAssets, "testLevelJSON", path.levels + "test-level.json");
 
     // Returning self to cascade.
     return Assets;
@@ -92,8 +92,6 @@ Assets.addLevel = function(assetHolder, name, filepath) {
         if (typeof editor === "string") {
             editor = editor.toLowerCase();
             if (editor === "ogmo") {
-                //console.log("case ogmo" + filepath + " " + editor);
-                //console.log(data);
                 data.walls = data.walls.Wall;
                 data.bubbles = data.bubbles.Bubble;
                 // Convert data
@@ -115,9 +113,6 @@ Assets.addLevel = function(assetHolder, name, filepath) {
                     bubble.randomPosition = bubble.randomPosition && Utils.stringToBool(bubble.randomPosition);
                 }
             } else if (editor === "tiled") {
-                //console.log("case tiled " + filepath + " " + editor);
-                //console.log(data);
-                /*
                 if (!(data.layers && data.layers.length)) return;
                 for (var i = 0; i < data.layers.length; i++) {
                     if (data.layers[i].name === "walls") {
@@ -131,7 +126,7 @@ Assets.addLevel = function(assetHolder, name, filepath) {
                     var bubble = data.bubbles[i];
                     bubble.speed = bubble.properties.speed;
                     bubble.angle = bubble.properties.angle;
-                } */
+                }
             }
         }
         return data;
@@ -144,6 +139,7 @@ Assets.addLevel = function(assetHolder, name, filepath) {
         }
         Assets.loader[type](filepath, function(data) {
             assetHolder[name] = parseData(data, editor);
+            console.log(StateAssets);
         });
     };
 

@@ -31,6 +31,7 @@ BPM.cash = 100000;
 BPM.init = function() {
     if (BPM.dbg) {
         console.log("BPM Initialized");
+        console.log(StateAssets);
     }
     BPMStates();
     BPM.loadData();

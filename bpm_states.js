@@ -190,7 +190,7 @@ function BPMStates() {
     };
 
     State.addRound("testLevelJSON");
-    State.addRound("xmlTest", StateAssets.testLevel);
+    State.addRound("testLevel");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
