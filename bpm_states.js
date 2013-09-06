@@ -19,6 +19,8 @@ State.create("game", function(data) {
     base.combo = 0; 
     base.comboGoal = 4; //The amount of bubbles needed to pop in order to increase the multiplier.
 
+    base.roundComplete = false;
+
     base.addFloatText = function(floatText) {
         floatText.onDeath = function(args) {
             base.objects.splice(base.objects.indexOf(floatText), 1);
@@ -91,8 +93,15 @@ State.create("game", function(data) {
     };
 
     base.update = function(delta) {
+        base.goalBubbleCount = 0;
         for (i in base.bubbles) {
-            base.bubbles[i].update({delta: delta, state: base});
+            var b = base.bubbles[i];
+
+            if (String(b.type).toLowerCase() === "goal") {
+                base.goalBubbleCount++;
+            }
+
+            b.update({delta: delta, state: base});
         }
 
         base.shooter.update(BPM.mouse, base.pins);
@@ -127,6 +136,14 @@ State.create("game", function(data) {
             base.combo = 0;
             base.comboGoal = 4;
             base.multiplier = 1;
+        }
+
+        
+        if (!base.roundComplete) {
+            if (base.goalBubbleCount <= 0 && base.pins.length <= 0) {
+                base.onRoundComplete();
+                base.roundComplete = true;
+            }
         }
     };
 
@@ -169,25 +186,8 @@ State.create("game", function(data) {
         base.shooter.render(gc);
     };
 
-    return base;
-});
+    base.onRoundComplete = function() {
 
-State.create("classicRound", function() {
-    var base = State.list["game"]();
-
-    var superInit = base.init;
-    base.init = function() {
-        superInit.call(base);
-
-        for (i in Bubble) {
-            for (j=0; j<10; ++j) {
-                base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
-            }
-        }
-
-        base.backButton.onClick = function() {
-            State.set("classicRoundSelect");
-        };
     };
 
     return base;
@@ -603,52 +603,6 @@ State.create("roundSelect", function() {
     return base;
 });
 
-State.create("classicRoundSelect", function() {
-    var base = BaseRoundSelection();
-
-    var gotoRoundButton;
-
-    base.init = function() {
-        base.createButtons();
-
-        gotoRoundButton = GUIButton("Next Round", {
-            onClick: function() {
-                State.set("classicRound");
-            }
-        });
-
-        base.upgradeButton.onClick = function() {
-            base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
-        };
-    };
-
-    base.update = function(delta) {
-        base.updateButtons();
-        gotoRoundButton.update(BPM.mouse);
-
-        gotoRoundButton.x = BPM.canvas.getWidth()/2 - gotoRoundButton.postWidth/2;
-        gotoRoundButton.y = BPM.canvas.getHeight() - gotoRoundButton.postHeight;
-
-        for (i in base.floatText) {
-            base.floatText[i].update({delta: delta, state: base});
-        }
-    };
-
-    base.render = function(gc) {
-        gc.drawImage(StateAssets.background, 0, 0);
-
-        base.renderButtons(gc);
-
-        gotoRoundButton.render(gc);
-
-        for (i in base.floatText) {
-            base.floatText[i].render(gc);
-        }
-    };
-
-    return base;
-});
-
 State.create("upgrades", function() {
     var base = BaseMenu();
 
@@ -811,6 +765,73 @@ State.create("upgrades", function() {
         for (i in base.floatText) {
             base.floatText[i].render(gc);
         }
+    };
+
+    return base;
+});
+
+State.create("classicRoundSelect", function() {
+    var base = BaseRoundSelection();
+
+    var gotoRoundButton;
+
+    base.init = function() {
+        base.createButtons();
+
+        gotoRoundButton = GUIButton("Next Round", {
+            onClick: function() {
+                State.set("classicRound");
+            }
+        });
+
+        base.upgradeButton.onClick = function() {
+            base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
+        };
+    };
+
+    base.update = function(delta) {
+        base.updateButtons();
+        gotoRoundButton.update(BPM.mouse);
+
+        gotoRoundButton.x = BPM.canvas.getWidth()/2 - gotoRoundButton.postWidth/2;
+        gotoRoundButton.y = BPM.canvas.getHeight() - gotoRoundButton.postHeight;
+
+        for (i in base.floatText) {
+            base.floatText[i].update({delta: delta, state: base});
+        }
+    };
+
+    base.render = function(gc) {
+        gc.drawImage(StateAssets.background, 0, 0);
+
+        base.renderButtons(gc);
+
+        gotoRoundButton.render(gc);
+
+        for (i in base.floatText) {
+            base.floatText[i].render(gc);
+        }
+    };
+
+    return base;
+});
+
+State.create("classicRound", function() {
+    var base = State.list["game"]();
+
+    var superInit = base.init;
+    base.init = function() {
+        superInit.call(base);
+
+        for (i in Bubble) {
+            for (j=0; j<10; ++j) {
+                base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
+            }
+        }
+
+        base.backButton.onClick = function() {
+            State.set("classicRoundSelect");
+        };
     };
 
     return base;
