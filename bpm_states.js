@@ -614,7 +614,7 @@ State.create("classicRoundSelect", function() {
         base.updateButtons();
 
         for (i in base.floatText) {
-            base.floatText[i].update(delta);
+            base.floatText[i].update({delta: delta, state: base});
         }
     };
 
