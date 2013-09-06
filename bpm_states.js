@@ -303,7 +303,14 @@ State.create("mainMenu", function() {
         }});
 
         timeTrialButton = GUIButton("Time Trial", {dynamic: false});
-        classicButton = GUIButton("Classic", {dynamic: false});
+
+        classicButton = GUIButton("Classic", {
+            dynamic: false,
+
+            onClick: function() {
+                State.set("classicRoundSelect");
+            }    
+        });
 
         buttons.push(startGameButton);
         buttons.push(timeTrialButton);
@@ -336,12 +343,77 @@ State.create("mainMenu", function() {
     return base;
 });
 
-State.create("roundSelect", function() {
+function BaseRoundSelection() {
     var base = BaseMenu();
 
-    var buttons = [];
+    base.buttons = [];
 
-    var achieveButton, menuButton, saveButton, resetButton, upgradeButton;
+    base.createButtons = function() {
+        base.achieveButton = GUIButton("Achievements", {dynamic: false});
+
+        base.menuButton = GUIButton("Main Menu", {
+            dynamic: false, 
+
+            onClick: function() {
+                State.set("mainMenu");
+            }
+        });
+
+        base.saveButton = GUIButton("Save Game", {
+            dynamic: false,
+            onClick: function() {
+                Utils.saveData();
+                base.addFloatText("Game saved", base.saveButton.x + base.saveButton.width, base.saveButton.y);
+            }
+        });
+
+        base.resetButton = GUIButton("Reset Data", {
+            dynamic: false,
+            onClick: function() {
+                Utils.clearData();
+                base.addFloatText("Game data has reset", base.resetButton.x + base.resetButton.width, base.resetButton.y);
+            }
+        });
+
+        base.upgradeButton = GUIButton("Upgrades", {
+            dynamic: false,
+
+            onClick: function() {
+                State.set("upgrades");
+            }
+        });
+
+        base.buttons.push(base.achieveButton);
+        base.buttons.push(base.menuButton);
+        base.buttons.push(base.saveButton);
+        base.buttons.push(base.resetButton);
+        base.buttons.push(base.upgradeButton);
+    };
+
+    base.updateButtons = function() {
+        for (i in base.buttons) {
+            var b = base.buttons[i];
+
+            b.width = 200;
+            b.height = 40;
+
+            b.y = i * (b.postHeight + 5);
+
+            b.update(BPM.mouse);
+        }
+    };
+
+    base.renderButtons = function(gc) {
+        for (i in base.buttons) {
+            base.buttons[i].render(gc);
+        }
+    };
+
+    return base;
+}
+
+State.create("roundSelect", function() {
+    var base = BaseRoundSelection();
 
     var selectStage;
 
@@ -400,39 +472,7 @@ State.create("roundSelect", function() {
         addRound(2, "Round 1", "game");
         addRound(2, "Round 2", "game");
 
-        achieveButton = GUIButton("Achievements", {dynamic: false});
-
-        menuButton = GUIButton("Main Menu", {
-            dynamic: false, 
-
-            onClick: function() {
-                State.set("mainMenu");
-            }
-        });
-
-        saveButton = GUIButton("Save Game", {
-            dynamic: false,
-            onClick: function() {
-                Utils.saveData();
-                base.addFloatText("Game saved", saveButton.x + saveButton.width, saveButton.y);
-            }
-        });
-
-        resetButton = GUIButton("Reset Data", {
-            dynamic: false,
-            onClick: function() {
-                Utils.clearData();
-                base.addFloatText("Game data has reset", resetButton.x + resetButton.width, resetButton.y);
-            }
-        });
-
-        upgradeButton = GUIButton("Upgrades", {
-            dynamic: false,
-
-            onClick: function() {
-                State.set("upgrades");
-            }
-        });
+        base.createButtons();
 
         stageScrollField.width = BPM.canvas.getWidth();
         stageScrollField.height = BPM.canvas.getHeight();
@@ -440,12 +480,6 @@ State.create("roundSelect", function() {
 
         selectStage = RoundSelectButton("Select Stage", "#000000");
         selectStage.y = 16;
-
-        buttons.push(achieveButton);
-        buttons.push(menuButton);
-        buttons.push(saveButton);
-        buttons.push(resetButton);
-        buttons.push(upgradeButton);
 
         for (i in stages) {
             stages[i].button.onClick = function() {
@@ -461,16 +495,7 @@ State.create("roundSelect", function() {
     };
 
     base.update = function(delta) {
-        for (i in buttons) {
-            var b = buttons[i];
-
-            b.width = 200;
-            b.height = 40;
-
-            b.y = i * (b.postHeight + 5);
-
-            b.update(BPM.mouse);
-        }
+        base.updateButtons();
 
         //Round Selection
 
@@ -545,9 +570,7 @@ State.create("roundSelect", function() {
     base.render = function(gc) {
         gc.drawImage(StateAssets.background, 0, 0);
 
-        for (i in buttons) {
-            buttons[i].render(gc);
-        }
+        base.renderButtons(gc);
         
         selectStage.render(gc);
 
@@ -577,7 +600,31 @@ State.create("roundSelect", function() {
 });
 
 State.create("classicRoundSelect", function() {
-    var base = State();
+    var base = BaseRoundSelection();
+
+    base.init = function() {
+        base.createButtons();
+
+        base.upgradeButton.onClick = function() {
+            base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
+        };
+    };
+
+    base.update = function(delta) {
+        base.updateButtons();
+
+        for (i in base.floatText) {
+            base.floatText[i].update(delta);
+        }
+    };
+
+    base.render = function(gc) {
+        base.renderButtons(gc);
+
+        for (i in base.floatText) {
+            base.floatText[i].render(gc);
+        }
+    };
 
     return base;
 });
