@@ -88,7 +88,7 @@ function GUIButton(_text, options) {
             gc.fillStyle = "#FFFFFF";
             gc.strokeStyle = "#000000";
             gc.textBaseline = "top";
-            gc.font = "32px Arial";
+            gc.font = options.font || "32px Arial";
             gc.textAlign = "center"
             gc.lineWidth = 3;
 
@@ -98,7 +98,7 @@ function GUIButton(_text, options) {
 
             if (dynamic) {
                 width = metrics.width;
-                height = 48;
+                height = gc.measureText("M").width + 16;
             } else {
                 width = this.width;
                 height = this.height;

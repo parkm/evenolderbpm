@@ -20,6 +20,7 @@ State.create("game", function(data) {
     base.comboGoal = 4; //The amount of bubbles needed to pop in order to increase the multiplier.
 
     base.roundComplete = false;
+    base.completeState = "roundSelect"; //The state to go to after round has been completed.
 
     base.addFloatText = function(floatText) {
         floatText.onDeath = function(args) {
@@ -32,7 +33,9 @@ State.create("game", function(data) {
     base.init = function() {
         base.shooter.init();
 
-        base.backButton = GUIButton("Back");
+        base.backButton = GUIButton("Back", {
+            font: "24px Arial"
+        });
         base.backButton.onClick = function() {
             State.set("roundSelect");
         };
@@ -140,9 +143,13 @@ State.create("game", function(data) {
 
         
         if (!base.roundComplete) {
-            if (base.goalBubbleCount <= 0 && base.pins.length <= 0) {
-                base.onRoundComplete();
+            if ((base.goalBubbleCount <= 0 && base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
                 base.roundComplete = true;
+                base.onRoundComplete();
+            }
+        } else {
+            if (BPM.mouse.isReleased(Mouse.LEFT)) {
+                State.set(base.completeState);
             }
         }
     };
@@ -184,6 +191,14 @@ State.create("game", function(data) {
         Utils.drawText(gc, "x" + base.multiplier, 300, 0, formatting);
 
         base.shooter.render(gc);
+
+        if (base.roundComplete) {
+            gc.fillStyle = "rgba(0, 0, 0, .25)";
+            gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
+            Utils.drawText(gc, "Round Complete", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/2 - 64, {
+                stroke: true,
+            });
+        }
     };
 
     base.onRoundComplete = function() {
@@ -246,8 +261,10 @@ State.create("donkeyTest", function() {
         }));
 
         for (i in Bubble) {
-            for (j=0; j<10; ++j) {
-                base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i));
+            if (i !== "Base") {
+                for (j=0; j<10; ++j) {
+                    base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i));
+                }
             }
         }
     };
@@ -824,14 +841,18 @@ State.create("classicRound", function() {
         superInit.call(base);
 
         for (i in Bubble) {
-            for (j=0; j<10; ++j) {
-                base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
+            if (i !== "Base") {
+                for (j=0; j<10; ++j) {
+                    base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
+                }
             }
         }
 
         base.backButton.onClick = function() {
             State.set("classicRoundSelect");
         };
+
+        base.completeState = "classicRoundSelect";
     };
 
     return base;

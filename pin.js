@@ -15,7 +15,7 @@ function PinShooter(_x, _y, options) {
         x: _x, y: _y,
         angle: 0,
         img: Graphic(PinAssets.arrow),
-        pins: (options && options.pins) || 10000,
+        pins: (options && options.pins) || 1,
 
         onShoot: function(pins) {
             pins.push(Pin(this.x, this.y, -this.angle, {speed: pinSpeed * charge, type: "standard"}));
