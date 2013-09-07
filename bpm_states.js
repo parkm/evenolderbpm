@@ -181,7 +181,6 @@ function BPMStates() {
             return;
         }
         data = data || (StateAssets && StateAssets[name]);
-        console.log(data);
         State.create(name, function() {
             var base = State.list["game"](data);
 

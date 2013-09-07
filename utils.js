@@ -29,3 +29,17 @@ Utils.stringToBool = function(string) {
         return string;
     }
 };
+
+/* JS Extensions */
+
+// Returns Object size by counting its keys.
+// Ignores any keys from prototypes.
+if (!Object.size) {
+    Object.size = function(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
+}
