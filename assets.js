@@ -157,8 +157,6 @@ Assets.level = {
 
         var walls;
         var bubbles;
-        console.log("parsing " + editor);
-        console.log(data);
         switch(editor) {
             case "ogmo":
                 bubbles = data.bubbles.Bubble;
@@ -183,6 +181,7 @@ Assets.level = {
         }
 
         // Assign values and convert
+        // Walls
         for (var i in walls) {
             var w = walls[i];
             var rw = result.walls[i] = {};
@@ -191,7 +190,8 @@ Assets.level = {
             rw.height = +w.height;
             rw.width = +w.width;
         }
-
+        
+        // Bubbles
         for (var i in bubbles) {
             var b = bubbles[i];
             var rb = result.bubbles[i] = {};
@@ -203,14 +203,13 @@ Assets.level = {
             rb.x = +b.x;
             rb.y = +b.y;
             rb.speed = +b.speed;
-            // b.moveAngle = ogmo
+            // b.moveAngle for ogmo
             rb.angle = +(b.moveAngle || b.angle);
             rb.type = b.type;
             rb.count = +b.count || 1;
             rb.randomPosition = b.randomPosition && Utils.stringToBool(b.randomPosition);
             rb.iron = b.iron && Utils.stringToBool(b.iron);
         }
-        console.log(result);
         return result;
     }
 };

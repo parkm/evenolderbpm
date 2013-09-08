@@ -59,10 +59,8 @@ function BPMStates() {
                     var bubbles = d.bubbles;
                     for (var i = 0; i < bubbles.length; i += 1) {
                         var b = bubbles[i];
-                        //console.log(b);
                         for (var j = 0; j < b.count; j += 1) {
                             var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron});
-                            console.log(bInstance);
 
                             if (b.randomPosition) {
                                 var isColliding;
