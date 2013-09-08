@@ -41,10 +41,7 @@ function Assets() {
     // Levels
     Assets.addLevels(StateAssets, {
         "testLevel": path.levels + "test-level.oel",
-        "testLevelJSON": path.levels + "test-level2.json",
-        "testLevelJSON2": path.levels + "test-level3.json",
-        "meowtest1": path.levels + "test-level2.oel",
-        "meowtest2": path.levels + "test-level3.oel"
+        "testLevelJSON": path.levels + "test-level.json"
     });
 
     // Returning self to cascade.
