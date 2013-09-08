@@ -15,7 +15,7 @@ function BPMStates() {
         base.walls = [];
         base.objects = [];
 
-        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2);
+        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2, {pins: 10});
 
         base.multiplier = 1;
         base.combo = 0; 
@@ -104,6 +104,16 @@ function BPMStates() {
 
                 b.update({delta: delta, state: base});
             }
+
+            base.shooter.update(BPM.mouse, base.pins);
+
+            for (i in base.pins) {
+                base.pins[i].update({
+                    delta: delta, 
+                    state: base,
+                });
+            }
+
 
             base.backButton.update(BPM.mouse);
 
