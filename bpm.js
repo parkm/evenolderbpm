@@ -34,7 +34,7 @@ BPM.init = function() {
         console.log(StateAssets);
     }
     BPMStates();
-    BPM.loadData();
+    Utils.loadData();
     State.set("roundSelect");
     Loop.run();
 };
@@ -58,17 +58,4 @@ BPM.render = function() {
         stroke: true,
         lineWidth: 3
     });
-};
-
-BPM.saveData = function() {
-    $.cookie("cash", BPM.cash, {expires: 365});
-};
-
-BPM.loadData = function() {
-    console.log($.cookie("cash"));
-    BPM.cash = parseInt($.cookie("cash"));
-};
-
-BPM.clearData = function() {
-    BPM.cash = 10000;
 };

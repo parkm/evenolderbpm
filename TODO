@@ -16,7 +16,11 @@ Bubbles {
 States {}
 
 Other {
-    Implement original gameplay for the 'Classic' game mode. (Might wanna do this after upgrade ui is finished)
+    Implement original gameplay for the 'Classic' game mode. (Might wanna do this after upgrade ui is finished) {
+        Classic round will start with score/bad bubbles. You can buy
+        new bubbles in the upgrade store and upgrade their spawn rate.
+        All bubbles will also be frozen.
+    }
 }
 
 # Ideas:

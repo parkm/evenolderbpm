@@ -3,8 +3,8 @@ StateAssets = {};
 
 /* GAME LEVELS */
 
-// Main Game state from which all other game states will inherit.
 function BPMStates() {
+    // Main Game state from which all other game states will inherit.
     State.create("game", function(data) {
         var base = State();
 
@@ -21,6 +21,9 @@ function BPMStates() {
         base.combo = 0; 
         base.comboGoal = 4; //The amount of bubbles needed to pop in order to increase the multiplier.
 
+        base.roundComplete = false;
+        base.completeState = "roundSelect"; //The state to go to after round has been completed.
+
         base.addFloatText = function(floatText) {
             floatText.onDeath = function(args) {
                 base.objects.splice(base.objects.indexOf(floatText), 1);
@@ -32,7 +35,9 @@ function BPMStates() {
         base.init = function() {
             base.shooter.init();
 
-            base.backButton = GUIButton("Back");
+            base.backButton = GUIButton("Back", {
+                font: "24px Arial"
+            });
             base.backButton.onClick = function() {
                 State.set("roundSelect");
             };
@@ -89,17 +94,15 @@ function BPMStates() {
         };
 
         base.update = function(delta) {
+            base.goalBubbleCount = 0;
             for (i in base.bubbles) {
-                base.bubbles[i].update({delta: delta, state: base});
-            }
+                var b = base.bubbles[i];
 
-            base.shooter.update(BPM.mouse, base.pins);
+                if (String(b.type).toLowerCase() === "goal") {
+                    base.goalBubbleCount++;
+                }
 
-            for (i in base.pins) {
-                base.pins[i].update({
-                    delta: delta, 
-                    state: base,
-                });
+                b.update({delta: delta, state: base});
             }
 
             base.backButton.update(BPM.mouse);
@@ -125,6 +128,17 @@ function BPMStates() {
                 base.combo = 0;
                 base.comboGoal = 4;
                 base.multiplier = 1;
+            }
+
+            if (!base.roundComplete) {
+                if ((base.goalBubbleCount <= 0 && base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
+                    base.roundComplete = true;
+                    base.onRoundComplete();
+                }
+            } else {
+                if (BPM.mouse.isReleased(Mouse.LEFT)) {
+                    State.set(base.completeState);
+                }
             }
         };
 
@@ -165,6 +179,18 @@ function BPMStates() {
             Utils.drawText(gc, "x" + base.multiplier, 300, 0, formatting);
 
             base.shooter.render(gc);
+
+            if (base.roundComplete) {
+                gc.fillStyle = "rgba(0, 0, 0, .25)";
+                gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
+                Utils.drawText(gc, "Round Complete", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/2 - 64, {
+                    stroke: true
+                });
+            }
+        };
+
+        base.onRoundComplete = function() {
+
         };
 
         return base;
@@ -237,8 +263,10 @@ function BPMStates() {
             }));
 
             for (i in Bubble) {
-                for (j=0; j<10; ++j) {
-                    base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i));
+                if (i !== "Base") {
+                    for (j=0; j<10; ++j) {
+                        base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i));
+                    }
                 }
             }
         };
@@ -258,8 +286,32 @@ function BPMStates() {
 
     /* MENUS */
 
-    State.create("mainMenu", function() {
+    function BaseMenu() {
         var base = State();
+
+        base.floatText = [];
+
+        base.addFloatText = function(text, x, y) {
+            var ft = FloatText(text, x, y, {
+                fillStyle: "#FFFFFF",
+                strokeStyle: "#000000",
+                stroke: true,
+                lineWidth: 4,
+                font: "24px Arial",
+            });
+
+            ft.onDeath = function(args) {
+                base.floatText.splice(base.floatText.indexOf(ft), 1);
+            };
+
+            base.floatText.push(ft);
+        };
+
+        return base;
+    }
+
+    State.create("mainMenu", function() {
+        var base = BaseMenu();
 
         var buttons = [];
 
@@ -274,7 +326,14 @@ function BPMStates() {
             }});
 
             timeTrialButton = GUIButton("Time Trial", {dynamic: false});
-            classicButton = GUIButton("Classic", {dynamic: false});
+
+            classicButton = GUIButton("Classic", {
+                dynamic: false,
+
+                onClick: function() {
+                    State.set("classicRoundSelect");
+                }    
+            });
 
             buttons.push(startGameButton);
             buttons.push(timeTrialButton);
@@ -307,36 +366,83 @@ function BPMStates() {
         return base;
     });
 
+    function BaseRoundSelection() {
+        var base = BaseMenu();
+
+        base.buttons = [];
+
+        base.createButtons = function() {
+            base.achieveButton = GUIButton("Achievements", {dynamic: false});
+
+            base.menuButton = GUIButton("Main Menu", {
+                dynamic: false, 
+
+                onClick: function() {
+                    State.set("mainMenu");
+                }
+            });
+
+            base.saveButton = GUIButton("Save Game", {
+                dynamic: false,
+                onClick: function() {
+                    Utils.saveData();
+                    base.addFloatText("Game saved", base.saveButton.x + base.saveButton.width, base.saveButton.y);
+                }
+            });
+
+            base.resetButton = GUIButton("Reset Data", {
+                dynamic: false,
+                onClick: function() {
+                    Utils.clearData();
+                    base.addFloatText("Game data has reset", base.resetButton.x + base.resetButton.width, base.resetButton.y);
+                }
+            });
+
+            base.upgradeButton = GUIButton("Upgrades", {
+                dynamic: false,
+
+                onClick: function() {
+                    State.set("upgrades");
+                }
+            });
+
+            base.buttons.push(base.achieveButton);
+            base.buttons.push(base.menuButton);
+            base.buttons.push(base.saveButton);
+            base.buttons.push(base.resetButton);
+            base.buttons.push(base.upgradeButton);
+        };
+
+        base.updateButtons = function() {
+            for (i in base.buttons) {
+                var b = base.buttons[i];
+
+                b.width = 200;
+                b.height = 40;
+
+                b.y = i * (b.postHeight + 5);
+
+                b.update(BPM.mouse);
+            }
+        };
+
+        base.renderButtons = function(gc) {
+            for (i in base.buttons) {
+                base.buttons[i].render(gc);
+            }
+        };
+
+        return base;
+    }
+
     State.create("roundSelect", function() {
-        var base = State();
-
-        var buttons = [];
-
-        var achieveButton, menuButton, saveButton, resetButton, upgradeButton;
+        var base = BaseRoundSelection();
 
         var selectStage;
 
         var stages = [];
 
         var stageScrollField = ScrollField();
-
-        var floatText = [];
-
-        var addFloatText = function(text, x, y) {
-            var ft = FloatText(text, x, y, {
-                fillStyle: "#FFFFFF",
-                strokeStyle: "#000000",
-                stroke: true,
-                lineWidth: 4,
-                font: "24px Arial",
-            });
-
-            ft.onDeath = function(args) {
-                floatText.splice(floatText.indexOf(ft), 1);
-            };
-
-            floatText.push(ft);
-        };
 
         var addStage = function(_id, _name, _color) {
             stages.push({
@@ -366,7 +472,7 @@ function BPMStates() {
             }
             console.error("Error: Cannot create round, stage '" + stageName + "' does not exist.");
         };
-
+        
         base.init = function() {
             addStage(-1, "Goto State...", "rgb(19, 200, 200)");
             for (i in State.list) {
@@ -389,39 +495,7 @@ function BPMStates() {
             addRound(2, "Round 1", "game");
             addRound(2, "Round 2", "game");
 
-            achieveButton = GUIButton("Achievements", {dynamic: false});
-
-            menuButton = GUIButton("Main Menu", {
-                dynamic: false, 
-
-                onClick: function() {
-                    State.set("mainMenu");
-                }
-            });
-
-            saveButton = GUIButton("Save Game", {
-                dynamic: false,
-                onClick: function() {
-                    BPM.saveData();
-                    addFloatText("Game saved", saveButton.x + saveButton.width, saveButton.y);
-                }
-            });
-
-            resetButton = GUIButton("Reset Data", {
-                dynamic: false,
-                onClick: function() {
-                    BPM.clearData();
-                    addFloatText("Game data has reset", resetButton.x + resetButton.width, resetButton.y);
-                }
-            });
-
-            upgradeButton = GUIButton("Upgrades", {
-                dynamic: false,
-
-                onClick: function() {
-                    State.set("upgrades");
-                }
-            });
+            base.createButtons();
 
             stageScrollField.width = BPM.canvas.getWidth();
             stageScrollField.height = BPM.canvas.getHeight();
@@ -429,12 +503,6 @@ function BPMStates() {
 
             selectStage = RoundSelectButton("Select Stage", "#000000");
             selectStage.y = 16;
-
-            buttons.push(achieveButton);
-            buttons.push(menuButton);
-            buttons.push(saveButton);
-            buttons.push(resetButton);
-            buttons.push(upgradeButton);
 
             for (i in stages) {
                 stages[i].button.onClick = function() {
@@ -450,16 +518,7 @@ function BPMStates() {
         };
 
         base.update = function(delta) {
-            for (i in buttons) {
-                var b = buttons[i];
-
-                b.width = 200;
-                b.height = 40;
-
-                b.y = i * (b.postHeight + 5);
-
-                b.update(BPM.mouse);
-            }
+            base.updateButtons();
 
             //Round Selection
 
@@ -526,17 +585,15 @@ function BPMStates() {
 
             stageScrollField.update();
 
-            for (i in floatText) {
-                floatText[i].update({delta: delta, state: base});
+            for (i in base.floatText) {
+                base.floatText[i].update({delta: delta, state: base});
             }
         };
 
         base.render = function(gc) {
             gc.drawImage(StateAssets.background, 0, 0);
 
-            for (i in buttons) {
-                buttons[i].render(gc);
-            }
+            base.renderButtons(gc);
             
             selectStage.render(gc);
 
@@ -557,8 +614,8 @@ function BPMStates() {
 
             stageScrollField.stopClipping(gc);
 
-            for (i in floatText) {
-                floatText[i].render(gc);
+            for (i in base.floatText) {
+                base.floatText[i].render(gc);
             }
         };
 
@@ -566,15 +623,13 @@ function BPMStates() {
     });
 
     State.create("upgrades", function() {
-        var base = State();
+        var base = BaseMenu();
 
         var backButton, purchaseButton;
 
         var dividers = [];
 
         var activeUpgrade = null;
-
-        var floatText = [];
 
         var addDivider = function(_id, _name, _updates) {
             dividers.push({
@@ -609,22 +664,6 @@ function BPMStates() {
             }
         };
 
-        var addFloatText = function(text, x, y) {
-            var ft = FloatText(text, x, y, {
-                fillStyle: "#FFFFFF",
-                strokeStyle: "#000000",
-                stroke: true,
-                lineWidth: 4,
-                font: "24px Arial",
-            });
-
-            ft.onDeath = function(args) {
-                floatText.splice(floatText.indexOf(ft), 1);
-            };
-
-            floatText.push(ft);
-        };
-
         base.init = function() {
             backButton = GUIButton("Back", {
                 onClick: function() {
@@ -643,8 +682,10 @@ function BPMStates() {
                                 addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
                             }
                         } else {
-                            addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
+                            base.addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
                         }
+                    } else {
+                        base.addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
                     }
                 }
             });
@@ -686,8 +727,8 @@ function BPMStates() {
                 }
             }
 
-            for (i in floatText) {
-                floatText[i].update({delta: delta, state: base});
+            for (i in base.floatText) {
+                base.floatText[i].update({delta: delta, state: base});
             }
         };
 
@@ -742,11 +783,82 @@ function BPMStates() {
 
             Utils.drawText(gc, "$" + BPM.cash, 150, BPM.canvas.getHeight() - 26, formatting);
 
-            for (i in floatText) {
-                floatText[i].render(gc);
+            for (i in base.floatText) {
+                base.floatText[i].render(gc);
             }
         };
 
         return base;
     });
-};
+
+    State.create("classicRoundSelect", function() {
+        var base = BaseRoundSelection();
+
+        var gotoRoundButton;
+
+        base.init = function() {
+            base.createButtons();
+
+            gotoRoundButton = GUIButton("Next Round", {
+                onClick: function() {
+                    State.set("classicRound");
+                }
+            });
+
+            base.upgradeButton.onClick = function() {
+                base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
+            };
+        };
+
+        base.update = function(delta) {
+            base.updateButtons();
+            gotoRoundButton.update(BPM.mouse);
+
+            gotoRoundButton.x = BPM.canvas.getWidth()/2 - gotoRoundButton.postWidth/2;
+            gotoRoundButton.y = BPM.canvas.getHeight() - gotoRoundButton.postHeight;
+
+            for (i in base.floatText) {
+                base.floatText[i].update({delta: delta, state: base});
+            }
+        };
+
+        base.render = function(gc) {
+            gc.drawImage(StateAssets.background, 0, 0);
+
+            base.renderButtons(gc);
+
+            gotoRoundButton.render(gc);
+
+            for (i in base.floatText) {
+                base.floatText[i].render(gc);
+            }
+        };
+
+        return base;
+    });
+
+    State.create("classicRound", function() {
+        var base = State.list["game"]();
+
+        var superInit = base.init;
+        base.init = function() {
+            superInit.call(base);
+
+            for (i in Bubble) {
+                if (i !== "Base") {
+                    for (j=0; j<10; ++j) {
+                        base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
+                    }
+                }
+            }
+
+            base.backButton.onClick = function() {
+                State.set("classicRoundSelect");
+            };
+
+            base.completeState = "classicRoundSelect";
+        };
+
+        return base;
+    });
+}
