@@ -148,16 +148,6 @@ Assets.addLevel = function(assetHolder, name, filepath) {
         });
     };
 
-    if (filepath.slice(-4) === "json") {
-        loadType("json", "tiled");
-    } else if (filepath.slice(-3) === "oel") {
-        loadType("xml", "ogmo");
-    } else if (filepath.slice(-3) === "xml") {
-        loadType("xml", "tiled");
-    } else {
-        console.error("Error loading level data. Unsupported filetype.");
-        return;
-    }
 };
 */
 
@@ -170,35 +160,71 @@ Assets.level = {
     assetHolder: {},
     count: 0,
     levelSize: 0,
+    queue: [],
 
     add: function(assetHolder, levels) {
-        // Store references for the asset holder and levels object
+        // create deferred object for each level, store in array
+        // .done = callback
+        //  callback = load()
         this.assetHolder = assetHolder;
         this.levels = levels;
-        this.levelSize = Object.size(this.levels);
-        
-        // Start with the first level
-        this.queue(Object.keys(this.levels)[0]);
-        console.log("out of queue, count increasing : " + this.count);
-        this.count += 1;
-        return this;
-    },
-
-    load: function(me, data) {
-        console.log("Load enter count: " + me.count + "  me.levels size " + Object.size(me.levels));
-        var name = function(count) { return Object.keys(me.levels)[count]; };
-        me.assetHolder[name(me.count - 1)] = data;
-        console.log("StateAssets/Data");
-        console.log(StateAssets);
-        if (me.count < Object.size(me.levels)) {
-            console.log("enqueueing " + name(me.count));
-            me.queue(name(me.count));
-            me.count += 1;
+        for (lvl in levels) {
+            var filepath = levels[lvl];
+            var type;
+            if (filepath.slice(-4) === "json") {
+                //loadType("json", "tiled");
+                type = "json";
+            } else if (filepath.slice(-3) === "oel") {
+                //loadType("xml", "ogmo");
+                type = "xml";
+            } else if (filepath.slice(-3) === "xml") {
+                //loadType("xml", "tiled");
+                type = "xml";
+            } else {
+                console.error("Error loading level data. Unsupported filetype.");
+                return;
+            }
+            console.log("adding level>");
+            console.log(lvl);
+            var me = this;
+            // must call resolveWith(this, data) for it to work
+            var defer = $.Deferred(function(defer) {
+                Assets.loader[type](filepath, function(data) {
+                    console.log("Defer state for " + lvl + " = " + defer.state());
+                    defer.resolveWith(me, [lvl, data]);
+                });
+            }).done(function(lvl, data) {
+                console.log("defer done " + lvl);
+                console.log(data);
+                this.load(lvl, data);
+            });
+            this.queue.push(defer);
+            console.log(this.queue);
         }
-        console.log("Load exit " + name(me.count - 2));
     },
 
+    load: function(lvl, data) {
+        // assign to assetholder
+        // enqueue next level
+        // call .resolve of next deferred object in array
+        console.log("Load enter " + lvl);
+        console.log(data);
+        this.assetHolder[lvl] = data;
+        this.count += 1;
+        //this.queue.shift();
+        if (this.queue.length) {
+            //this.queue[0].resolveWith(this, data);
+        }
+    },
+
+
+/*
     queue: function(name) {
+        // add deferred objects to array
+        // 
+
+
+
         console.log("queue enter name: " + name + " filepath: " + this.levels[name]);
         var filepath = this.levels[name];
         var type;
@@ -222,11 +248,12 @@ Assets.level = {
         Assets.loader[type](filepath, function(data) { console.log(filepath + " loaded"); me.load(me, data); });
         console.log("queue exit");
     },
+*/
 };
 
 Assets.addLevels = function(assetHolder, levels) {
-    var loader = Assets.level.add(assetHolder, levels);
-    console.log("after loader " + loader.count);
+    Assets.level.add(assetHolder, levels);
+    console.log("after loader ");
     
     /*
     var interval = window.setInterval(function() {
@@ -239,8 +266,6 @@ Assets.addLevels = function(assetHolder, levels) {
     */
 };
 
-
-console.log();
 /* PSEUDO CODE
 
 for each key in object
