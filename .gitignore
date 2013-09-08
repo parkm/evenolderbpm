@@ -11,3 +11,6 @@ include/example
 *.7z
 *.zip
 *.rar
+
+# dogpantz files
+dailyvim
