@@ -76,84 +76,6 @@ Assets.get = function(id) {
 Assets.load = function(callback) {
     Assets.loader.load(callback);
 };
-/*
-// Convenient wrapper to load JSON level data (from XML file)
-// and assign to an assetHolder object with given name
-Assets.addLevel = function(assetHolder, name, filepath) {
-    // Type checking
-    if (typeof name !== "string") {
-        console.error("Error @ Assets.addLevel: Name of level data must be a string.");
-        return;
-    }
-    if (typeof assetHolder !== "object") {
-        console.error("Error @ Assets.addLevel: Please specify an object to store level data.");
-        return;
-    }
-    
-    var parseData = function(data, editor) {
-        console.log("Pre-data... editor " + editor);
-        console.log(data);
-        if (typeof editor === "string") {
-            editor = editor.toLowerCase();
-            if (editor === "ogmo") {
-                data.walls = data.walls.Wall;
-                data.bubbles = data.bubbles.Bubble;
-                // Convert data
-                for (var i = 0; i < data.walls.length; i++) {
-                    var wall = data.walls[i];
-                    wall.x = +wall.x;
-                    wall.y = +wall.y;
-                    wall.height = +wall.height;
-                    wall.width = +wall.width;
-                }
-                for (var i = 0; i < data.bubbles.length; i++) {
-                    var bubble = data.bubbles[i];
-                    bubble.angle = +bubble.moveAngle;
-                    bubble.x = +bubble.x;
-                    bubble.y = +bubble.y;
-                    bubble.count = +bubble.count;
-                    bubble.speed = +bubble.speed;
-                    bubble.iron = bubble.iron && Utils.stringToBool(bubble.iron);
-                    bubble.randomPosition = bubble.randomPosition && Utils.stringToBool(bubble.randomPosition);
-                }
-            } else if (editor === "tiled") {
-                if (!(data.layers && data.layers.length)) return;
-                for (var i = 0; i < data.layers.length; i++) {
-                    if (data.layers[i].name === "walls") {
-                        data.walls = data.layers[i].objects;
-                    } else if (data.layers[i].name === "bubbles") {
-                        data.bubbles = data.layers[i].objects;
-                    }
-                }
-                
-                for (var i = 0; i < data.bubbles.length; i++) {
-                    var bubble = data.bubbles[i];
-                    bubble.speed = bubble.properties.speed;
-                    bubble.angle = bubble.properties.angle;
-                }
-            }
-        }
-        console.log("post-data... editor " + editor);
-        console.log(data);
-        return data;
-    };
-
-    var loadType = function(type, editor) {
-        if (typeof Assets.loader[type] !== "function") {
-            console.error("Error loading level data type '" + type + "': Unsupported type");
-            return;
-        }
-        Assets.loader[type](filepath, function(data) {
-            assetHolder[name] = parseData(data, editor);
-        });
-    };
-
-};
-*/
-
-/* TODO:
-    Queue loading of levels, the callback of Assets.loader[type] should call the next loader in line
-*/
 
 Assets.level = {
     levels: {},
@@ -218,60 +140,10 @@ Assets.level = {
     },
 
 
-/*
-    queue: function(name) {
-        // add deferred objects to array
-        // 
-
-
-
-        console.log("queue enter name: " + name + " filepath: " + this.levels[name]);
-        var filepath = this.levels[name];
-        var type;
-        var editor;
-        if (filepath.slice(-4) === "json") {
-            type = "json";
-            editor = "tiled";
-        } else if (filepath.slice(-3) === "oel") {
-            type = "xml";
-            editor = "ogmo";
-        } else if (filepath.slice(-3) === "xml") {
-            type = "xml"
-            editor = "tiled";
-        } else {
-            console.error("Error loading level data. Unsupported filetype.");
-            return;
-        }
-        // need a local reference to load for the callback.
-        var me = this;
-        console.log("calling loader.");
-        Assets.loader[type](filepath, function(data) { console.log(filepath + " loaded"); me.load(me, data); });
-        console.log("queue exit");
-    },
-*/
 };
 
 Assets.addLevels = function(assetHolder, levels) {
     Assets.level.add(assetHolder, levels);
     console.log("after loader ");
-    
-    /*
-    var interval = window.setInterval(function() {
-        console.log(loader.count + " / " + loader.levelSize);
-        if (loader.count >= loader.levelSize) {
-            console.log("clearing timeout");
-            window.clearInterval(interval);
-        }
-    }, 500);
-    */
 };
 
-/* PSEUDO CODE
-
-for each key in object
-    load 
-
-
-
-if 
-Cycle through level queue, assign data to assetHolder[name] */
