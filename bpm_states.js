@@ -679,13 +679,11 @@ function BPMStates() {
                                 BPM.cash -= activeUpgrade.price;
                                 activeUpgrade.onPurchase();
                             } else {
-                                addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
+                                base.addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
                             }
                         } else {
-                            base.addFloatText("Insufficient funds", purchaseButton.x, purchaseButton.y);
+                            base.addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
                         }
-                    } else {
-                        base.addFloatText("Max level reached", purchaseButton.x, purchaseButton.y);
                     }
                 }
             });
