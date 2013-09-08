@@ -42,7 +42,9 @@ function Assets() {
     Assets.addLevels(StateAssets, {
         "testLevel": path.levels + "test-level.oel",
         "testLevelJSON": path.levels + "test-level2.json",
-        "testLevelJSON2": path.levels + "test-level3.json"
+        "testLevelJSON2": path.levels + "test-level3.json",
+        "meowtest1": path.levels + "test-level2.oel",
+        "meowtest2": path.levels + "test-level3.oel"
     });
 
     // Returning self to cascade.
@@ -77,73 +79,140 @@ Assets.load = function(callback) {
     Assets.loader.load(callback);
 };
 
-Assets.level = {
-    levels: {},
-    assetHolder: {},
-    count: 0,
-    levelSize: 0,
-    queue: [],
-
-    add: function(assetHolder, levels) {
-        // create deferred object for each level, store in array
-        // .done = callback
-        //  callback = load()
-        this.assetHolder = assetHolder;
-        this.levels = levels;
-        for (lvl in levels) {
-            var filepath = levels[lvl];
-            var type;
-            if (filepath.slice(-4) === "json") {
-                //loadType("json", "tiled");
-                type = "json";
-            } else if (filepath.slice(-3) === "oel") {
-                //loadType("xml", "ogmo");
-                type = "xml";
-            } else if (filepath.slice(-3) === "xml") {
-                //loadType("xml", "tiled");
-                type = "xml";
-            } else {
-                console.error("Error loading level data. Unsupported filetype.");
-                return;
-            }
-            console.log("adding level>");
-            console.log(lvl);
-            var me = this;
-            // must call resolveWith(this, data) for it to work
-            var defer = $.Deferred(function(defer) {
-                Assets.loader[type](filepath, function(data) {
-                    console.log("Defer state for " + lvl + " = " + defer.state());
-                    defer.resolveWith(me, [lvl, data]);
-                });
-            }).done(function(lvl, data) {
-                console.log("defer done " + lvl);
-                console.log(data);
-                this.load(lvl, data);
-            });
-            this.queue.push(defer);
-            console.log(this.queue);
-        }
-    },
-
-    load: function(lvl, data) {
-        // assign to assetholder
-        // enqueue next level
-        // call .resolve of next deferred object in array
-        console.log("Load enter " + lvl);
-        console.log(data);
-        this.assetHolder[lvl] = data;
-        this.count += 1;
-        //this.queue.shift();
-        if (this.queue.length) {
-            //this.queue[0].resolveWith(this, data);
-        }
-    },
-
-
-};
-
+// Wrapper for Assets.level.add
+// assetHolder: object in which to store references to levels
+// levels: object containing level name and filepath
 Assets.addLevels = function(assetHolder, levels) {
     Assets.level.add(assetHolder, levels);
-    console.log("after loader ");
 };
+
+/* 
+    Queues and loads levels in an asynchronous chain.
+    Supports file types .json, .oel, .xml and editors Ogmo and Tiled.
+    (Need to custom-wire objects in Assets.level.parse for different formats).
+
+    Not tested: xml/tiled
+ */
+Assets.level = {
+    count: 0,
+    assetHolder: {},
+    // stores all deferred objects for loading levels
+    queue: [],
+    // stores filetype and editor for all levels (for parsing)
+    types: [],
+
+    add: function(assetHolder, levels) {
+        // create deferred object for each level, store in queue array
+        this.assetHolder = assetHolder;
+        for (lvl in levels) {
+            var filepath = levels[lvl];
+            // reference to this for Assets.loader callback
+            var me = this;
+            var defer = $.Deferred(function(defer) {
+                // get type for current file, add to array, and return added type obj
+                var type = me.types[me.types.push(me.getType(filepath)) - 1];
+                // initiate load
+                Assets.loader[type.type](filepath, function(data) {
+                    // On load, resolve next in queue, increment count
+                    var lvl = Object.keys(levels)[me.count];
+                    me.queue[me.count].resolveWith(me, [lvl, data, me.types[me.count]]);
+                    me.count += 1;
+                });
+            }).done(function(lvl, data, type) {
+                // When loaded, parse data and assign to assetHolder
+                data = this.parse(data, type.editor);
+                this.assetHolder[lvl] = data;
+            });
+            this.queue.push(defer);
+        }
+    },
+
+    getType: function(filepath) {
+        // Get type and editor from filepath
+        var type;
+        var editor;
+        if (filepath.slice(-4) === "json") {
+            type = "json";
+            editor = "tiled";
+        } else if (filepath.slice(-3) === "oel") {
+            type = "xml";
+            editor = "ogmo";
+        } else if (filepath.slice(-3) === "xml") {
+            type = "xml";
+            editor = "tiled";
+        } else {
+            console.error("Error loading level data. Unsupported filetype.");
+            return;
+        }
+        return {type: type, editor: editor};
+    },
+    
+    parse: function(data, editor) {
+        // Parse data per editor
+        // Needs to be custom wired for different methods of data organization
+        var result = {
+            bubbles: [],
+            walls: []
+        };
+
+        var walls;
+        var bubbles;
+        console.log("parsing " + editor);
+        console.log(data);
+        switch(editor) {
+            case "ogmo":
+                bubbles = data.bubbles.Bubble;
+                walls = data.walls.Wall;
+                break;
+
+            case "tiled":
+                // Loop through layers, assign references
+                for (var i in data.layers) {
+                    switch(data.layers[i].name) {
+                        case "walls":
+                            walls = data.layers[i].objects;
+                            break;
+
+                        case "bubbles":
+                            bubbles = data.layers[i].objects;
+                            break;
+                    }
+                }
+
+                break;
+        }
+
+        // Assign values and convert
+        for (var i in walls) {
+            var w = walls[i];
+            var rw = result.walls[i] = {};
+            rw.x = +w.x;
+            rw.y = +w.y;
+            rw.height = +w.height;
+            rw.width = +w.width;
+        }
+
+        for (var i in bubbles) {
+            var b = bubbles[i];
+            var rb = result.bubbles[i] = {};
+            // Merge properties to bubble object if using tiled.
+            // Do this here to avoid having to loop through all bubbles again.
+            if (editor === "tiled") {
+                $.extend(b, b.properties);
+            }
+            rb.x = +b.x;
+            rb.y = +b.y;
+            rb.speed = +b.speed;
+            // b.moveAngle = ogmo
+            rb.angle = +(b.moveAngle || b.angle);
+            rb.type = b.type;
+            rb.count = +b.count || 1;
+            rb.randomPosition = b.randomPosition && Utils.stringToBool(b.randomPosition);
+            rb.iron = b.iron && Utils.stringToBool(b.iron);
+        }
+        console.log(result);
+        return result;
+    }
+};
+
 
