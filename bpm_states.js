@@ -217,7 +217,7 @@ function BPMStates() {
             return;
         }
         //data = data || (StateAssets && StateAssets[name]);
-        data = $.parseJSON(Assets.loader.jsonGet(dataID));
+        data = $.parseJSON(Assets.loader.getFile(dataID));
 
         State.create(name, function() {
             var base = State.list["game"](data);

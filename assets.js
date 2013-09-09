@@ -39,7 +39,7 @@ function Assets() {
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
     // Levels
-    Assets.loader.jsonAdd("testLevel", path.levels + "test-level.json");
+    Assets.loader.addFile("testLevel", path.levels + "test-level.json");
 
     // Returning self to cascade.
     return Assets;
@@ -77,8 +77,6 @@ Assets.load = function(callback) {
     Provides useful functions for level assets.
  */
 Assets.level = {
-    count: 0,
-
     getType: function(filepath) {
         // Get type and editor from filepath
         var type;
