@@ -39,7 +39,8 @@ function Assets() {
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
     // Levels
-    Assets.loader.addFile("testLevel", path.levels + "test-level.json");
+    Assets.loader.addFile("testLevelJSON", path.levels + "test-level.json");
+    Assets.loader.addFile("testLevelXML", path.levels + "test-level.oel");
 
     // Returning self to cascade.
     return Assets;

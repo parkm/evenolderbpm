@@ -8,7 +8,7 @@ function BPMStates() {
     State.create("game", function(data) {
         var base = State();
 
-        base.data = Assets.level.parse(data, "tiled");
+        base.data = data;
 
         base.bubbles = [];
         base.pins = [];
@@ -216,17 +216,29 @@ function BPMStates() {
             console.error("Error @ State.addRound: param 'name' must be a string.");
             return;
         }
-        //data = data || (StateAssets && StateAssets[name]);
-        data = $.parseJSON(Assets.loader.getFile(dataID));
+        
+        var data;
+        var id = dataID || name;
+        var file = Assets.loader.getFile(id);
+        var editor = Assets.level.getType(file.path).editor;
+
+        if (editor === "tiled") {
+            data = $.parseJSON(file.data);
+        } else if (editor === "ogmo") {
+            data = $.xml2json(file.data);
+        }
+
+        var finalData = Assets.level.parse(data, editor);
 
         State.create(name, function() {
-            var base = State.list["game"](data);
+            var base = State.list["game"](finalData);
 
             return base;
         });
     };
 
-    State.addRound("testLevelJSON", "testLevel");
+    State.addRound("The JSON level!", "testLevelJSON");
+    State.addRound("testLevelXML");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
