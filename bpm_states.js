@@ -8,7 +8,7 @@ function BPMStates() {
     State.create("game", function(data) {
         var base = State();
 
-        base.data = data;
+        base.data = Assets.level.parse(data, "tiled");
 
         base.bubbles = [];
         base.pins = [];
@@ -38,6 +38,7 @@ function BPMStates() {
             base.backButton = GUIButton("Back", {
                 font: "24px Arial"
             });
+
             base.backButton.onClick = function() {
                 State.set("roundSelect");
             };
@@ -210,12 +211,14 @@ function BPMStates() {
     // Creates rounds by inheriting from Game state.
     // name - name of round
     // data - optional; level data. Defaults to StateAssets[name]
-    State.addRound = function(name, data) {
+    State.addRound = function(name, dataID) {
         if (typeof name !== "string") {
             console.error("Error @ State.addRound: param 'name' must be a string.");
             return;
         }
-        data = data || (StateAssets && StateAssets[name]);
+        //data = data || (StateAssets && StateAssets[name]);
+        data = $.parseJSON(Assets.loader.jsonGet(dataID));
+
         State.create(name, function() {
             var base = State.list["game"](data);
 
@@ -223,8 +226,7 @@ function BPMStates() {
         });
     };
 
-    State.addRound("testLevelJSON");
-    State.addRound("testLevel");
+    State.addRound("testLevelJSON", "testLevel");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();

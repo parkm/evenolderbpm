@@ -39,10 +39,7 @@ function Assets() {
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
     // Levels
-    Assets.addLevels(StateAssets, {
-        "testLevel": path.levels + "test-level.oel",
-        "testLevelJSON": path.levels + "test-level.json"
-    });
+    Assets.loader.jsonAdd("testLevel", path.levels + "test-level.json");
 
     // Returning self to cascade.
     return Assets;
@@ -76,53 +73,11 @@ Assets.load = function(callback) {
     Assets.loader.load(callback);
 };
 
-// Wrapper for Assets.level.add
-// assetHolder: object in which to store references to levels
-// levels: object containing level name and filepath
-Assets.addLevels = function(assetHolder, levels) {
-    Assets.level.add(assetHolder, levels);
-};
-
 /* 
-    Queues and loads levels in an asynchronous chain.
-    Supports file types .json, .oel, .xml and editors Ogmo and Tiled.
-    (Need to custom-wire objects in Assets.level.parse for different formats).
-
-    Not tested: xml/tiled
+    Provides useful functions for level assets.
  */
 Assets.level = {
     count: 0,
-    assetHolder: {},
-    // stores all deferred objects for loading levels
-    queue: [],
-    // stores filetype and editor for all levels (for parsing)
-    types: [],
-
-    add: function(assetHolder, levels) {
-        // create deferred object for each level, store in queue array
-        this.assetHolder = assetHolder;
-        for (lvl in levels) {
-            var filepath = levels[lvl];
-            // reference to this for Assets.loader callback
-            var me = this;
-            var defer = $.Deferred(function(defer) {
-                // get type for current file, add to array, and return added type obj
-                var type = me.types[me.types.push(me.getType(filepath)) - 1];
-                // initiate load
-                Assets.loader[type.type](filepath, function(data) {
-                    // On load, resolve next in queue, increment count
-                    var lvl = Object.keys(levels)[me.count];
-                    me.queue[me.count].resolveWith(me, [lvl, data, me.types[me.count]]);
-                    me.count += 1;
-                });
-            }).done(function(lvl, data, type) {
-                // When loaded, parse data and assign to assetHolder
-                data = this.parse(data, type.editor);
-                this.assetHolder[lvl] = data;
-            });
-            this.queue.push(defer);
-        }
-    },
 
     getType: function(filepath) {
         // Get type and editor from filepath
