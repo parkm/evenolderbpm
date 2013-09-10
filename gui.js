@@ -292,3 +292,66 @@ function ScrollField() {
         },
     }
 }
+
+function Interval(_duration, _onComplete) {
+    return {
+        //Is the interval on?
+        active: false,
+        completed: false,
+        onComplete: _onComplete,
+
+        t: 0, //Percent completed with easing.
+
+        // Timing information.
+        time: 0, //Current time
+        duration: _duration,
+
+        update: function(delta) {
+            if (!this.completed && this.active) {
+                this.time += delta;
+                this.t = this.time / this.duration;
+
+                if (this.time >= this.duration * 1000) {
+                    this.t = 1;
+                    this.completed = true;
+                    if (this.onComplete) {
+                        this.onComplete();
+                    }
+                }
+            }
+        },
+
+        start: function() {
+            this.time = 0;
+            if (this.duration == 0) {
+                this.active = false;
+                return;
+            }
+            this.active = true;
+            this.completed = false;
+        },
+
+        //Resets the interval back to 0 but doesn't start.
+        stop: function() {
+            this.time = this.duration;
+            this.active = false;
+            this.completed = false;
+        },
+
+        //Resets the interval and starts it.
+        restart: function() {
+            this.time %= this.duration;
+            this.t = this.time / this.duration;
+
+            this.start();
+        },
+
+        getPercent: function() {
+            return this.time / this.duration*1000;
+        },
+
+        setPercent: function(value) {
+            this.time = (this.duration * value) * 1000;
+        },
+    };
+}
