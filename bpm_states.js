@@ -142,7 +142,8 @@ function BPMStates() {
             }
 
             if (!base.roundComplete) {
-                if ((base.goalBubbleCount <= 0 && base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
+                if ((base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
+                    //Do a check to see if the goal bubble count is 0. If so then cue the round success code.
                     base.roundComplete = true;
                     base.onRoundComplete();
                 }
