@@ -39,8 +39,10 @@ function Assets() {
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
     // Levels
-    Assets.loader.addFile("testLevelJSON", path.levels + "test-level.json");
-    Assets.loader.addFile("testLevelXML", path.levels + "test-level.oel");
+    Assets.addLevels(StateAssets, path.levels, {
+        "testLevelJSON": "test-level.json",
+        "testLevelXML": "test-level.oel"
+    });
 
     // Returning self to cascade.
     return Assets;
@@ -51,6 +53,7 @@ Assets.list = [];
 Assets.loader = Loader();
 
 // Add to asset list, return added image
+// Images Only
 Assets.add = function(_id, assetName) {
     Assets.list.push({
         id: _id,
@@ -61,6 +64,7 @@ Assets.add = function(_id, assetName) {
     return Assets.list[len].image;
 };
 
+// Images Only
 Assets.get = function(id) {
     for (i in Assets.list) {
         if (Assets.list[i].id === id) {
@@ -69,38 +73,74 @@ Assets.get = function(id) {
     }
 };
 
-// Convenience wrapper to keep things simple.
+/*  Assets.load
+    Wrapper to initiate loading sequence.
+
+    callback:
+            callback function to call when complete
+*/
 Assets.load = function(callback) {
     Assets.loader.load(callback);
 };
 
-/* 
-    Provides useful functions for level assets.
- */
+/*  Assets.addLevels
+    Wrapper to load level data
+
+    holder:
+            object to hold loaded files. Stores data in holder[id],
+            where id is the matching key in files object
+    path:
+            base file path, gets added to file name.
+            pass an empty string if file is in working directory
+    files:
+            object containing all files to load.
+            format: "levelID": "filename.extension"
+*/
+Assets.addLevels = function(holder, path, files) {
+    for (var id in files) {
+        Assets.loader.file(id, path + files[id], function(cid, cpath, cdata) {
+            // Prefix c to params to differentiate vars in callback
+            cdata = Assets.level.parse(cdata, cpath);
+            holder[cid] = cdata;
+        });
+    }
+};
+
+/*  Assets.level
+    Provides useful functions for level assets. Use as a static object.
+
+    getType:
+            returns an object with file type and editor
+            supported:
+                xml: ogmo, (tiled not yet tested)
+                json: tiled
+    parse:
+            parses level data to a consistent state. Must be hand-wired for each new format.
+            must be called on a loaded callback.
+            returns parsed data
+*/
 Assets.level = {
-    getType: function(filepath) {
+    getEditor: function(filepath) {
         // Get type and editor from filepath
-        var type;
-        var editor;
-        if (filepath.slice(-4) === "json") {
-            type = "json";
-            editor = "tiled";
-        } else if (filepath.slice(-3) === "oel") {
-            type = "xml";
-            editor = "ogmo";
-        } else if (filepath.slice(-3) === "xml") {
-            type = "xml";
-            editor = "tiled";
-        } else {
-            console.error("Error loading level data. Unsupported filetype.");
-            return;
+        filepath = filepath.toLowerCase();
+        var editor = {
+            "oel": "ogmo",
+            "xml": "tiled",
+            "json": "tiled"
+        };
+
+        for (var type in editor) {
+            var ext = filepath.slice(-type.length);
+            if (type === ext) {
+                return editor[type];
+            }
         }
-        return {type: type, editor: editor};
     },
     
-    parse: function(data, editor) {
-        // Parse data per editor
-        // Needs to be custom wired for different methods of data organization
+    parse: function(data, filepath) {
+        // Get editor from filepath
+        var editor = this.getEditor(filepath);
+
         var result = {
             bubbles: [],
             walls: []

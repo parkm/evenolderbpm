@@ -213,32 +213,27 @@ function BPMStates() {
     // name - name of round
     // data - optional; level data. Defaults to StateAssets[name]
     State.addRound = function(name, dataID) {
+        var data = StateAssets[dataID] || StateAssets[name];
+
+        // Error checking
         if (typeof name !== "string") {
             console.error("Error @ State.addRound: param 'name' must be a string.");
             return;
         }
-        
-        var data;
-        var id = dataID || name;
-        var file = Assets.loader.getFile(id);
-        var editor = Assets.level.getType(file.path).editor;
-
-        if (editor === "tiled") {
-            data = $.parseJSON(file.data);
-        } else if (editor === "ogmo") {
-            data = $.xml2json(file.data);
+        if (!data) {
+            console.error("Error @ State.addRound: data is undefined for " + name);
+            return;
         }
 
-        var finalData = Assets.level.parse(data, editor);
-
         State.create(name, function() {
-            var base = State.list["game"](finalData);
+            var base = State.list["game"](data);
 
             return base;
         });
     };
 
     State.addRound("The JSON level!", "testLevelJSON");
+    State.addRound("testLevelJSON");
     State.addRound("testLevelXML");
 
     State.create("dogpantzTest", function() {

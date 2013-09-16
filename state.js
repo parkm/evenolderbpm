@@ -100,7 +100,7 @@ State.list = {};
 /* Private
  * Turns debug info on/off for this module.
  * All debug info is sent to console. */
-State.debug = true;
+State.debug = false;
 
 /* Private
  * Tracks current state.
