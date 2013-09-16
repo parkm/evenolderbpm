@@ -21,6 +21,9 @@ Other {
         new bubbles in the upgrade store and upgrade their spawn rate.
         All bubbles will also be frozen.
     }
+    Game finish: {
+        Have round complete as soon as all goal bubbles are popped; don't wait for the pins to die (boring)
+    }
 }
 
 # Ideas:
