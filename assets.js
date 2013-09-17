@@ -39,8 +39,13 @@ function Assets() {
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
     // Levels
-    Assets.loader.addFile("testLevelJSON", path.levels + "test-level.json");
-    Assets.loader.addFile("testLevelXML", path.levels + "test-level.oel");
+    Assets.addLevels(StateAssets, path.levels, {
+        "testLevelJSON": "test-level.json",
+        "tutorial0": "tutorial_0.json",
+        "tutorial1": "tutorial_1.json",
+        "tutorial2": "tutorial_2.json",
+        "tutorial3": "tutorial_3.json"
+    });
 
     // Returning self to cascade.
     return Assets;
@@ -51,6 +56,7 @@ Assets.list = [];
 Assets.loader = Loader();
 
 // Add to asset list, return added image
+// Images Only
 Assets.add = function(_id, assetName) {
     Assets.list.push({
         id: _id,
@@ -61,6 +67,7 @@ Assets.add = function(_id, assetName) {
     return Assets.list[len].image;
 };
 
+// Images Only
 Assets.get = function(id) {
     for (i in Assets.list) {
         if (Assets.list[i].id === id) {
@@ -69,98 +76,113 @@ Assets.get = function(id) {
     }
 };
 
-// Convenience wrapper to keep things simple.
+/*  Assets.load
+    Wrapper to initiate loading sequence.
+
+    callback:
+            callback function to call when complete
+*/
 Assets.load = function(callback) {
     Assets.loader.load(callback);
 };
 
-/* 
-    Provides useful functions for level assets.
- */
+/*  Assets.addLevels
+    Wrapper to load level data
+
+    holder:
+            object to hold loaded files. Stores data in holder[id],
+            where id is the matching key in files object
+    path:
+            base file path, gets added to file name.
+            pass an empty string if file is in working directory
+    files:
+            object containing all files to load.
+            format: "levelID": "filename.extension"
+*/
+Assets.addLevels = function(holder, path, files) {
+    for (var file in files) {
+        Assets.loader.file(file, path + files[file], function(id, data) {
+            data = Assets.level.parse(data);
+            holder[id] = data;
+        });
+    }
+};
+
+/*  Assets.level
+    Provides useful functions for level assets. Use as a static object.
+
+    convert:
+            Converts text data to JSON
+
+    parse:
+            parses loaded Tiled JSON level data
+            must be called on a loaded callback.
+*/
 Assets.level = {
-    getType: function(filepath) {
-        // Get type and editor from filepath
-        var type;
-        var editor;
-        if (filepath.slice(-4) === "json") {
-            type = "json";
-            editor = "tiled";
-        } else if (filepath.slice(-3) === "oel") {
-            type = "xml";
-            editor = "ogmo";
-        } else if (filepath.slice(-3) === "xml") {
-            type = "xml";
-            editor = "tiled";
-        } else {
-            console.error("Error loading level data. Unsupported filetype.");
-            return;
-        }
-        return {type: type, editor: editor};
+    bubbleHeight: 32,
+    convert: function(data) {
+        data = $.parseJSON(data);
+        return data;
     },
-    
-    parse: function(data, editor) {
-        // Parse data per editor
-        // Needs to be custom wired for different methods of data organization
+
+    parse: function(data) {
+        data = this.convert(data);
+
         var result = {
             bubbles: [],
             walls: []
         };
 
-        var walls;
-        var bubbles;
-        switch(editor) {
-            case "ogmo":
-                bubbles = data.bubbles.Bubble;
-                walls = data.walls.Wall;
-                break;
+        var bubbleHeight = data.tileheight;
+        var bubbleWidth = data.tilewidth;
 
-            case "tiled":
-                // Loop through layers, assign references
-                for (var i in data.layers) {
-                    switch(data.layers[i].name) {
-                        case "walls":
-                            walls = data.layers[i].objects;
-                            break;
+        // Loop through layers, assign references
+        for (var i in data.layers) {
+            switch(data.layers[i].name) {
+                case "walls":
+                    var walls = data.layers[i].objects;
+                    break;
 
-                        case "bubbles":
-                            bubbles = data.layers[i].objects;
-                            break;
-                    }
-                }
-
-                break;
-        }
-
-        // Assign values and convert
-        // Walls
-        for (var i in walls) {
-            var w = walls[i];
-            var rw = result.walls[i] = {};
-            rw.x = +w.x;
-            rw.y = +w.y;
-            rw.height = +w.height;
-            rw.width = +w.width;
-        }
-        
-        // Bubbles
-        for (var i in bubbles) {
-            var b = bubbles[i];
-            var rb = result.bubbles[i] = {};
-            // Merge properties to bubble object if using tiled.
-            // Do this here to avoid having to loop through all bubbles again.
-            if (editor === "tiled") {
-                $.extend(b, b.properties);
+                case "bubbles":
+                    var bubbles = data.layers[i].objects;
+                    break;
             }
-            rb.x = +b.x;
-            rb.y = +b.y;
-            rb.speed = +b.speed;
-            // b.moveAngle for ogmo
-            rb.angle = +(b.moveAngle || b.angle);
-            rb.type = b.type;
-            rb.count = +b.count || 1;
-            rb.randomPosition = b.randomPosition && Utils.stringToBool(b.randomPosition);
-            rb.iron = b.iron && Utils.stringToBool(b.iron);
         }
+
+        for (var b in bubbles) {
+            // Merge and convert properties
+            var properties = bubbles[b].properties;
+            for (var prop in properties) {
+                var num = +properties[prop];
+                // Will have to change this if properites are strings
+                if (isNaN(num)) {
+                    bubbles[b][prop] = Utils.stringToBool(properties[prop]);
+                } else {
+                    bubbles[b][prop] = num;
+                }
+            }
+
+            // Add constraints if random area
+            if (bubbles[b].name === "random") {
+                bubbles[b].constraints = {
+                    x: bubbles[b].x,
+                    y: bubbles[b].y,
+                    width: (bubbles[b].x + bubbles[b].width) - bubbleWidth,
+                    height: (bubbles[b].y + bubbles[b].height) - bubbleHeight
+                };
+            }
+
+            // Corrections
+            // if count is undefined, define it (otherwise no bubbles)
+            if (!bubbles[b].count) {
+                bubbles[b].count = 1;
+            }
+            // Adjust y of bubbles by their height - Tiled is dumb
+            bubbles[b].y -= bubbleHeight;
+        }
+
+        result.bubbles = bubbles;
+        result.walls = walls;
         return result;
     }
 };

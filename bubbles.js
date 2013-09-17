@@ -35,9 +35,10 @@ Bubble.Base = function(_x, _y, _type, options) {
         type: "bubble",
         x: _x, y: _y,
         width: 32, height: 32,
+        constraints: (options && options.constraints) || {},
         type: _type,
         angle: (options && options.angle) || Math.random() * 360,
-        speed: options && (typeof options.speed === "number" && !isNaN(options.speed)) ? options.speed : 0.75,
+        speed: options && (typeof options.speed === "number" && !isNaN(options.speed)) ? options.speed : 0,
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
         options: options,
@@ -103,16 +104,16 @@ Bubble.Base = function(_x, _y, _type, options) {
             }
 
             //Standard bubble movement.
-            if (this.x < 0) {
+            if (this.x < 0 || this.x < this.constraints.x) {
                 speedX = -speedX;
             }
-            if (this.y < 0) {
+            if (this.y < 0 || this.y < this.constraints.y) {
                 speedY = -speedY;
             }
-            if (this.x > BPM.canvas.getWidth()) {
+            if (this.x > BPM.canvas.getWidth() || this.x > this.constraints.width) {
                 speedX = -speedX;
             }
-            if (this.y > BPM.canvas.getHeight()) {
+            if (this.y > BPM.canvas.getHeight() || this.y > this.constraints.height) {
                 speedY = -speedY;
             }
 

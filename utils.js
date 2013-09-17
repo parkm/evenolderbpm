@@ -30,6 +30,10 @@ Utils.stringToBool = function(string) {
     }
 };
 
+Utils.getRandom = function(min, max) {
+    return Math.random() * (max - min) + min;
+};
+
 
 Utils.saveData = function() {
     $.cookie("cash", BPM.cash, {expires: 365});

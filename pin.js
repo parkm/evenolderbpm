@@ -6,7 +6,7 @@ var PinAssets = {};
 function PinShooter(_x, _y, options) {
     // TODO: Implement base shooting speed, add additional 25% with charge.
     // preCharge is convenient percentage scale for chargeSpeed
-    var preCharge = .8;
+    var preCharge = .3;
     var charge = 0;
     var chargeSpeed = 1 + (preCharge * 10);
     var chargeBox;
@@ -126,7 +126,7 @@ Pin.Base = function(_x, _y, _angle, options) {
         x: _x, y: _y,
         width: 0, height: 0,
         speed: options.speed || 4,
-        life: 10,
+        life: 6,
         lifeTimer: 0,
         angle: _angle,
         speedX: 0, speedY: 0,
@@ -204,8 +204,10 @@ Pin.Standard = function(base) {
         base.img.originX = base.img.getWidth()/2;
         base.img.originY = base.img.getHeight()/2;
         base.img.angle = -this.angle;
-
-        gc.globalAlpha = 1 - (this.lifeTimer / (this.life * 1000));
+        
+        // equal to function, y = 1 - x^3 where y = alpha, x = % of pin life
+        // Makes the pin die slower
+        gc.globalAlpha = 1 - Math.pow(this.lifeTimer / (this.life * 1000), 2.5);
 
         base.img.render(gc);
 

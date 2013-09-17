@@ -15,7 +15,7 @@ function BPMStates() {
         base.walls = [];
         base.objects = [];
 
-        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2, {pins: 10});
+        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2, {pins: 4});
 
         base.multiplier = 1;
         base.combo = 0; 
@@ -43,6 +43,15 @@ function BPMStates() {
                 State.set("roundSelect");
             };
 
+            base.resetButton = GUIButton("Reset", {
+                y: 100,
+                font: "24px Arial"
+            });
+
+            base.resetButton.onClick = function() {
+                State.set(State.currentID);
+            };
+
             /* Load all game objects from JSON state data if it exists. */
             if (base.data) {
                 var d = base.data;
@@ -66,7 +75,12 @@ function BPMStates() {
                     for (var i = 0; i < bubbles.length; i += 1) {
                         var b = bubbles[i];
                         for (var j = 0; j < b.count; j += 1) {
-                            var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron});
+                            // Create bubbles in range constraints
+                            if (b.name === "random" && b.constraints) {
+                                b.x = Utils.getRandom(b.constraints.x, b.constraints.width);
+                                b.y = Utils.getRandom(b.constraints.y, b.constraints.height);
+                            }
+                            var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron, constraints: b.constraints});
 
                             if (b.randomPosition) {
                                 var isColliding;
@@ -85,16 +99,16 @@ function BPMStates() {
                                     }
                                 } while (isColliding);
                             }
-
                             base.bubbles.push(bInstance);
                         }
                     }
                 }
             }
-
         };
 
         base.update = function(delta) {
+            if (BPM.keyboard.isPressed(82)) State.set(State.currentID);
+
             base.goalBubbleCount = 0;
             for (i in base.bubbles) {
                 var b = base.bubbles[i];
@@ -117,6 +131,7 @@ function BPMStates() {
 
 
             base.backButton.update(BPM.mouse);
+            base.resetButton.update(BPM.mouse);
 
             //Sort objects based on depth.
             base.objects.sort(function(a, b) {
@@ -176,6 +191,7 @@ function BPMStates() {
             }
 
             base.backButton.render(gc);
+            base.resetButton.render(gc);
 
             var formatting = {
                 fillStyle: "#FFFFFF",
@@ -213,33 +229,30 @@ function BPMStates() {
     // name - name of round
     // data - optional; level data. Defaults to StateAssets[name]
     State.addRound = function(name, dataID) {
+        var data = StateAssets[dataID] || StateAssets[name];
+
+        // Error checking
         if (typeof name !== "string") {
             console.error("Error @ State.addRound: param 'name' must be a string.");
             return;
         }
-        
-        var data;
-        var id = dataID || name;
-        var file = Assets.loader.getFile(id);
-        var editor = Assets.level.getType(file.path).editor;
-
-        if (editor === "tiled") {
-            data = $.parseJSON(file.data);
-        } else if (editor === "ogmo") {
-            data = $.xml2json(file.data);
+        if (!data) {
+            console.error("Error @ State.addRound: data is undefined for " + name);
+            return;
         }
 
-        var finalData = Assets.level.parse(data, editor);
-
         State.create(name, function() {
-            var base = State.list["game"](finalData);
+            var base = State.list["game"](data);
 
             return base;
         });
     };
 
     State.addRound("The JSON level!", "testLevelJSON");
-    State.addRound("testLevelXML");
+    State.addRound("tutorial0");
+    State.addRound("tutorial1");
+    State.addRound("tutorial2");
+    State.addRound("tutorial3");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
@@ -497,7 +510,7 @@ function BPMStates() {
             }
             console.error("Error: Cannot create round, stage '" + stageName + "' does not exist.");
         };
-        
+
         base.init = function() {
             addStage(-1, "Goto State...", "rgb(19, 200, 200)");
             for (i in State.list) {
