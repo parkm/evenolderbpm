@@ -75,7 +75,12 @@ function BPMStates() {
                     for (var i = 0; i < bubbles.length; i += 1) {
                         var b = bubbles[i];
                         for (var j = 0; j < b.count; j += 1) {
-                            var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron});
+                            // Create bubbles in range constraints
+                            if (b.name === "random" && b.constraints) {
+                                b.x = Utils.getRandom(b.constraints.x, b.constraints.width);
+                                b.y = Utils.getRandom(b.constraints.y, b.constraints.height);
+                            }
+                            var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron, constraints: b.constraints});
 
                             if (b.randomPosition) {
                                 var isColliding;

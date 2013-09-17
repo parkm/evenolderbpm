@@ -133,6 +133,9 @@ Assets.level = {
             walls: []
         };
 
+        var bubbleHeight = data.tileheight;
+        var bubbleWidth = data.tilewidth;
+
         // Loop through layers, assign references
         for (var i in data.layers) {
             switch(data.layers[i].name) {
@@ -159,13 +162,23 @@ Assets.level = {
                 }
             }
 
+            // Add constraints if random area
+            if (bubbles[b].name === "random") {
+                bubbles[b].constraints = {
+                    x: bubbles[b].x,
+                    y: bubbles[b].y,
+                    width: (bubbles[b].x + bubbles[b].width) - bubbleWidth,
+                    height: (bubbles[b].y + bubbles[b].height) - bubbleHeight
+                };
+            }
+
             // Corrections
             // if count is undefined, define it (otherwise no bubbles)
             if (!bubbles[b].count) {
                 bubbles[b].count = 1;
             }
             // Adjust y of bubbles by their height - Tiled is dumb
-            bubbles[b].y -= this.bubbleHeight;
+            bubbles[b].y -= bubbleHeight;
         }
 
         result.bubbles = bubbles;
