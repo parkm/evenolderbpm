@@ -41,7 +41,6 @@ function Assets() {
     // Levels
     Assets.addLevels(StateAssets, path.levels, {
         "testLevelJSON": "test-level.json",
-        "testLevelXML": "test-level.oel",
         "tutorial0": "tutorial_0.json",
         "tutorial1": "tutorial_1.json",
         "tutorial2": "tutorial_2.json",
@@ -101,12 +100,11 @@ Assets.load = function(callback) {
             format: "levelID": "filename.extension"
 */
 Assets.addLevels = function(holder, path, files) {
-    for (var id in files) {
-        Assets.loader.file(id, path + files[id], function(cid, cpath, cdata) {
-            // Prefix c to params to differentiate vars in callback
-            cdata = Assets.level.parse(cdata, cpath);
-            holder[cid] = cdata;
-        }, true);
+    for (var file in files) {
+        Assets.loader.file(file, path + files[file], function(id, data) {
+            data = Assets.level.parse(data);
+            holder[id] = data;
+        });
     }
 };
 
@@ -117,11 +115,11 @@ Assets.addLevels = function(holder, path, files) {
             Converts text data to JSON
 
     parse:
-            parses level data to a consistent state. Must be hand-wired for each new format.
+            parses loaded Tiled JSON level data
             must be called on a loaded callback.
-            returns parsed data
 */
 Assets.level = {
+    bubbleHeight: 32,
     convert: function(data) {
         data = $.parseJSON(data);
         return data;
@@ -148,36 +146,30 @@ Assets.level = {
             }
         }
 
-        // Assign values and convert
-        // Walls
-        for (var i in walls) {
-            var w = walls[i];
-            var rw = result.walls[i] = {};
-            rw.x = +w.x;
-            rw.y = +w.y;
-            rw.height = +w.height;
-            rw.width = +w.width;
-        }
-        
-        // Bubbles
-        for (var i in bubbles) {
-            var b = bubbles[i];
-            var rb = result.bubbles[i] = {};
-            // Merge properties to bubble object if using tiled.
-            // Do this here to avoid having to loop through all bubbles again.
-            if (editor === "tiled") {
-                $.extend(b, b.properties);
+        for (var b in bubbles) {
+            // Merge and convert properties
+            var properties = bubbles[b].properties;
+            for (var prop in properties) {
+                var num = +properties[prop];
+                // Will have to change this if properites are strings
+                if (isNaN(num)) {
+                    bubbles[b][prop] = Utils.stringToBool(properties[prop]);
+                } else {
+                    bubbles[b][prop] = num;
+                }
             }
-            rb.x = +b.x;
-            rb.y = +b.y;
-            rb.speed = +b.speed;
-            // b.moveAngle for ogmo
-            rb.angle = +(b.moveAngle || b.angle);
-            rb.type = b.type;
-            rb.count = +b.count || 1;
-            rb.randomPosition = b.randomPosition && Utils.stringToBool(b.randomPosition);
-            rb.iron = b.iron && Utils.stringToBool(b.iron);
+
+            // Corrections
+            // if count is undefined, define it (otherwise no bubbles)
+            if (!bubbles[b].count) {
+                bubbles[b].count = 1;
+            }
+            // Adjust y of bubbles by their height - Tiled is dumb
+            bubbles[b].y -= this.bubbleHeight;
         }
+
+        result.bubbles = bubbles;
+        result.walls = walls;
         return result;
     }
 };
