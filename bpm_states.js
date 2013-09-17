@@ -43,6 +43,15 @@ function BPMStates() {
                 State.set("roundSelect");
             };
 
+            base.resetButton = GUIButton("Reset", {
+                y: 100,
+                font: "24px Arial"
+            });
+
+            base.resetButton.onClick = function() {
+                State.set(State.currentID);
+            };
+
             /* Load all game objects from JSON state data if it exists. */
             if (base.data) {
                 var d = base.data;
@@ -85,16 +94,16 @@ function BPMStates() {
                                     }
                                 } while (isColliding);
                             }
-
                             base.bubbles.push(bInstance);
                         }
                     }
                 }
             }
-
         };
 
         base.update = function(delta) {
+            if (BPM.keyboard.isPressed(82)) State.set(State.currentID);
+
             base.goalBubbleCount = 0;
             for (i in base.bubbles) {
                 var b = base.bubbles[i];
@@ -117,6 +126,7 @@ function BPMStates() {
 
 
             base.backButton.update(BPM.mouse);
+            base.resetButton.update(BPM.mouse);
 
             //Sort objects based on depth.
             base.objects.sort(function(a, b) {
@@ -176,6 +186,7 @@ function BPMStates() {
             }
 
             base.backButton.render(gc);
+            base.resetButton.render(gc);
 
             var formatting = {
                 fillStyle: "#FFFFFF",
@@ -233,7 +244,6 @@ function BPMStates() {
     };
 
     State.addRound("The JSON level!", "testLevelJSON");
-    State.addRound("testLevelXML");
     State.addRound("tutorial0");
     State.addRound("tutorial1");
     State.addRound("tutorial2");
@@ -495,7 +505,7 @@ function BPMStates() {
             }
             console.error("Error: Cannot create round, stage '" + stageName + "' does not exist.");
         };
-        
+
         base.init = function() {
             addStage(-1, "Goto State...", "rgb(19, 200, 200)");
             for (i in State.list) {
