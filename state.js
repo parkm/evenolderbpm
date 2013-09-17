@@ -46,6 +46,7 @@ State.set = function(id) {
 
     if (State.list[id]) {
         State.prepped = State.list[id];
+        State.currentID = id;
     } else {
         console.error("Error: No State '" + id + "'");
     }   
@@ -82,9 +83,9 @@ State.update = function(delta) {
 };
 
 /* Public
- * Created to maintain normality with State.update.
- * Add any necessary pre-render code here.
- */
+        Created to maintain normality with State.update.
+        Add any necessary pre-render code here.
+*/
 State.render = function(gc) {
 
     if (State.current) {
@@ -93,20 +94,31 @@ State.render = function(gc) {
 };
 
 /* Public
- * List of all state constructors.
- * Use this to inherit from previously created states. */
+        List of all state constructors.
+        Use this to inherit from previously created states.
+*/
 State.list = {};
 
 /* Private
- * Turns debug info on/off for this module.
- * All debug info is sent to console. */
-State.debug = false;
+        Turns debug info on/off for this module.
+        All debug info is sent to console.
+*/
+State.debug = true;
 
 /* Private
- * Tracks current state.
- * Current state set by State.set */
+        Tracks current state.
+        Current state set by State.set
+*/
 State.current = undefined;
 
-/* Private - Should only be used by the main loop.
- * The state ready to be switched. */
+/* Private
+        Tracks current state's ID
+        Useful for resetting current state
+*/
+State.currentID = "";
+
+/* Private
+        The state ready to be switched.
+        Should only be used by the main loop.
+*/
 State.prepped = undefined;
