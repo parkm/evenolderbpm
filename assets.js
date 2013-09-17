@@ -41,7 +41,11 @@ function Assets() {
     // Levels
     Assets.addLevels(StateAssets, path.levels, {
         "testLevelJSON": "test-level.json",
-        "testLevelXML": "test-level.oel"
+        "testLevelXML": "test-level.oel",
+        "tutorial0": "tutorial_0.json",
+        "tutorial1": "tutorial_1.json",
+        "tutorial2": "tutorial_2.json",
+        "tutorial3": "tutorial_3.json"
     });
 
     // Returning self to cascade.
@@ -102,73 +106,46 @@ Assets.addLevels = function(holder, path, files) {
             // Prefix c to params to differentiate vars in callback
             cdata = Assets.level.parse(cdata, cpath);
             holder[cid] = cdata;
-        });
+        }, true);
     }
 };
 
 /*  Assets.level
     Provides useful functions for level assets. Use as a static object.
 
-    getType:
-            returns an object with file type and editor
-            supported:
-                xml: ogmo, (tiled not yet tested)
-                json: tiled
+    convert:
+            Converts text data to JSON
+
     parse:
             parses level data to a consistent state. Must be hand-wired for each new format.
             must be called on a loaded callback.
             returns parsed data
 */
 Assets.level = {
-    getEditor: function(filepath) {
-        // Get type and editor from filepath
-        filepath = filepath.toLowerCase();
-        var editor = {
-            "oel": "ogmo",
-            "xml": "tiled",
-            "json": "tiled"
-        };
-
-        for (var type in editor) {
-            var ext = filepath.slice(-type.length);
-            if (type === ext) {
-                return editor[type];
-            }
-        }
+    convert: function(data) {
+        data = $.parseJSON(data);
+        return data;
     },
-    
-    parse: function(data, filepath) {
-        // Get editor from filepath
-        var editor = this.getEditor(filepath);
+
+    parse: function(data) {
+        data = this.convert(data);
 
         var result = {
             bubbles: [],
             walls: []
         };
 
-        var walls;
-        var bubbles;
-        switch(editor) {
-            case "ogmo":
-                bubbles = data.bubbles.Bubble;
-                walls = data.walls.Wall;
-                break;
+        // Loop through layers, assign references
+        for (var i in data.layers) {
+            switch(data.layers[i].name) {
+                case "walls":
+                    var walls = data.layers[i].objects;
+                    break;
 
-            case "tiled":
-                // Loop through layers, assign references
-                for (var i in data.layers) {
-                    switch(data.layers[i].name) {
-                        case "walls":
-                            walls = data.layers[i].objects;
-                            break;
-
-                        case "bubbles":
-                            bubbles = data.layers[i].objects;
-                            break;
-                    }
-                }
-
-                break;
+                case "bubbles":
+                    var bubbles = data.layers[i].objects;
+                    break;
+            }
         }
 
         // Assign values and convert

@@ -15,7 +15,7 @@ function BPMStates() {
         base.walls = [];
         base.objects = [];
 
-        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2, {pins: 10});
+        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2, {pins: 4});
 
         base.multiplier = 1;
         base.combo = 0; 
@@ -233,8 +233,11 @@ function BPMStates() {
     };
 
     State.addRound("The JSON level!", "testLevelJSON");
-    State.addRound("testLevelJSON");
     State.addRound("testLevelXML");
+    State.addRound("tutorial0");
+    State.addRound("tutorial1");
+    State.addRound("tutorial2");
+    State.addRound("tutorial3");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
