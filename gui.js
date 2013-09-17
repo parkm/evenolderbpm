@@ -54,8 +54,8 @@ function GUIButton(_text, options) {
     return {
         text: _text,
 
-        x: 0,
-        y: 0,
+        x: options.x === undefined ? 0 : options.x,
+        y: options.y === undefined ? 0 : options.y,
         width: 0,
         height: 0,
         postWidth: 0,
