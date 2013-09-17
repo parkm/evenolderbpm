@@ -38,7 +38,7 @@ Bubble.Base = function(_x, _y, _type, options) {
         constraints: (options && options.constraints) || {},
         type: _type,
         angle: (options && options.angle) || Math.random() * 360,
-        speed: options && (typeof options.speed === "number" && !isNaN(options.speed)) ? options.speed : 0.75,
+        speed: options && (typeof options.speed === "number" && !isNaN(options.speed)) ? options.speed : 0,
         color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
         options: options,
