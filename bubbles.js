@@ -323,8 +323,14 @@ Bubble.Double = function(base) {
     var superOnPop = base.onPop;
     base.onPop = function(args) {
         args.state.pins.push(Pin(base.x + (base.width / 2), base.y + (base.height / 2), args.pin.angle-45, {speed: args.pin.speed, type: "standard"}));
-
+        args.state.pins.push(Pin(base.x + (base.width / 2), base.y + (base.height / 2), args.pin.angle+45, {speed: args.pin.speed, type: "standard"}));
         superOnPop.call(base, args);
+    };
+
+    var superOnCollision = base.onCollision;
+    base.onCollision = function(args) {
+        args.pin.onDeath(args.state.pins);
+        superOnCollision.call(base, args);
     };
 
     return base;
