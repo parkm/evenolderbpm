@@ -44,7 +44,8 @@ function Assets() {
         "tutorial0": "tutorial_0.json",
         "tutorial1": "tutorial_1.json",
         "tutorial2": "tutorial_2.json",
-        "tutorial3": "tutorial_3.json"
+        "tutorial3": "tutorial_3.json",
+        "tutorial4": "tutorial_4.json"
     });
 
     // Returning self to cascade.
@@ -127,11 +128,14 @@ Assets.level = {
 
     parse: function(data) {
         data = this.convert(data);
+        console.log(data);
 
         var result = {
             bubbles: [],
             walls: []
         };
+
+        var walls = [], bubbles = [], shooter;
 
         var bubbleHeight = data.tileheight;
         var bubbleWidth = data.tilewidth;
@@ -140,11 +144,16 @@ Assets.level = {
         for (var i in data.layers) {
             switch(data.layers[i].name) {
                 case "walls":
-                    var walls = data.layers[i].objects;
+                    walls = data.layers[i].objects;
                     break;
 
                 case "bubbles":
-                    var bubbles = data.layers[i].objects;
+                    bubbles = data.layers[i].objects;
+                    break;
+
+                case "shooter":
+                    // Only get first instance - should only be one shooter.
+                    shooter = data.layers[i].objects[0];
                     break;
             }
         }
@@ -179,6 +188,15 @@ Assets.level = {
             }
             // Adjust y of bubbles by their height - Tiled is dumb
             bubbles[b].y -= bubbleHeight;
+        }
+
+        // Assign shooter data
+        if (shooter) {
+            result.shooter = {
+                x: shooter.x,
+                y: shooter.y,
+                pins: +shooter.properties.pins
+            };
         }
 
         result.bubbles = bubbles;
