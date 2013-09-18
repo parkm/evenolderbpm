@@ -26,9 +26,9 @@ function Assets() {
         "score": "rgb(0, 0, 255)",
         "bad": "rgb(255, 0, 0)",
         "goal": "rgb(255, 255, 0)",
-        "ammo": "rgb(30, 170, 200)",
+        "ammo": "rgb(0, 255, 255)",
         "double": "rgb(0, 255, 0)",
-        "combo": "rgb(180, 58, 186)",
+        "combo": "rgb(186, 0, 255)",
         "reflect": "rgb(255, 100, 0)",
         "bomb": "rgb(0, 0, 0)"
     });
