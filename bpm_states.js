@@ -18,15 +18,15 @@ function BPMStates() {
         var shooter = {
             defaultPins: 4,
             // Use offset to center shooter
+            // Required with Tiled
             offsetX: 16,
             offsetY: -16
         };
 
         // Load shooter data from level data
         if (data && data.shooter) {
-            console.log(!!data.shooter);
-            shooter.x = data.shooter.x;
-            shooter.y = data.shooter.y;
+            shooter.x = data.shooter.x + shooter.offsetX;
+            shooter.y = data.shooter.y + shooter.offsetY;
             shooter.pins = data.shooter.pins || shooter.defaultPins;
         } else {
             shooter.x = BPM.canvas.getWidth() / 2;
@@ -34,8 +34,6 @@ function BPMStates() {
             shooter.pins = shooter.defaultPins;
         }
 
-        shooter.x += shooter.offsetX;
-        shooter.y += shooter.offsetY;
 
         base.shooter = PinShooter(shooter.x, shooter.y, {pins: shooter.pins});
 
@@ -276,6 +274,7 @@ function BPMStates() {
     State.addRound("tutorial2");
     State.addRound("tutorial3");
     State.addRound("tutorial4");
+    State.addRound("issue8");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
