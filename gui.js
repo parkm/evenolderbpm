@@ -292,7 +292,6 @@ function ScrollField() {
         },
     }
 }
-<<<<<<< HEAD
 
 function Interval(_duration, _onComplete) {
     return {
@@ -356,5 +355,4 @@ function Interval(_duration, _onComplete) {
         },
     };
 }
-=======
->>>>>>> 9990f4a4be7a271ed1f4b755f6e7c10b5b7e15e3
+
