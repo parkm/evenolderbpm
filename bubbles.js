@@ -39,7 +39,6 @@ Bubble.Base = function(_x, _y, _type, options) {
         type: _type,
         angle: (options && options.angle) || Math.random() * 360,
         speed: options && (typeof options.speed === "number" && !isNaN(options.speed)) ? options.speed : 0,
-        color: "rgba(0, 0, 0, .25)",
         img: BubbleAssets.score,
         options: options,
 
@@ -149,10 +148,7 @@ Bubble.Base = function(_x, _y, _type, options) {
                 gc.globalAlpha = 1 - (ghostTimer / (ghostInterval * 1000));
             }
 
-            gc.fillStyle = this.color;
-            gc.fillRect(this.x, this.y, this.img.width, this.img.height);
             gc.drawImage(this.img, this.x, this.y);
-
             gc.drawImage(BubbleAssets.glare, this.x, this.y);
 
             if (iron) {
@@ -248,7 +244,6 @@ function Explosion(x, y, pin) {
 
 Bubble.Score = function(base) {
     base.img = BubbleAssets.score;
-    base.color = "rgba(0, 0, 255, .25)";
     base.worth = (base.options && base.options.worth) || 10;
     
     var s_onPop = base.onPop;
@@ -283,7 +278,6 @@ Bubble.Bad = function(base) {
     base = Bubble.Score(base);
 
     base.img = BubbleAssets.bad;
-    base.color = "rgba(255, 0, 0, .25)";
     base.worth = (base.options && base.options.worth) || -10;
 
     return base;
@@ -291,14 +285,12 @@ Bubble.Bad = function(base) {
 
 Bubble.Goal = function(base) {
     base.img = BubbleAssets.goal;
-    base.color = "rgba(255, 255, 0, .25)";
 
     return base;
 };
 
 Bubble.Ammo = function(base) {
     base.img = BubbleAssets.ammo;
-    base.color = "rgba(30, 170, 200, .25)";
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
@@ -318,7 +310,6 @@ Bubble.Ammo = function(base) {
 
 Bubble.Double = function(base) {
     base.img = BubbleAssets.double;
-    base.color = "rgba(0, 255, 0, .25)";
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
@@ -332,7 +323,6 @@ Bubble.Double = function(base) {
 
 Bubble.Combo = function(base) {
     base.img = BubbleAssets.combo;
-    base.color = "rgba(180, 58, 186, .25)";
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
@@ -355,7 +345,6 @@ Bubble.Combo = function(base) {
 
 Bubble.Reflect = function(base) {
     base.img = BubbleAssets.reflect;
-    base.color = "rgba(255, 100, 0, .25)";
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
@@ -370,7 +359,6 @@ Bubble.Reflect = function(base) {
 
 Bubble.Bomb = function(base) {
     base.img = BubbleAssets.bomb;
-    base.color = "rgba(0, 0, 0, .25)";
 
     base.exploded = false;
     base.explosionTimer = 0;

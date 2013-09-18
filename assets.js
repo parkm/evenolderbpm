@@ -20,14 +20,18 @@ function Assets() {
     BubbleAssets.pop = Assets.add("pop", path.bubbles + "pop-90x100-strip7.png");
     BubbleAssets.glare = Assets.add("bubbleGlare", path.bubbles + "bubble-glare.png");
 
-    BubbleAssets.score = Assets.add("bubbleScore", path.bubbles + "bubble.png");
-    BubbleAssets.bad = Assets.add("bubbleBad", path.bubbles + "bubble.png");
-    BubbleAssets.goal = Assets.add("bubbleGoal", path.bubbles + "bubble.png");
-    BubbleAssets.double = Assets.add("bubbleDouble", path.bubbles + "bubble.png");
-    BubbleAssets.reflect = Assets.add("bubbleReflect", path.bubbles + "bubble.png");
-    BubbleAssets.combo = Assets.add("bubbleCombo", path.bubbles + "bubble.png");
-    BubbleAssets.ammo = Assets.add("bubbleAmmo", path.bubbles + "bubble.png");
-    BubbleAssets.bomb = Assets.add("bubbleBomb", path.bubbles + "bubble.png");
+    BubbleAssets.bubble = Assets.add("bubble", path.bubbles + "bubble.png");
+    
+    Assets.addTintedBubbles(BubbleAssets, BubbleAssets.bubble, {
+        "score": "rgb(0, 0, 255)",
+        "bad": "rgb(255, 0, 0)",
+        "goal": "rgb(255, 255, 0)",
+        "ammo": "rgb(30, 170, 200)",
+        "double": "rgb(0, 255, 0)",
+        "combo": "rgb(180, 58, 186)",
+        "reflect": "rgb(255, 100, 0)",
+        "bomb": "rgb(0, 0, 0)"
+    });
 
     // State Assets
     StateAssets.background = Assets.add("background", path.assets + "blue-background.jpg");
@@ -67,6 +71,67 @@ Assets.add = function(_id, assetName) {
     return Assets.list[len].image;
 };
 
+Assets.tintedBubbleHolder = 0;
+Assets.tintedBubbleImage = 0;
+Assets.bubblesToTint = [];
+
+/*  Adds bubbles you want to tint to a list, in order to prepare it for caching.
+
+    holder:
+            Object to hold loaded files. Stores data in holder[id],
+            where id is the matching key in colors object
+    image:
+            The base image you want to tint.
+    colors:
+            Object containing the colors of the bubble. 
+            format: "bubbleName": "rgb(redValue, blueValue, greenValue)"
+*/
+Assets.addTintedBubbles = function(holder, image, colors) {
+    Assets.tintedBubbleHolder = holder;
+    Assets.tintedBubbleImage = image;
+    for (var bubbleName in colors) {
+        Assets.bubblesToTint.push({
+            name: bubbleName,
+            color: colors[bubbleName]
+        });    
+    } 
+};
+
+/*  Generates the tinted images from the bubblesToTint list.  */
+Assets.genTintedBubbles = function(gc) {
+    for (var i in Assets.bubblesToTint) {
+        var img = Assets.bubblesToTint[i];
+        
+        //Create offscreen buffer
+        var buffer = document.createElement('canvas');
+
+        buffer.width = Assets.tintedBubbleImage.width;
+        buffer.height = Assets.tintedBubbleImage.height;
+        bgc = buffer.getContext('2d');
+
+        // fill offscreen buffer with the tint color
+        bgc.fillStyle = img.color;
+        bgc.fillRect(0,0,buffer.width,buffer.height);
+
+        bgc.globalCompositeOperation = "destination-atop";
+        bgc.drawImage(Assets.tintedBubbleImage,0,0);
+        
+        gc.canvas.width = gc.canvas.width; //Clear the canvas, otherwise there will be a background to the tinted images.
+        gc.drawImage(Assets.tintedBubbleImage,0,0);
+
+        //Set the tinting amount.
+        gc.globalAlpha = 1;
+        gc.drawImage(buffer,0,0);
+
+        var cachedCanvas = document.createElement('canvas');
+        cachedCanvas.width = buffer.width;
+        cachedCanvas.height = buffer.height;
+        cachedCanvas.getContext('2d').drawImage(gc.canvas,0,0);
+
+        Assets.tintedBubbleHolder[img.name] = cachedCanvas;
+    }
+};
+
 // Images Only
 Assets.get = function(id) {
     for (i in Assets.list) {
@@ -83,7 +148,10 @@ Assets.get = function(id) {
             callback function to call when complete
 */
 Assets.load = function(callback) {
-    Assets.loader.load(callback);
+    Assets.loader.load(function() {
+        Assets.genTintedBubbles(BPM.context);
+        callback();
+    });
 };
 
 /*  Assets.addLevels
