@@ -45,7 +45,8 @@ function Assets() {
         "tutorial1": "tutorial_1.json",
         "tutorial2": "tutorial_2.json",
         "tutorial3": "tutorial_3.json",
-        "tutorial4": "tutorial_4.json"
+        "tutorial4": "tutorial_4.json",
+        "issue8": "issue8.json"
     });
 
     // Returning self to cascade.
@@ -128,7 +129,6 @@ Assets.level = {
 
     parse: function(data) {
         data = this.convert(data);
-        console.log(data);
 
         var result = {
             bubbles: [],
