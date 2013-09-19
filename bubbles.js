@@ -317,6 +317,7 @@ Bubble.Double = function(base) {
         args.state.pins.push(Pin(base.x + (base.width / 2), base.y + (base.height / 2), args.pin.angle+45, {speed: args.pin.speed, type: "standard"}));
 
         if (!base.popped) {  
+            // temp fix for double bubble issues
             superOnPop.call(base, args);
             base.popped = true;
         }
@@ -324,8 +325,12 @@ Bubble.Double = function(base) {
 
     var superOnCollision = base.onCollision;
     base.onCollision = function(args) {
-        args.pin.onDeath(args.state.pins);
-        superOnCollision.call(base, args);
+        // temp fix for double bubble issues
+        if (!base.popped) {
+            args.pin.onDeath(args.state.pins);
+            superOnCollision.call(base, args);
+            base.popped = true;
+        }
     };
 
     return base;
