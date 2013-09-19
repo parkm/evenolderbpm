@@ -458,19 +458,10 @@ function BPMStates() {
                 }
             });
 
-            base.upgradeButton = GUIButton("Upgrades", {
-                dynamic: false,
-
-                onClick: function() {
-                    State.set("upgrades");
-                }
-            });
-
             base.buttons.push(base.achieveButton);
             base.buttons.push(base.menuButton);
             base.buttons.push(base.saveButton);
             base.buttons.push(base.resetButton);
-            base.buttons.push(base.upgradeButton);
         };
 
         base.updateButtons = function() {
@@ -727,7 +718,7 @@ function BPMStates() {
         base.init = function() {
             backButton = GUIButton("Back", {
                 onClick: function() {
-                    State.set("roundSelect");
+                    State.set("classicRoundSelect");
                 }
             });
 
@@ -862,10 +853,16 @@ function BPMStates() {
                     State.set("classicRound");
                 }
             });
+            
+            base.upgradeButton = GUIButton("Upgrades", {
+                dynamic: false
+            });
 
             base.upgradeButton.onClick = function() {
-                base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
+                State.set("upgrades");
             };
+
+            base.buttons.push(base.upgradeButton);
         };
 
         base.update = function(delta) {
