@@ -36,6 +36,7 @@ BPM.init = function() {
     BPMStates();
     Utils.loadData();
     State.set("roundSelect");
+
     Loop.run();
 };
 
