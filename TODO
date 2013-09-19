@@ -39,10 +39,6 @@ Bubbles {
  
 States {}
 
-Levels {
-    Make an option to set starting pins for certain levels. (I believe there is a level properties thing in Tiled)
-}
-
 Other {
     Implement original gameplay for the 'Classic' game mode. (Might wanna do this after upgrade ui is finished) {
         Classic round will start with score/bad bubbles. You can buy
