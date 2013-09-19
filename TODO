@@ -2,6 +2,18 @@ Current TODO:
 
 Design {
     Design Upgrades
+
+    UI {
+        Increase canvas height, add UI things outside of game window
+    }
+
+    Main Mode {
+        Rounds {
+            Round Failed - run out of pins without popping all goal bubbles
+            Round Complete - Pop all goal bubbles (wait for current pin to die)
+                           - Don't wait for remaining pins
+        }
+    }
 }
 
 Pins {
@@ -17,6 +29,10 @@ Bubbles {
         pass these constraints in the loading handler
         in Tiled, add property to groups: constrain (bool)
         test if constrain on load, if so, pass x, y, width, height of tiled group as constraints
+    }
+
+    Reflect {
+        if iron, pin should not be destroyed
     }
     
 }

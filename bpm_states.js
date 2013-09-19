@@ -15,7 +15,27 @@ function BPMStates() {
         base.walls = [];
         base.objects = [];
 
-        base.shooter = PinShooter(BPM.canvas.getWidth() / 2, BPM.canvas.getHeight() / 2, {pins: 4});
+        var shooter = {
+            defaultPins: 4,
+            // Use offset to center shooter
+            // Required with Tiled
+            offsetX: 16,
+            offsetY: -16
+        };
+
+        // Load shooter data from level data
+        if (data && data.shooter) {
+            shooter.x = data.shooter.x + shooter.offsetX;
+            shooter.y = data.shooter.y + shooter.offsetY;
+            shooter.pins = data.shooter.pins || shooter.defaultPins;
+        } else {
+            shooter.x = BPM.canvas.getWidth() / 2;
+            shooter.y = BPM.canvas.getHeight() / 2;
+            shooter.pins = shooter.defaultPins;
+        }
+
+
+        base.shooter = PinShooter(shooter.x, shooter.y, {pins: shooter.pins});
 
         base.multiplier = 1;
         base.combo = 0; 
@@ -253,6 +273,8 @@ function BPMStates() {
     State.addRound("tutorial1");
     State.addRound("tutorial2");
     State.addRound("tutorial3");
+    State.addRound("tutorial4");
+    State.addRound("issue8");
     State.addRound("donkey json level", "donk");
 
     State.create("dogpantzTest", function() {
@@ -437,19 +459,10 @@ function BPMStates() {
                 }
             });
 
-            base.upgradeButton = GUIButton("Upgrades", {
-                dynamic: false,
-
-                onClick: function() {
-                    State.set("upgrades");
-                }
-            });
-
             base.buttons.push(base.achieveButton);
             base.buttons.push(base.menuButton);
             base.buttons.push(base.saveButton);
             base.buttons.push(base.resetButton);
-            base.buttons.push(base.upgradeButton);
         };
 
         base.updateButtons = function() {
@@ -706,7 +719,7 @@ function BPMStates() {
         base.init = function() {
             backButton = GUIButton("Back", {
                 onClick: function() {
-                    State.set("roundSelect");
+                    State.set("classicRoundSelect");
                 }
             });
 
@@ -841,10 +854,16 @@ function BPMStates() {
                     State.set("classicRound");
                 }
             });
+            
+            base.upgradeButton = GUIButton("Upgrades", {
+                dynamic: false
+            });
 
             base.upgradeButton.onClick = function() {
-                base.addFloatText("Go to classic upgrade screen", base.upgradeButton.x + base.upgradeButton.width, base.upgradeButton.y);
+                State.set("upgrades");
             };
+
+            base.buttons.push(base.upgradeButton);
         };
 
         base.update = function(delta) {
