@@ -46,6 +46,7 @@ function Assets() {
         "tutorial2": "tutorial_2.json",
         "tutorial3": "tutorial_3.json",
         "tutorial4": "tutorial_4.json",
+        "tutorial5": "tutorial_5.json",
         "issue8": "issue8.json"
     });
 
