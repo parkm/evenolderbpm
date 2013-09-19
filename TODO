@@ -48,11 +48,27 @@ Other {
         Classic round will start with score/bad bubbles. You can buy
         new bubbles in the upgrade store and upgrade their spawn rate.
         All bubbles will also be frozen.
+
+        Upgrades:
+            Bomb bubbles
+                Bomb bubble increase
+
+            Ammo bubbles
+                Ammo bubble increase
+            
+            Score bubble increase
+            Bad bubble decrease
+            Double bubble increase
+            Combo bubble increase
+            Pin count increase
+            Pin life increase
     }
+
     Game finish: {
         Have round complete as soon as all goal bubbles are popped; don't wait for the pins to die (boring)
             -We can't really do this though because they wouldn't get the chance to further their score if they had pins left. 
     }
+
     Assets.level.parse {
         edit so parser doesn't parse ogmo data; only tiled.
     }

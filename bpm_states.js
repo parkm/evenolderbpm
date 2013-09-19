@@ -895,13 +895,21 @@ function BPMStates() {
 
     State.create("classicRound", function() {
         var base = State.list["game"]();
+        
+        var bubbleExclusions = [];
 
         var superInit = base.init;
         base.init = function() {
             superInit.call(base);
-
+            
+            bubbleExclusions.push("Base");
+            bubbleExclusions.push("Goal");
+            bubbleExclusions.push("Reflect");
+            bubbleExclusions.push("Bomb");
+            bubbleExclusions.push("Ammo");
+            
             for (i in Bubble) {
-                if (i !== "Base") {
+                if (bubbleExclusions.indexOf(i) === -1) {
                     for (j=0; j<10; ++j) {
                         base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
                     }
