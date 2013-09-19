@@ -52,6 +52,10 @@ function BPMStates() {
             base.objects.push(floatText);
         };
 
+        base.reset = function() {
+            State.set(State.currentID);
+        };
+
         base.init = function() {
             base.shooter.init();
 
@@ -127,7 +131,7 @@ function BPMStates() {
         };
 
         base.update = function(delta) {
-            if (BPM.keyboard.isPressed(82)) State.set(State.currentID);
+            if (BPM.keyboard.isPressed(82)) base.reset();
 
             base.goalBubbleCount = 0;
             for (i in base.bubbles) {
@@ -179,12 +183,22 @@ function BPMStates() {
             if (!base.roundComplete) {
                 if ((base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
                     //Do a check to see if the goal bubble count is 0. If so then cue the round success code.
+                    if (base.goalBubbleCount <= 0) {
+                        base.roundStatus = "win"; 
+                    } else {
+                        base.roundStatus = "fail";
+                    }
+
                     base.roundComplete = true;
                     base.onRoundComplete();
                 }
             } else {
                 if (BPM.mouse.isReleased(Mouse.LEFT)) {
-                    State.set(base.completeState);
+                    if (base.roundStatus === "win") {
+                        State.set(base.completeState);
+                    } else {
+                        base.reset();
+                    }
                 }
             }
         };
@@ -231,7 +245,15 @@ function BPMStates() {
             if (base.roundComplete) {
                 gc.fillStyle = "rgba(0, 0, 0, .25)";
                 gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
-                Utils.drawText(gc, "Round Complete", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/2 - 64, {
+
+                var text;
+                if (base.roundStatus === "win") {
+                    text = "Round Complete";
+                } else {
+                    text = "Round Failed";
+                }
+
+                Utils.drawText(gc, text, BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/2 - 64, {
                     stroke: true
                 });
             }
