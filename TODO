@@ -39,6 +39,10 @@ Bubbles {
  
 States {}
 
+Levels {
+    Make an option to set starting pins for certain levels. (I believe there is a level properties thing in Tiled)
+}
+
 Other {
     Implement original gameplay for the 'Classic' game mode. (Might wanna do this after upgrade ui is finished) {
         Classic round will start with score/bad bubbles. You can buy
@@ -47,6 +51,7 @@ Other {
     }
     Game finish: {
         Have round complete as soon as all goal bubbles are popped; don't wait for the pins to die (boring)
+            -We can't really do this though because they wouldn't get the chance to further their score if they had pins left. 
     }
     Assets.level.parse {
         edit so parser doesn't parse ogmo data; only tiled.
