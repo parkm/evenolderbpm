@@ -62,7 +62,6 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (iron) {
                 args.pin.onDeath(args.state.pins);
             }
-
             this.onPop(args);
         },
 
@@ -310,12 +309,17 @@ Bubble.Ammo = function(base) {
 
 Bubble.Double = function(base) {
     base.img = BubbleAssets.double;
+    base.popped = false;
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
         args.state.pins.push(Pin(base.x + (base.width / 2), base.y + (base.height / 2), args.pin.angle-45, {speed: args.pin.speed, type: "standard"}));
         args.state.pins.push(Pin(base.x + (base.width / 2), base.y + (base.height / 2), args.pin.angle+45, {speed: args.pin.speed, type: "standard"}));
-        superOnPop.call(base, args);
+
+        if (!base.popped) {  
+            superOnPop.call(base, args);
+            base.popped = true;
+        }
     };
 
     var superOnCollision = base.onCollision;
