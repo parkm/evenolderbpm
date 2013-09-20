@@ -24,18 +24,25 @@ Bubbles {
     Add the rest of the bubble types.
     Add the rest of the attribute effects.
     
-    Random generation{
-        Add optional movement constraints to bubbles
-        pass these constraints in the loading handler
-        in Tiled, add property to groups: constrain (bool)
-        test if constrain on load, if so, pass x, y, width, height of tiled group as constraints
-    }
-
     Reflect {
         if iron, pin should not be destroyed
     }
+
+    Action {
+        Add action bubbles to Tiled
+            - Specify name for all action bubbles
+            - Use name to refer to action bubble and assign callbacks
+
+    }
     
 }
+
+Walls {
+    Actions {
+        If walls need to be used in code, add property 'id'
+        If walls need to move, use polylines, use the same id in polyline as the moving wall
+            - in the polyline object, use the polyline properties to move the wall.
+    }
  
 States {}
 
@@ -62,11 +69,15 @@ Other {
 
     Game finish: {
         Have round complete as soon as all goal bubbles are popped; don't wait for the pins to die (boring)
-            -We can't really do this though because they wouldn't get the chance to further their score if they had pins left. 
-    }
-
-    Assets.level.parse {
-        edit so parser doesn't parse ogmo data; only tiled.
+            -We can't really do this though because they wouldn't get the chance to further their score if they had pins left.
+            -We should have a more exciting mode when all the goal bubbles are popped then.
+                idea {
+                    SUPER BUBBLE POP MANIA! flashes on the screen
+                    x10 multiplier (make this balanced)
+                    rainbows everywhere
+                    super awesome music
+                    cool effects
+                }
     }
 }
 
@@ -76,4 +87,5 @@ State.addRound {
     Put all of the xml loading code that's currently in State.create("game",...) in it's inner State.create callback.
         Pros: This would simplify the game parent state. The better abstraction would be useful when constructing new stuff in the round.
         Cons: the only way to create a level from editor data would be to use State.addRound.
+        - Still deciding on this... I think we'll leave it as is. Leaving this here just in case.
 }
