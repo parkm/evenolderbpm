@@ -207,13 +207,16 @@ function FloatText(_text, _x, _y, _formatting) {
         formatting: _formatting,
         time: 2,
         timer: 0,
+        scrolls: true,
 
         onDeath: function(args) {
 
         },
 
         update: function(args) {
-            this.y--;
+            if (this.scrolls) {
+                this.y--;
+            }
             this.timer += args.delta;
 
             if (this.timer >= this.time * 1000) {
