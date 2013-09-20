@@ -11,9 +11,19 @@ function Wall(options) {
     nineSlice.left = Rect(0, 2, 2, 28);
 
     var center = Rect(2, 2, 28, 28);
+    var moveSettings = {
+        // Original x, y positions
+        x: options.x || 0,
+        y: options.y || 0,
+        line: options.moveLine,
+        position: 0,
+        speed: (options.moveSpeed || 1) * 0.1,
+        auto: options.moveAuto,
+        loop: options.moveLoop
+    };
 
     return {
-        type: "wall",
+        type: "wall", id: options.id || "",
         x: options.x || 0, y: options.y || 0,
         width: options.width || 0, height: options.height || 0,
 
@@ -55,6 +65,40 @@ function Wall(options) {
             return false;
         },
 
+        move: function(delta) {
+            // Go through line positions, if line has moved to requested position, start next line position
+            // otherwise, move by speed
+            var m = moveSettings;
+            if (m.line) {
+                var line = m.line[m.position];
+                // wall has moved to or past it's designated X position
+                var xdir = line.x < m.x ? -1 : 1;
+                var ydir = line.y < m.y ? -1 : 1;
+                // if line is to the right of the wall, stop moving at x + width
+                // if line is to the left, stop at x
+                var xdone = (xdir > 0 && this.x + this.width >= line.x) || (xdir < 0 && this.x <= line.x);
+                var ydone = (ydir > 0 && this.y + this.height >= line.y) || (ydir < 0 && this.y <= line.y);
+                //console.log(this.x + ", " + this.y);
+                if (xdone && ydone) {
+                    if (m.position < m.line.length - 1) {
+                        // Set previous position
+                        m.x = this.x;
+                        m.y = this.y;
+                        m.position++;
+                    } else if (m.loop) {
+                        m.position = 0;
+                    }
+                } else {
+                    if (!xdone) {
+                        this.x += m.speed * xdir * delta;
+                    }
+                    if (!ydone) {
+                        this.y += m.speed * ydir * delta;
+                    }
+                }
+            }
+        },
+
         render: function(gc) {
             gc.save();
             gc.beginPath();
@@ -71,5 +115,11 @@ function Wall(options) {
 
             nineSlice.render(gc, this.x, this.y, this.width, this.height);
         },
+
+        update: function(args) {
+            if (moveSettings.auto) {
+                this.move(args.delta);
+            }
+        }
     }
 }

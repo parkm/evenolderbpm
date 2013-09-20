@@ -85,12 +85,15 @@ function BPMStates() {
                     for (var i = 0; i < walls.length; i += 1) {
                         var wall = walls[i];
                         base.walls.push(Wall({
+                            id: wall.id,
                             x: wall.x,
                             y: wall.y,
                             width: wall.width,
                             height: wall.height,
                             moveLine: wall.moveLine,
-                            moveSpeed: wall.moveSpeed
+                            moveSpeed: wall.moveSpeed,
+                            moveAuto: wall.moveAuto,
+                            moveLoop: wall.moveLoop
                         }));
                     }
                 }

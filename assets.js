@@ -233,12 +233,26 @@ Assets.level = {
         }
 
         for (var w in walls) {
+            // Set up moving walls from moves object layer
+            // moving walls must be named "move_wall"
             if (walls[w].name === "move_wall") {
                 for (var m in moves) {
                     if (moves[m].type === walls[w].type) {
-                        walls[w].moveLine = moves[m].polyline;
+                        walls[w].moveLine = [];
+                        moves[m].polyline.forEach(function(element, index, array) {
+                            walls[w].moveLine.push({x: element.x + moves[m].x, y: element.y + moves[m].y})
+                        });
                         if (moves[m].properties.speed && !isNaN(+moves[m].properties.speed)) {
                             walls[w].moveSpeed = +moves[m].properties.speed;
+                        }
+                        if (moves[m].properties.auto) {
+                            walls[w].moveAuto = Utils.stringToBool(moves[m].properties.auto);
+                        }
+                        if (moves[m].properties.loop) {
+                            walls[w].moveLoop = Utils.stringToBool(moves[m].properties.loop);
+                        }
+                        if (moves[m].name) {
+                            walls[w].id = moves[m].name;
                         }
                     }
                 }
