@@ -30,7 +30,7 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":448,
+                 "x":480,
                  "y":384
                 }, 
                 {
@@ -44,7 +44,7 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":480,
+                 "x":512,
                  "y":416
                 }, 
                 {
@@ -58,7 +58,7 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":512,
+                 "x":544,
                  "y":448
                 }, 
                 {
@@ -72,7 +72,7 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":544,
+                 "x":576,
                  "y":480
                 }, 
                 {
@@ -86,7 +86,7 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":576,
+                 "x":608,
                  "y":512
                 }, 
                 {
@@ -100,7 +100,7 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":608,
+                 "x":640,
                  "y":544
                 }, 
                 {
@@ -114,22 +114,8 @@
                  "type":"combo",
                  "visible":true,
                  "width":0,
-                 "x":640,
-                 "y":576
-                }, 
-                {
-                 "gid":8,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-                     "speed":"0"
-                    },
-                 "type":"combo",
-                 "visible":true,
-                 "width":0,
                  "x":672,
-                 "y":608
+                 "y":576
                 }, 
                 {
                  "gid":8,
@@ -158,20 +144,6 @@
                  "width":0,
                  "x":768,
                  "y":544
-                }, 
-                {
-                 "gid":8,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-                     "speed":"0"
-                    },
-                 "type":"combo",
-                 "visible":true,
-                 "width":0,
-                 "x":736,
-                 "y":576
                 }, 
                 {
                  "gid":8,
