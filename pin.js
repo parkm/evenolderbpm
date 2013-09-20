@@ -126,6 +126,7 @@ Pin.Base = function(_x, _y, _angle, options) {
         x: _x, y: _y,
         width: 0, height: 0,
         speed: options.speed || 4,
+        speedMod: 0.056,
         life: 6,
         lifeTimer: 0,
         angle: _angle,
@@ -167,9 +168,10 @@ Pin.Base = function(_x, _y, _angle, options) {
 
             this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
 
-            this.x += this.speedX * this.speed;
-            this.y += this.speedY * this.speed;
-
+            var speed = args.delta * (this.speed * this.speedMod); 
+            this.x += this.speedX * speed;
+            this.y += this.speedY * speed;
+            
             for (i in state.walls) {
                 var w = state.walls[i];
 
@@ -204,7 +206,7 @@ Pin.Standard = function(base) {
         base.img.originX = base.img.getWidth()/2;
         base.img.originY = base.img.getHeight()/2;
         base.img.angle = -this.angle;
-        
+
         // equal to function, y = 1 - x^3 where y = alpha, x = % of pin life
         // Makes the pin die slower
         gc.globalAlpha = 1 - Math.pow(this.lifeTimer / (this.life * 1000), 2.5);
