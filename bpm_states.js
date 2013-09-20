@@ -15,6 +15,8 @@ function BPMStates() {
         base.walls = [];
         base.objects = [];
 
+        base.comboScore = 0;
+
         var shooter = {
             defaultPins: 4,
             // Use offset to center shooter
@@ -162,7 +164,6 @@ function BPMStates() {
                 });
             }
 
-
             base.backButton.update(BPM.mouse);
             base.resetButton.update(BPM.mouse);
 
@@ -187,6 +188,7 @@ function BPMStates() {
                 base.combo = 0;
                 base.comboGoal = 4;
                 base.multiplier = 1;
+                base.comboScore = 0;
             }
 
             if (!base.roundComplete) {
@@ -248,7 +250,7 @@ function BPMStates() {
             Utils.drawText(gc, "$" + BPM.cash, 0, BPM.canvas.getHeight()-100, formatting);
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 200, 0, formatting);
             Utils.drawText(gc, "x" + base.multiplier, 300, 0, formatting);
-
+            
             base.shooter.render(gc);
 
             if (base.roundComplete) {
@@ -305,7 +307,7 @@ function BPMStates() {
     State.addRound("tutorial2");
     State.addRound("tutorial3");
     State.addRound("tutorial4");
-    State.addRound("tutorial5");
+    //State.addRound("tutorial5");
     State.addRound("issue8");
     State.addRound("donkey json level", "donk");
 

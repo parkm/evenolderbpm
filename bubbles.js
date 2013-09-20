@@ -267,6 +267,17 @@ Bubble.Score = function(base) {
             lineWidth: 3,
         }));
 
+        args.state.comboScore += value;
+        var overallText = FloatText(args.state.comboScore, this.x+32, this.y+32, {
+            stroke: true,
+            fillStyle: ftColor,
+            font: "24px Arial",
+            lineWidth: 3,
+        });
+        overallText.scrolls = false;
+
+        args.state.addFloatText(overallText);
+
         BPM.cash += value;
     };
 
