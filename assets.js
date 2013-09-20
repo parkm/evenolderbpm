@@ -205,7 +205,7 @@ Assets.level = {
             walls: []
         };
 
-        var walls = [], bubbles = [], shooter;
+        var walls = [], moves = [], bubbles = [], shooter;
 
         var bubbleHeight = data.tileheight;
         var bubbleWidth = data.tilewidth;
@@ -225,6 +225,23 @@ Assets.level = {
                     // Only get first instance - should only be one shooter.
                     shooter = data.layers[i].objects[0];
                     break;
+
+                case "moves":
+                    moves = data.layers[i].objects;
+                    break;
+            }
+        }
+
+        for (var w in walls) {
+            if (walls[w].name === "move_wall") {
+                for (var m in moves) {
+                    if (moves[m].type === walls[w].type) {
+                        walls[w].moveLine = moves[m].polyline;
+                        if (moves[m].properties.speed && !isNaN(+moves[m].properties.speed)) {
+                            walls[w].moveSpeed = +moves[m].properties.speed;
+                        }
+                    }
+                }
             }
         }
 

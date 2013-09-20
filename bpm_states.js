@@ -88,7 +88,9 @@ function BPMStates() {
                             x: wall.x,
                             y: wall.y,
                             width: wall.width,
-                            height: wall.height
+                            height: wall.height,
+                            moveLine: wall.moveLine,
+                            moveSpeed: wall.moveSpeed
                         }));
                     }
                 }
@@ -142,6 +144,10 @@ function BPMStates() {
                 }
 
                 b.update({delta: delta, state: base});
+            }
+
+            for (i in base.walls) {
+                base.walls[i].update({delta: delta, state: base});
             }
 
             base.shooter.update(BPM.mouse, base.pins);
