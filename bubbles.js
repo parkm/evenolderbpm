@@ -388,7 +388,8 @@ Bubble.Bomb = function(base) {
 
     base.exploded = false;
     base.explosionTimer = 0;
-    base.explosionDelay = 0.5;
+    base.explosionDelayMod = 0.04;
+    base.explosionDelay = 0;
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
@@ -407,6 +408,8 @@ Bubble.Bomb = function(base) {
     var superUpdate = base.update;
     base.update = function(args) {
         superUpdate.call(base, args);
+
+        base.explosionDelay = args.delta * base.explosionDelayMod;
 
         if (base.exploded) {
             base.explosionTimer += args.delta;
