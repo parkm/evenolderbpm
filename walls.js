@@ -65,6 +65,26 @@ function Wall(options) {
             return false;
         },
 
+        //Returns the side of the wall a rect is facing.
+        getCollisionSide: function(x, y, width, height) {
+            var wallCenterX = this.x + this.width/2;
+            var wallCenterY = this.y + this.height/2;
+            var centerX = x + width/2;
+            var centerY = y + height/2;
+
+            var angle = -(180 / Math.PI * Math.atan2(centerY - wallCenterY, centerX - wallCenterX));
+            
+            if (angle <= 45 && angle >= -45) {
+                return "right";
+            } else if (angle <= 135 && angle >= 45) {
+                return "top";
+            } else if (angle <= -45 && angle >= -135) {
+                return "bottom";
+            } else {
+                return "left";
+            }
+        },
+
         move: function(delta) {
             // Go through line positions, if line has moved to requested position, start next line position
             // otherwise, move by speed
