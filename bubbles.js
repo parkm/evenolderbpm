@@ -42,6 +42,10 @@ Bubble.Base = function(_x, _y, _type, options) {
         img: BubbleAssets.score,
         options: options,
 
+        popped: false,
+        popDelayMod: 0.04,
+        popDelayTimer: 0,
+
         /* args = delta, state */
         onPop: function(args) {
             if (!iron) {
@@ -62,7 +66,11 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (iron) {
                 args.pin.onDeath(args.state.pins);
             }
-            this.onPop(args);
+
+            if (!this.popped) {
+                this.onPop(args);
+                this.popped = true;
+            }
         },
 
         isColliding: function(x, y, width, height) {
@@ -85,6 +93,17 @@ Bubble.Base = function(_x, _y, _type, options) {
 
         /* args = delta, state */
         update: function(args) {
+            if (this.popped) {
+                var popDelay = args.delta * this.popDelayMod;
+
+                this.popTimer += args.delta;
+
+                if (this.popTimer >= popDelay * 1000) {
+                    this.popped = false;
+                    this.popTimer = 0;
+                }
+            }
+
             if (ghost) {
                 ghostTimer += args.delta;
 
@@ -227,7 +246,11 @@ function Explosion(x, y, pin) {
 
                 if (bubble.isColliding(this.anim.x, this.anim.y, this.width, this.height)) {
                     args.pin = this.pin;
-                    bubble.onPop(args);
+
+                    if (!bubble.popped) {
+                        bubble.onPop(args);
+                        bubble.popped = true;
+                    }
                 } 
             }
         },
@@ -386,21 +409,12 @@ Bubble.Reflect = function(base) {
 Bubble.Bomb = function(base) {
     base.img = BubbleAssets.bomb;
 
-    base.exploded = false;
-    base.explosionTimer = 0;
-    base.explosionDelayMod = 0.04;
-    base.explosionDelay = 0;
-
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        if (!base.exploded) {
-            var expl = Explosion(this.x, this.y, args.pin);
-            expl.init();
+        var expl = Explosion(this.x, this.y, args.pin);
+        expl.init();
 
-            args.state.objects.push(expl);
-
-            base.exploded = true;
-        }
+        args.state.objects.push(expl);
 
         superOnPop.call(base, args);
     }; 
@@ -410,15 +424,6 @@ Bubble.Bomb = function(base) {
         superUpdate.call(base, args);
 
         base.explosionDelay = args.delta * base.explosionDelayMod;
-
-        if (base.exploded) {
-            base.explosionTimer += args.delta;
-
-            if (base.explosionTimer >= base.explosionDelay * 1000) {
-                base.exploded = false;
-                base.explosionTimer = 0;
-            }
-        }
     };
 
     return base;
