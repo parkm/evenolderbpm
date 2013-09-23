@@ -79,7 +79,6 @@ function Wall(options) {
                 // if line is to the left, stop at x
                 var xdone = (xdir > 0 && this.x + this.width >= line.x) || (xdir < 0 && this.x <= line.x);
                 var ydone = (ydir > 0 && this.y + this.height >= line.y) || (ydir < 0 && this.y <= line.y);
-                //console.log(this.x + ", " + this.y);
                 if (xdone && ydone) {
                     if (m.position < m.line.length - 1) {
                         // Set previous position
@@ -102,7 +101,6 @@ function Wall(options) {
                     } else {
                         this.speedY = 0;
                     }
-                    console.log(this.speedX + ", " + this.speedY);
                 }
             }
         },
