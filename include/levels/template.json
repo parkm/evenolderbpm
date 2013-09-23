@@ -48,6 +48,17 @@
          "width":25,
          "x":0,
          "y":0
+        }, 
+        {
+         "height":19,
+         "name":"moves",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":25,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":
@@ -59,7 +70,7 @@
         {
          "firstgid":1,
          "image":"..\/..\/assets\/bubbles\/editor-bubbles.png",
-         "imageheight":64,
+         "imageheight":96,
          "imagewidth":160,
          "margin":0,
          "name":"bubbles",
