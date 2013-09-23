@@ -13,7 +13,7 @@
                     {
                      "speed":"0"
                     },
-                 "type":"goal",
+                 "type":"",
                  "visible":true,
                  "width":0,
                  "x":352,
@@ -27,7 +27,7 @@
                     {
                      "speed":"0"
                     },
-                 "type":"goal",
+                 "type":"",
                  "visible":true,
                  "width":0,
                  "x":416,
@@ -349,7 +349,7 @@
                     {
                      "speed":"0"
                     },
-                 "type":"score",
+                 "type":"",
                  "visible":true,
                  "width":0,
                  "x":256,
@@ -363,7 +363,7 @@
                     {
                      "speed":"0"
                     },
-                 "type":"score",
+                 "type":"",
                  "visible":true,
                  "width":0,
                  "x":288,
@@ -377,7 +377,7 @@
                     {
                      "speed":"0"
                     },
-                 "type":"score",
+                 "type":"",
                  "visible":true,
                  "width":0,
                  "x":320,
@@ -391,7 +391,7 @@
                     {
                      "speed":"0"
                     },
-                 "type":"score",
+                 "type":"",
                  "visible":true,
                  "width":0,
                  "x":352,
@@ -856,7 +856,7 @@
         {
          "firstgid":1,
          "image":"..\/..\/assets\/bubbles\/editor-bubbles.png",
-         "imageheight":64,
+         "imageheight":96,
          "imagewidth":160,
          "margin":0,
          "name":"bubbles",

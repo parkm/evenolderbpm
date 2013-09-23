@@ -191,7 +191,20 @@ Assets.addLevels = function(holder, path, files) {
             must be called on a loaded callback.
 */
 Assets.level = {
-    bubbleHeight: 32,
+    // Graphic ID for Tiled.
+    // Use this to automatically pick bubble type based on tile used.
+    bubbleGID: {
+        "2": "score",
+        "3": "bad",
+        "4": "goal",
+        "5": "bomb",
+        "6": "ammo",
+        "7": "double",
+        "8": "combo",
+        "9": "reflect",
+        "11": "action"
+    },
+
     convert: function(data) {
         data = $.parseJSON(data);
         return data;
@@ -289,6 +302,11 @@ Assets.level = {
             }
             // Adjust y of bubbles by their height - Tiled is dumb
             bubbles[b].y -= bubbleHeight;
+
+            // Add bubbles based on Tiled image
+            if (!Utils.stringToBool(bubbles[b].type)) {
+                bubbles[b].type = this.bubbleGID[bubbles[b].gid.toString(10)];
+            }
         }
 
         // Assign shooter data
