@@ -26,6 +26,7 @@ function Wall(options) {
         type: "wall", id: options.id || "",
         x: options.x || 0, y: options.y || 0,
         width: options.width || 0, height: options.height || 0,
+        speedX: 0, speedY: 0,
 
         onCollision: function(pin, pins) {
             
@@ -90,11 +91,18 @@ function Wall(options) {
                     }
                 } else {
                     if (!xdone) {
-                        this.x += m.speed * xdir * delta;
+                        this.speedX = m.speed * xdir * delta;
+                        this.x += this.speedX;
+                    } else {
+                        this.speedX = 0;
                     }
                     if (!ydone) {
-                        this.y += m.speed * ydir * delta;
+                        this.speedY = m.speed * ydir * delta;
+                        this.y += this.speedY;
+                    } else {
+                        this.speedY = 0;
                     }
+                    console.log(this.speedX + ", " + this.speedY);
                 }
             }
         },
