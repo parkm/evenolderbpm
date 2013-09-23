@@ -96,11 +96,11 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (this.popped) {
                 var popDelay = args.delta * this.popDelayMod;
 
-                this.popTimer += args.delta;
+                this.popDelayTimer += args.delta;
 
-                if (this.popTimer >= popDelay * 1000) {
+                if (this.popDelayTimer >= popDelay * 1000) {
                     this.popped = false;
-                    this.popTimer = 0;
+                    this.popDelayTimer = 0;
                 }
             }
 
@@ -183,7 +183,7 @@ Bubble.Base = function(_x, _y, _type, options) {
             if (ghost) {
                 gc.globalAlpha = 1;
             }
-        }
+        },
     };
 };
 
@@ -422,8 +422,6 @@ Bubble.Bomb = function(base) {
     var superUpdate = base.update;
     base.update = function(args) {
         superUpdate.call(base, args);
-
-        base.explosionDelay = args.delta * base.explosionDelayMod;
     };
 
     return base;
