@@ -20,7 +20,6 @@ function Bubble(x, y, type, options) {
 
 Bubble.Base = function(_x, _y, _type, options) {
     var iron = options && options.iron;
-    var action = options && options.action;
 
     var ghost = options && options.ghost;
     var ghostTimer = 0;
@@ -55,10 +54,6 @@ Bubble.Base = function(_x, _y, _type, options) {
         
         /* args = delta, state */
         onCollision: function(args) {
-            if (action) {
-                action();
-            }
-
             if (iron) {
                 args.pin.onDeath(args.state.pins);
             }
@@ -416,6 +411,30 @@ Bubble.Bomb = function(base) {
                 base.explosionTimer = 0;
             }
         }
+    };
+
+    return base;
+};
+
+Bubble.Action = function(base) {
+    base.img = BubbleAssets.action;
+    base.action = (base.options && base.options.action);
+
+    /*
+    if (!base.action) {
+        console.error("Error: Action bubble action not defined!");
+        return base;
+    }*/
+    if (!base.name) {
+        console.error("Error: Action bubble name not defined!");
+        return base;
+    }
+    console.log(base.name);
+
+    var superOnPop = base.onPop;
+    base.onPop = function(args) {
+        action();
+        superOnPop.call(base, args);
     };
 
     return base;
