@@ -138,17 +138,11 @@ function BPMStates() {
         };
 
         base.update = function(delta) {
+            var i;
             if (BPM.keyboard.isPressed(82)) base.reset();
 
-            base.goalBubbleCount = 0;
             for (i in base.bubbles) {
-                var b = base.bubbles[i];
-
-                if (String(b.type).toLowerCase() === "goal") {
-                    base.goalBubbleCount++;
-                }
-
-                b.update({delta: delta, state: base});
+                base.bubbles[i].update({delta: delta, state: base});
             }
 
             for (i in base.walls) {
@@ -194,6 +188,13 @@ function BPMStates() {
             if (!base.roundComplete) {
                 if ((base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
                     //Do a check to see if the goal bubble count is 0. If so then cue the round success code.
+                    base.goalBubbleCount = 0;
+                    for (i in base.bubbles) {
+                        if (base.bubbles[i].type === "goal") {
+                            base.goalBubbleCount++;
+                        }
+                    }
+
                     if (base.goalBubbleCount <= 0) {
                         base.roundStatus = "win"; 
                     } else {
@@ -308,7 +309,7 @@ function BPMStates() {
     State.addRound("tutorial3");
     State.addRound("tutorial4");
     State.addRound("tutorial5");
-    State.addRound("issue8");
+    State.addRound("tutorial6");
     State.addRound("donkey json level", "donk");
 
     State.create("dogpantzTest", function() {
