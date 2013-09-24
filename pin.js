@@ -177,12 +177,25 @@ Pin.Base = function(_x, _y, _angle, options) {
 
                 if (w.isColliding(this.x, this.y, this.width, this.height)) {
                     w.onCollision(this, state.pins);
+                    var colSide = w.getCollisionSide(this.x, this.y, this.width, this.height);
 
-                    if (w.isCollidingDirection("horizontal", this.x, this.width, this.speed)) {
+                    if (colSide === "left" || colSide === "right") {
+                        if (colSide === "left") {
+                            this.x = w.x - this.width;
+                        } else {
+                            this.x = w.x + w.width;
+                        }
+
                         this.speedX = -this.speedX; 
                     }
 
-                    if (w.isCollidingDirection("vertical", this.y, this.height, this.speed)) {
+                    if (colSide === "top" || colSide === "bottom") {
+                        if (colSide === "top") {
+                            this.y = w.y - this.height;
+                        } else {
+                            this.y = w.y + w.height;
+                        }
+ 
                         this.speedY = -this.speedY; 
                     }
                 }

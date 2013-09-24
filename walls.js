@@ -45,44 +45,27 @@ function Wall(options) {
             }
         },
 
-        isCollidingDirection: function(direction, pos, length, speed) {
-            var thisPos;
-            var thisLength;
-
-            if (direction === "horizontal") {
-                thisLength = this.width;
-                thisPos = this.x;
-            } else if (direction === "vertical") {
-                thisLength = this.height;
-                thisPos = this.y;
-            }
-
-            if (pos <= thisPos + thisLength && pos > thisPos + thisLength - speed
-            || pos + length >= thisPos && pos + length < thisPos + speed
-            ) {
-                return true;
-            }
-
-            return false;
-        },
-
         //Returns the side of the wall a rect is facing.
         getCollisionSide: function(x, y, width, height) {
-            var wallCenterX = this.x + this.width/2;
-            var wallCenterY = this.y + this.height/2;
-            var centerX = x + width/2;
-            var centerY = y + height/2;
+            var wRight = this.x + this.width;
+            var wBottom = this.y + this.height;
 
-            var angle = -(180 / Math.PI * Math.atan2(centerY - wallCenterY, centerX - wallCenterX));
-            
-            if (angle <= 45 && angle >= -45) {
-                return "right";
-            } else if (angle <= 135 && angle >= 45) {
-                return "top";
-            } else if (angle <= -45 && angle >= -135) {
-                return "bottom";
-            } else {
+            var right = x + width;
+            var bottom = y + height;
+
+            var leftLen = right - this.x; 
+            var rightLen = wRight - x;
+            var topLen = bottom - this.y;
+            var bottomLen = wBottom - y;
+
+            if (leftLen < rightLen && leftLen < topLen && leftLen < bottomLen) {
                 return "left";
+            } else if (rightLen < leftLen && rightLen < topLen && rightLen < bottomLen) {
+                return "right";
+            } else if (topLen < leftLen && topLen < rightLen && topLen < bottomLen) {
+                return "top";
+            } else if (bottomLen < leftLen && bottomLen < rightLen && bottomLen < topLen) {
+                return "bottom";
             }
         },
 
