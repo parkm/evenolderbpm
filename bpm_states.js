@@ -111,7 +111,15 @@ function BPMStates() {
                                 b.x = Utils.getRandom(b.constraints.x, b.constraints.width);
                                 b.y = Utils.getRandom(b.constraints.y, b.constraints.height);
                             }
-                            var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron, constraints: b.constraints});
+                            // Set up actions for action bubbles
+                            if (b.type === "action" && d.actions) {
+                                for (var name in d.actions) {
+                                    if (b.name === name) {
+                                        b.action = d.actions[name];
+                                    }
+                                }
+                            }
+                            var bInstance = Bubble(b.x, b.y, b.type, {speed: b.speed, angle: b.angle, iron: b.iron, constraints: b.constraints, action: b.action});
 
                             if (b.randomPosition) {
                                 var isColliding;
@@ -282,7 +290,7 @@ function BPMStates() {
     // Creates rounds by inheriting from Game state.
     // name - name of round
     // data - optional; level data. Defaults to StateAssets[name]
-    State.addRound = function(name, dataID) {
+    State.addRound = function(name, dataID, actions) {
         var data = StateAssets[dataID] || StateAssets[name];
 
         // Error checking
@@ -296,6 +304,8 @@ function BPMStates() {
         }
 
         State.create(name, function() {
+            // In order to do actions, we need to pass them through the level data.
+            data.actions = actions;
             var base = State.list["game"](data);
 
             return base;
@@ -308,7 +318,11 @@ function BPMStates() {
     State.addRound("tutorial2");
     State.addRound("tutorial3");
     State.addRound("tutorial4");
-    State.addRound("tutorial5");
+    State.addRound("tutorial5", "tutorial5", {
+        "cats": function() {
+            console.log("success");
+        }
+    });
     //State.addRound("tutorial6");
     State.addRound("donkey json level", "donk");
 
