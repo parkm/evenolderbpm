@@ -162,9 +162,9 @@ Pin.Base = function(_x, _y, _angle, options) {
                 this.speedX = -this.speedX;
             if (this.y < 0)
                 this.speedY = -this.speedY;
-            if (this.x > BPM.canvas.getWidth() - this.width)
+            if (this.x > args.state.width - this.width)
                 this.speedX = -this.speedX;
-            if (this.y > BPM.canvas.getHeight() - this.height)
+            if (this.y > args.state.height - this.height)
                 this.speedY = -this.speedY;
 
             this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));

@@ -17,6 +17,9 @@ function BPMStates() {
 
         base.comboScore = 0;
 
+        base.width = 800;
+        base.height = 608;
+
         var shooter = {
             defaultPins: 4,
             // Use offset to center shooter
@@ -31,8 +34,8 @@ function BPMStates() {
             shooter.y = data.shooter.y + shooter.offsetY;
             shooter.pins = data.shooter.pins || shooter.defaultPins;
         } else {
-            shooter.x = BPM.canvas.getWidth() / 2;
-            shooter.y = BPM.canvas.getHeight() / 2;
+            shooter.x = base.width / 2;
+            shooter.y = base.height / 2;
             shooter.pins = shooter.defaultPins;
         }
 
@@ -62,7 +65,8 @@ function BPMStates() {
             base.shooter.init();
 
             base.backButton = GUIButton("Back", {
-                font: "24px Arial"
+                font: "24px Arial",
+                y: base.height
             });
 
             base.backButton.onClick = function() {
@@ -70,7 +74,8 @@ function BPMStates() {
             };
 
             base.resetButton = GUIButton("Reset", {
-                y: 100,
+                x: 100,
+                y: base.height,
                 font: "24px Arial"
             });
 
@@ -243,10 +248,7 @@ function BPMStates() {
                     base.objects[i].render(gc);
                 }
             }
-
-            base.backButton.render(gc);
-            base.resetButton.render(gc);
-
+            
             var formatting = {
                 fillStyle: "#FFFFFF",
                 strokeStyle: "#000000",
@@ -256,11 +258,20 @@ function BPMStates() {
                 textAlign: "left",
             };
 
-            Utils.drawText(gc, "$" + BPM.cash, 0, BPM.canvas.getHeight()-100, formatting);
-            Utils.drawText(gc, base.combo + " / " + base.comboGoal, 200, 0, formatting);
-            Utils.drawText(gc, "x" + base.multiplier, 300, 0, formatting);
-            
             base.shooter.render(gc);
+
+            gc.fillStyle = "rgb(80, 72, 212)";
+            gc.strokeStyle = "#000000";
+            gc.lineWidth = 2;
+            gc.fillRect(0, base.height, BPM.canvas.getWidth(), BPM.canvas.getHeight() - base.height);
+            gc.strokeRect(gc.lineWidth, base.height + gc.lineWidth, BPM.canvas.getWidth() - gc.lineWidth*2, BPM.canvas.getHeight() - base.height - gc.lineWidth*2);
+            
+            base.backButton.render(gc);
+            base.resetButton.render(gc);
+           
+            Utils.drawText(gc, "$" + BPM.cash, 400, base.height + 32, formatting);
+            Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
+            Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
 
             if (base.roundComplete) {
                 gc.fillStyle = "rgba(0, 0, 0, .25)";
@@ -956,11 +967,12 @@ function BPMStates() {
             bubbleExclusions.push("Reflect");
             bubbleExclusions.push("Bomb");
             bubbleExclusions.push("Ammo");
+            bubbleExclusions.push("Action");
             
             for (i in Bubble) {
                 if (bubbleExclusions.indexOf(i) === -1) {
                     for (j=0; j<10; ++j) {
-                        base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i, {speed: 0}));
+                        base.bubbles.push(Bubble(Math.random() * base.width, Math.random() * base.height - 32, i, {speed: 0}));
                     }
                 }
             }
