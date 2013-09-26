@@ -3,10 +3,6 @@ Current TODO:
 Design {
     Design Upgrades
 
-    UI {
-        Increase canvas height, add UI things outside of game window
-    }
-
     Main Mode {
         Rounds {
             Round Failed - run out of pins without popping all goal bubbles
@@ -24,10 +20,6 @@ Bubbles {
     Add the rest of the bubble types.
     Add the rest of the attribute effects.
     
-    Reflect {
-        if iron, pin should not be destroyed
-    }
-
     Action {
         Add action bubbles to Tiled
             - Specify name for all action bubbles
