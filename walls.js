@@ -28,6 +28,9 @@ function Wall(options) {
         width: options.width || 0, height: options.height || 0,
         speedX: 0, speedY: 0,
 
+        cached: false,
+        cache: undefined,
+
         onCollision: function(pin, pins) {
             
         },
@@ -109,16 +112,32 @@ function Wall(options) {
         },
 
         render: function(gc) {
+            if (!this.cached) {
+                var buffer = document.createElement('canvas');
+                var bgc = buffer.getContext('2d');
+                buffer.width = this.width;
+                buffer.height = this.height;
+
+                for (var i=0; i<this.width/center.width; ++i) {
+                    for (var j=0; j<this.height/center.height; ++j) {
+                        bgc.drawImage(StateAssets.wall, center.x, center.y, center.width, center.height, i*center.width, j*center.height, center.width, center.height);
+                    }
+                }
+
+                this.cache = document.createElement('canvas');
+                this.cache.width = buffer.width;
+                this.cache.height = buffer.height;
+                this.cache.getContext('2d').drawImage(buffer, 0, 0);
+
+                this.cached = true;
+            }
+
             gc.save();
             gc.beginPath();
             gc.rect(this.x, this.y, this.width, this.height);
             gc.clip();
-
-            for (var i=0; i<this.width/center.width; ++i) {
-                for (var j=0; j<this.height/center.height; ++j) {
-                    gc.drawImage(StateAssets.wall, center.x, center.y, center.width, center.height, this.x + i*center.width, this.y + j*center.height, center.width, center.height);
-                }
-            }
+            
+            gc.drawImage(this.cache, this.x, this.y);
 
             gc.restore();
 
