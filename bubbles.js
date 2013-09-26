@@ -175,19 +175,12 @@ Bubble.Base = function(_x, _y, _type, options) {
                 gc.globalAlpha = 1 - (ghostTimer / (ghostInterval * 1000));
             }
 
+            if (iron) {
+                gc.drawImage(BubbleAssets.iron, this.x, this.y);
+            }
+
             gc.drawImage(this.img, this.x, this.y);
             gc.drawImage(BubbleAssets.glare, this.x, this.y);
-
-            if (iron) {
-                Utils.drawText(gc, "IRON", this.x + this.width/2, this.y, {
-                    font: "12px Arial",
-                    textAlign: "center",
-                    stroke: true,
-                    lineWidth: 1,
-                });
-                gc.fillStyle = "rgba(0, 0, 0, .10)"
-                gc.fillRect(this.x, this.y, this.width, this.height);
-            }
 
             if (ghost) {
                 gc.globalAlpha = 1;

@@ -19,6 +19,7 @@ function Assets() {
     BubbleAssets.explode = Assets.add("explosion", path.assets + "explode-124x150-strip23.png");
     BubbleAssets.pop = Assets.add("pop", path.bubbles + "pop-90x100-strip7.png");
     BubbleAssets.glare = Assets.add("bubbleGlare", path.bubbles + "bubble-glare.png");
+    BubbleAssets.iron = Assets.add("iron", path.bubbles + "iron.png");
 
     BubbleAssets.bubble = Assets.add("bubble", path.bubbles + "bubble.png");
     
