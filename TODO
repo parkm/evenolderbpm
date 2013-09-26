@@ -44,7 +44,6 @@ Walls {
             - in the polyline object, use the polyline properties to move the wall.
     }
     
-    Make pins that are slower than moving walls snap to the wall's position depending on which side it is at.
     Destroy pins if they are smashed between two moving walls. 
 }
 

@@ -131,6 +131,7 @@ Pin.Base = function(_x, _y, _angle, options) {
         lifeTimer: 0,
         angle: _angle,
         speedX: 0, speedY: 0,
+        wallBounce: true, //Enables bouncing from wall collisions.
 
         onDeath: function(pins) {
             pins.splice(pins.indexOf(this), 1);
@@ -171,11 +172,13 @@ Pin.Base = function(_x, _y, _angle, options) {
             var speed = args.delta * (this.speed * this.speedMod); 
             this.x += this.speedX * speed;
             this.y += this.speedY * speed;
-            
+
+            var isCol = false;
             for (i in state.walls) {
                 var w = state.walls[i];
 
                 if (w.isColliding(this.x, this.y, this.width, this.height)) {
+                    isCol = true;
                     w.onCollision(this, state.pins);
                     var colSide = w.getCollisionSide(this.x, this.y, this.width, this.height);
 
@@ -186,7 +189,10 @@ Pin.Base = function(_x, _y, _angle, options) {
                             this.x = w.x + w.width;
                         }
 
-                        this.speedX = -this.speedX; 
+                        if (this.wallBounce) {
+                            this.speedX = -this.speedX; 
+                            this.wallBounce = false;
+                        }
                     }
 
                     if (colSide === "top" || colSide === "bottom") {
@@ -195,10 +201,17 @@ Pin.Base = function(_x, _y, _angle, options) {
                         } else {
                             this.y = w.y + w.height;
                         }
- 
-                        this.speedY = -this.speedY; 
+
+                        if (this.wallBounce) {
+                            this.speedY = -this.speedY; 
+                            this.wallBounce = false;
+                        }
                     }
                 }
+            }
+
+            if (!isCol) {
+                this.wallBounce = true;
             }
         },
 
