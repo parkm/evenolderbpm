@@ -440,20 +440,14 @@ Bubble.Action = function(base) {
     base.img = BubbleAssets.action;
     base.action = (base.options && base.options.action);
 
-    /*
     if (!base.action) {
         console.error("Error: Action bubble action not defined!");
         return base;
-    }*/
-    if (!base.name) {
-        console.error("Error: Action bubble name not defined!");
-        return base;
     }
-    console.log(base.name);
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        action();
+        base.action();
         superOnPop.call(base, args);
     };
 

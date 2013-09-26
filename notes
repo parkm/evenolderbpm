@@ -1,0 +1,25 @@
+levels
+    tutorial_0
+        introduces goal/score bubbles
+
+    tutorial_1
+        introduces walls/bad/iron/bomb
+        differentiates score/bad
+
+    tutorial_2
+        introduces ammo bubbles
+        bounce shot mechanics
+
+    tutorial_3
+        introduces combo bubbles
+        reinforces bounce shot mechanics
+
+    tutorial_4
+        introduce double, reflect bubbles
+
+Tiled
+    movers:
+        walls will only move if the mover line goes past the wall's boundaries.
+        if you go past the wall's width, the wall's right side will align to the line
+        if you go before the wall's x, the wall's left side will align to the line
+        vertical behavior should work the same way
