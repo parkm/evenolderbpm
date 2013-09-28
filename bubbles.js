@@ -31,7 +31,6 @@ Bubble.Base = function(_x, _y, _type, options) {
 
     var speedX, speedY;
     return {
-        type: "bubble",
         x: _x, y: _y,
         width: 32, height: 32,
         constraints: (options && options.constraints) || {},
@@ -441,7 +440,7 @@ Bubble.Action = function(base) {
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        base.action();
+        base.action(args.state);
         superOnPop.call(base, args);
     };
 

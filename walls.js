@@ -11,22 +11,23 @@ function Wall(options) {
     nineSlice.left = Rect(0, 2, 2, 28);
 
     var center = Rect(2, 2, 28, 28);
-    var moveSettings = {
-        // Original x, y positions
-        x: options.x || 0,
-        y: options.y || 0,
-        line: options.moveLine,
-        position: 0,
-        speed: (options.moveSpeed || 1) * 0.1,
-        auto: options.moveAuto,
-        loop: options.moveLoop
-    };
 
     return {
         type: "wall", id: options.id || "",
         x: options.x || 0, y: options.y || 0,
         width: options.width || 0, height: options.height || 0,
         speedX: 0, speedY: 0,
+
+        moveSettings: {
+            // Original x, y positions
+            x: options.x || 0,
+            y: options.y || 0,
+            line: options.moveLine,
+            position: 0,
+            speed: (options.moveSpeed || 1) * 0.1,
+            auto: options.moveAuto,
+            loop: options.moveLoop
+        },
 
         cached: false,
         cache: undefined,
@@ -75,7 +76,7 @@ function Wall(options) {
         move: function(delta) {
             // Go through line positions, if line has moved to requested position, start next line position
             // otherwise, move by speed
-            var m = moveSettings;
+            var m = this.moveSettings;
             if (m.line) {
                 var line = m.line[m.position];
                 // wall has moved to or past it's designated X position
@@ -145,7 +146,7 @@ function Wall(options) {
         },
 
         update: function(args) {
-            if (moveSettings.auto) {
+            if (this.moveSettings.auto) {
                 this.move(args.delta);
             }
         }

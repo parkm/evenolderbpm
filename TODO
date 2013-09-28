@@ -9,6 +9,14 @@ Design {
             Round Complete - Pop all goal bubbles (wait for current pin to die)
                            - Don't wait for remaining pins
         }
+        UI {
+            Show combo via graphical bar
+            Show "Goal Achieved!" in UI when all goal bubbles are popped
+            (or do a text splash overlay)
+        }
+        Pin shooter {
+            make combo box appear on the left if mouse is on the right edge of the screen
+        }
     }
 }
 

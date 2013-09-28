@@ -6,7 +6,7 @@ var PinAssets = {};
 function PinShooter(_x, _y, options) {
     // TODO: Implement base shooting speed, add additional 25% with charge.
     // preCharge is convenient percentage scale for chargeSpeed
-    var preCharge = .3;
+    var preCharge = .1;
     var charge = 0;
     var chargeSpeed = 1 + (preCharge * 10);
     var chargeBox;
