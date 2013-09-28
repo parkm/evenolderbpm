@@ -233,9 +233,6 @@ function Explosion(x, y, pin) {
         },
 
         update: function(args) {
-            this.anim.x = this.x - this.width/2;
-            this.anim.y = this.y - this.height/2;
-
             this.anim.update(args.delta);
 
             if (complete) {
@@ -258,6 +255,9 @@ function Explosion(x, y, pin) {
         },
 
         render: function(gc) {
+            this.anim.x = this.x - this.width/2;
+            this.anim.y = this.y - this.height/2;
+
             this.anim.render(gc);
         },
 
