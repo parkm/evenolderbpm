@@ -202,8 +202,6 @@ function PopEffect(x, y) {
         },
 
         update: function(args) {
-            this.anim.x = this.x - 32;
-            this.anim.y = this.y - 32;
             this.anim.update(args.delta);
 
             if (complete) {
@@ -213,6 +211,9 @@ function PopEffect(x, y) {
         },
 
         render: function(gc) {
+            this.anim.x = this.x - 32;
+            this.anim.y = this.y - 32;
+
             this.anim.render(gc);
         },
     };
