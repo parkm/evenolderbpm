@@ -23,3 +23,8 @@ Tiled
         if you go past the wall's width, the wall's right side will align to the line
         if you go before the wall's x, the wall's left side will align to the line
         vertical behavior should work the same way
+
+        Only one mover per each moving wall
+        The Wall ID is the mover's name in Tiled
+        To wire a moving wall to a mover, they must have the same Type in Tiled
+        all movement settings are specified in the mover
