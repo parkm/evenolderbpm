@@ -61,6 +61,14 @@ function BPMStates() {
             State.set(State.currentID);
         };
 
+        base.getWall = function(id) {
+            for (var w in base.walls) {
+                if (id === base.walls[w].id) {
+                    return base.walls[w];
+                }
+            }
+        };
+
         base.init = function() {
             base.shooter.init();
 
@@ -330,8 +338,16 @@ function BPMStates() {
     State.addRound("tutorial3");
     State.addRound("tutorial4");
     State.addRound("tutorial5", "tutorial5", {
-        "cats": function() {
-            console.log("success");
+        "cats": function(state) {
+            var wall = state.getWall("w1");
+            wall.moveSettings.auto = true;
+            wall.moveSettings.loop = true;
+            /*
+            for (var i = 0; i < 50; i++) {
+                state.bubbles.push(Bubble(Utils.getRandom(0, BPM.canvas.getWidth()), Utils.getRandom(0, BPM.canvas.getHeight()), "score"));
+            }
+            */
+
         }
     });
     //State.addRound("tutorial6");
