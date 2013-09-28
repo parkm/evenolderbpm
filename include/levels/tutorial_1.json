@@ -831,7 +831,7 @@
                  "name":"",
                  "properties":
                     {
-
+                     "pins":"2"
                     },
                  "type":"",
                  "visible":true,
