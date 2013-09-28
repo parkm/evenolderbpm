@@ -31,7 +31,6 @@ Bubble.Base = function(_x, _y, _type, options) {
 
     var speedX, speedY;
     return {
-        type: "bubble",
         x: _x, y: _y,
         width: 32, height: 32,
         constraints: (options && options.constraints) || {},
