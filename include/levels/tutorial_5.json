@@ -122,7 +122,7 @@
          "objects":[
                 {
                  "height":0,
-                 "name":"",
+                 "name":"w1",
                  "polyline":[
                         {
                          "x":-96,
@@ -166,7 +166,7 @@
                         }],
                  "properties":
                     {
-                     "auto":"true"
+
                     },
                  "type":"0",
                  "visible":true,
