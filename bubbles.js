@@ -440,7 +440,7 @@ Bubble.Action = function(base) {
 
     var superOnPop = base.onPop;
     base.onPop = function(args) {
-        base.action();
+        base.action(args.state);
         superOnPop.call(base, args);
     };
 
