@@ -6,23 +6,9 @@
          "name":"bubbles",
          "objects":[
                 {
-                 "gid":4,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "type":"goal",
-                 "visible":true,
-                 "width":0,
-                 "x":0,
-                 "y":32
-                }, 
-                {
                  "gid":11,
                  "height":0,
-                 "name":"cats",
+                 "name":"action0",
                  "properties":
                     {
 
@@ -30,8 +16,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":576,
-                 "y":480
+                 "x":384,
+                 "y":544
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -46,17 +32,43 @@
          "name":"walls",
          "objects":[
                 {
-                 "height":32,
-                 "name":"wall",
+                 "height":160,
+                 "name":"move_wall",
                  "properties":
                     {
 
                     },
-                 "type":"",
+                 "type":"C",
                  "visible":true,
-                 "width":224,
-                 "x":576,
-                 "y":576
+                 "width":32,
+                 "x":384,
+                 "y":320
+                }, 
+                {
+                 "height":160,
+                 "name":"move_wall",
+                 "properties":
+                    {
+
+                    },
+                 "type":"L",
+                 "visible":true,
+                 "width":384,
+                 "x":0,
+                 "y":320
+                }, 
+                {
+                 "height":160,
+                 "name":"move_wall",
+                 "properties":
+                    {
+
+                    },
+                 "type":"R",
+                 "visible":true,
+                 "width":384,
+                 "x":416,
+                 "y":320
                 }, 
                 {
                  "height":64,
@@ -65,24 +77,11 @@
                     {
 
                     },
-                 "type":"0",
+                 "type":"A",
                  "visible":true,
-                 "width":64,
-                 "x":0,
-                 "y":288
-                }, 
-                {
-                 "height":320,
-                 "name":"wall",
-                 "properties":
-                    {
-
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":224,
-                 "x":-288,
-                 "y":224
+                 "width":832,
+                 "x":-832,
+                 "y":256
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -101,13 +100,13 @@
                  "name":"",
                  "properties":
                     {
-
+                     "pins":"2"
                     },
                  "type":"shooter",
                  "visible":true,
                  "width":0,
-                 "x":704,
-                 "y":544
+                 "x":384,
+                 "y":576
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -122,57 +121,91 @@
          "objects":[
                 {
                  "height":0,
-                 "name":"w1",
+                 "name":"wC",
                  "polyline":[
                         {
-                         "x":-96,
-                         "y":-160
+                         "x":0,
+                         "y":0
                         }, 
                         {
-                         "x":-96,
-                         "y":-64
+                         "x":0,
+                         "y":-544
+                        }],
+                 "properties":
+                    {
+                     "speed":"1.5"
+                    },
+                 "type":"C",
+                 "visible":true,
+                 "width":0,
+                 "x":384,
+                 "y":320
+                }, 
+                {
+                 "height":0,
+                 "name":"wL",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
                         }, 
                         {
-                         "x":-32,
-                         "y":-64
-                        }, 
-                        {
-                         "x":-32,
-                         "y":-32
-                        }, 
-                        {
-                         "x":32,
-                         "y":-32
-                        }, 
-                        {
-                         "x":32,
-                         "y":32
-                        }, 
-                        {
-                         "x":128,
-                         "y":32
-                        }, 
-                        {
-                         "x":128,
-                         "y":64
-                        }, 
-                        {
-                         "x":256,
-                         "y":64
-                        }, 
-                        {
-                         "x":256,
-                         "y":96
+                         "x":-224,
+                         "y":0
                         }],
                  "properties":
                     {
 
                     },
-                 "type":"0",
+                 "type":"L",
                  "visible":true,
                  "width":0,
-                 "x":96,
-                 "y":512
+                 "x":0,
+                 "y":416
+                }, 
+                {
+                 "height":0,
+                 "name":"wR",
+                 "polyline":[
+                        {
+                         "x":-64,
+                         "y":0
+                        }, 
+                        {
+                         "x":-288,
+                         "y":0
+                        }],
+                 "properties":
+                    {
+
+                    },
+                 "type":"R",
+                 "visible":true,
+                 "width":0,
+                 "x":1088,
+                 "y":416
+                }, 
+                {
+                 "height":0,
+                 "name":"wA",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":800,
+                         "y":0
+                        }],
+                 "properties":
+                    {
+                     "speed":"4"
+                    },
+                 "type":"A",
+                 "visible":true,
+                 "width":0,
+                 "x":0,
+                 "y":288
                 }],
          "opacity":1,
          "type":"objectgroup",

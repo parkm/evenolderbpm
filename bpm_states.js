@@ -338,16 +338,66 @@ function BPMStates() {
     State.addRound("tutorial3");
     State.addRound("tutorial4");
     State.addRound("tutorial5", "tutorial5", {
-        "cats": function(state) {
-            var wall = state.getWall("w1");
-            wall.moveSettings.auto = true;
-            wall.moveSettings.loop = true;
-            /*
-            for (var i = 0; i < 50; i++) {
-                state.bubbles.push(Bubble(Utils.getRandom(0, BPM.canvas.getWidth()), Utils.getRandom(0, BPM.canvas.getHeight()), "score"));
-            }
-            */
+        "action0": function(state) {
+            var wallLeft = state.getWall("wL");
+            var wallRight = state.getWall("wR");
+            var wallCenter = state.getWall("wC");
+            wallLeft.moveSettings.auto = true;
+            wallRight.moveSettings.auto = true;
+            wallCenter.moveSettings.auto = true;
 
+            // Need to make a bubble that only exists to keep the round from completing
+            // otherwise the round will end before the wall finishes creating the goals
+            // Delete when wall is finished moving
+            state.bubbles.push(Bubble(-200, -200, "goal", {roundHold: true}));
+            // spawn goal bubbles at the bottom of the wall as the wall moves up
+            var superMove = wallCenter.move;
+            var origY = wallCenter.y;
+            var count = 0;
+            var flag = true;
+            var fillCount = 100; // amt to fill space between L and R walls
+            wallCenter.move = function(delta) {
+                superMove.call(wallCenter, delta);
+                if (this.y + this.height < 1 && flag) {
+                    flag = false;
+                    state.getWall("wA").moveSettings.auto = true;
+                    // Delete place holder bubble
+                    for (var b in state.bubbles) {
+                        if (state.bubbles[b].options && state.bubbles[b].options.roundHold) {
+                            state.bubbles[b].onPop({state: state});
+                        }
+                    }
+                    // fill between L and R walls with score bubbles
+                    var constraints = {
+                        x: wallLeft.x + wallLeft.width,
+                        y: wallLeft.y,
+                        width: wallRight.x,
+                        height: wallLeft.y + wallLeft.height - 32
+                    }, i;
+                    for (i = 0; i < fillCount; i++) {
+                        state.bubbles.push(Bubble(
+                                    Utils.getRandom(constraints.x, constraints.width),
+                                    Utils.getRandom(constraints.y, constraints.height),
+                                    "score",
+                                    { speed: 1.5, constraints: constraints }
+                                    ));
+                    }
+                    // Throw some bombs in there
+                    for (i = 0; i < 4; i++) {
+                        state.bubbles.push(Bubble(
+                                    Utils.getRandom(constraints.x, constraints.width),
+                                    Utils.getRandom(constraints.y, constraints.height),
+                                    "bomb",
+                                    { speed: 0.6, constraints: constraints }
+                                    ));
+                    }
+                }
+                // Make the wall poop goal bubbles
+                if (this.y < origY - this.height - (32 * count) && flag) {
+                    state.bubbles.push(Bubble(this.x, origY - (32 * count), "goal"));
+                    count++;
+                }
+            };
         }
     });
     //State.addRound("tutorial6");
