@@ -93,6 +93,7 @@ function Wall(options) {
                         m.y = this.y;
                         m.position++;
                     } else if (m.loop) {
+                        m.line.reverse();
                         m.position = 0;
                     }
                 } else {
