@@ -33,7 +33,7 @@ function Wall(options) {
         cache: undefined,
 
         onCollision: function(pin, pins) {
-            
+            return this.getCollisionSide(pin.x, pin.y, pin.width, pin.height);
         },
 
         isColliding: function(x, y, width, height) {
@@ -137,7 +137,7 @@ function Wall(options) {
             gc.beginPath();
             gc.rect(this.x, this.y, this.width, this.height);
             gc.clip();
-            
+
             gc.drawImage(this.cache, this.x, this.y);
 
             gc.restore();

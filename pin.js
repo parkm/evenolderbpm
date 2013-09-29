@@ -179,8 +179,7 @@ Pin.Base = function(_x, _y, _angle, options) {
 
                 if (w.isColliding(this.x, this.y, this.width, this.height)) {
                     isCol = true;
-                    w.onCollision(this, state.pins);
-                    var colSide = w.getCollisionSide(this.x, this.y, this.width, this.height);
+                    var colSide = w.onCollision(this, state.pins);
 
                     if (colSide === "left" || colSide === "right") {
                         if (colSide === "left") {

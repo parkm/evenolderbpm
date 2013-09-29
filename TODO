@@ -5,9 +5,6 @@ Design {
 
     Main Mode {
         Rounds {
-            Round Failed - run out of pins without popping all goal bubbles
-            Round Complete - Pop all goal bubbles (wait for current pin to die)
-                           - Don't wait for remaining pins
         }
         UI {
             Show combo via graphical bar
@@ -17,6 +14,13 @@ Design {
         Pin shooter {
             make combo box appear on the left if mouse is on the right edge of the screen
         }
+    }
+
+    Achievements {
+        Achievements unlock // add more
+            - more upgrades in classic mode
+            - Guideline for pin shooter
+            - 
     }
 }
 
@@ -28,6 +32,10 @@ Bubbles {
     Add the rest of the bubble types.
     Add the rest of the attribute effects.
     
+    Reflect {
+        if iron, pin should not be destroyed
+    }
+
     Action {
         Add action bubbles to Tiled
             - Specify name for all action bubbles
@@ -71,15 +79,14 @@ Other {
     }
 
     Game finish: {
-        Have round complete as soon as all goal bubbles are popped; don't wait for the pins to die (boring)
-            -We can't really do this though because they wouldn't get the chance to further their score if they had pins left.
-            -We should have a more exciting mode when all the goal bubbles are popped then.
+            Exciting SUPER BUBBLE POP MANIA MODE OMG
                 idea {
                     SUPER BUBBLE POP MANIA! flashes on the screen
                     x10 multiplier (make this balanced)
                     rainbows everywhere
+                    particle effects
                     super awesome music
-                    cool effects
+                    epilepsy
                 }
     }
 }

@@ -279,7 +279,7 @@ Assets.level = {
             var properties = bubbles[b].properties;
             for (var prop in properties) {
                 var num = +properties[prop];
-                // Will have to change this if properites are strings
+                // Will have to change this if properites are meant to be strings
                 if (isNaN(num)) {
                     bubbles[b][prop] = Utils.stringToBool(properties[prop]);
                 } else {

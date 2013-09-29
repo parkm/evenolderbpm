@@ -1027,7 +1027,7 @@ function BPMStates() {
         var superInit = base.init;
         base.init = function() {
             superInit.call(base);
-            
+
             bubbleExclusions.push("Base");
             bubbleExclusions.push("Goal");
             bubbleExclusions.push("Reflect");

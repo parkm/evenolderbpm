@@ -1630,34 +1630,6 @@
                  "y":64
                 }, 
                 {
-                 "gid":2,
-                 "height":0,
-                 "name":"iron",
-                 "properties":
-                    {
-                     "iron":"true"
-                    },
-                 "type":"score",
-                 "visible":true,
-                 "width":0,
-                 "x":448,
-                 "y":608
-                }, 
-                {
-                 "gid":2,
-                 "height":0,
-                 "name":"iron",
-                 "properties":
-                    {
-                     "iron":"true"
-                    },
-                 "type":"score",
-                 "visible":true,
-                 "width":0,
-                 "x":320,
-                 "y":608
-                }, 
-                {
                  "gid":9,
                  "height":0,
                  "name":"",
@@ -1684,6 +1656,92 @@
                  "width":0,
                  "x":448,
                  "y":224
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "worth":"20"
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":320,
+                 "y":544
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "worth":"20"
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":544
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "worth":"30"
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":320,
+                 "y":576
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "worth":"30"
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":576
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "iron":"true",
+                     "worth":"40"
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":320,
+                 "y":608
+                }, 
+                {
+                 "gid":2,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+                     "iron":"true",
+                     "worth":"40"
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":608
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1830,7 +1888,7 @@
         {
          "firstgid":1,
          "image":"..\/..\/assets\/bubbles\/editor-bubbles.png",
-         "imageheight":64,
+         "imageheight":96,
          "imagewidth":160,
          "margin":0,
          "name":"bubbles",
