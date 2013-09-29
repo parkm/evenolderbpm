@@ -408,7 +408,24 @@ function BPMStates() {
             };
         }
     });
-    State.addRound("tutorial6");
+    State.addRound("tutorial6", "tutorial6", {
+        "action0": function(state) {
+            var wall = state.getWall("wA");
+            var m = wall.moveSettings;
+
+            if (!m.auto) m.auto = true;
+            m.loop = true;
+
+            var superMove = wall.move;
+            wall.move = function(delta) {
+                var m = this.moveSettings;
+                superMove.call(wall, delta);
+                if (m.position < m.line.length - 1) {
+                    m.auto = false;
+                }
+            };
+        }
+    });
     State.addRound("donkey json level", "donk");
 
     State.create("dogpantzTest", function() {
