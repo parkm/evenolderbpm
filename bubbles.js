@@ -201,8 +201,6 @@ function PopEffect(x, y) {
         },
 
         update: function(args) {
-            this.anim.x = this.x - 32;
-            this.anim.y = this.y - 32;
             this.anim.update(args.delta);
 
             if (complete) {
@@ -212,6 +210,9 @@ function PopEffect(x, y) {
         },
 
         render: function(gc) {
+            this.anim.x = this.x - 32;
+            this.anim.y = this.y - 32;
+
             this.anim.render(gc);
         },
     };
@@ -232,9 +233,6 @@ function Explosion(x, y, pin) {
         },
 
         update: function(args) {
-            this.anim.x = this.x - this.width/2;
-            this.anim.y = this.y - this.height/2;
-
             this.anim.update(args.delta);
 
             if (complete) {
@@ -257,6 +255,9 @@ function Explosion(x, y, pin) {
         },
 
         render: function(gc) {
+            this.anim.x = this.x - this.width/2;
+            this.anim.y = this.y - this.height/2;
+
             this.anim.render(gc);
         },
 
@@ -292,15 +293,6 @@ Bubble.Score = function(base) {
         }));
 
         args.state.comboScore += value;
-        var overallText = FloatText(args.state.comboScore, this.x+32, this.y+32, {
-            stroke: true,
-            fillStyle: ftColor,
-            font: "24px Arial",
-            lineWidth: 3,
-        });
-        overallText.scrolls = false;
-
-        args.state.addFloatText(overallText);
 
         BPM.cash += value;
     };

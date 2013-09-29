@@ -282,11 +282,17 @@ function BPMStates() {
             // Text stats - cash, combo, multiplier
             Utils.drawText(gc, "$" + BPM.cash, 400, base.height + 32, formatting);
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
+            formatting.font = (16 + (1.1 * base.multiplier)).toString() + "px Arial";
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
 
             // Pin count
-            formatting.font = "24px Arial"; // bigger font for pin count
-            Utils.drawText(gc, "Pins: " + base.shooter.pins, 600, base.height + 16, formatting);
+            formatting.font = "24px Arial"; // bigger font for pin count and combo count
+            Utils.drawText(gc, "Pins: " + base.shooter.pins, 500, base.height + 16, formatting);
+
+            // Combo Bubbles
+            if (base.combo > 0 || base.multiplier > 1) {
+                Utils.drawText(gc, base.comboScore, 620, base.height + 16, formatting);
+            }
 
             // Round complete splash
             if (base.roundComplete) {
