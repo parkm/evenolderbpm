@@ -281,6 +281,10 @@ function BPMStates() {
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
 
+            if (base.combo > 0 || base.multiplier > 1) {
+                Utils.drawText(gc, base.comboScore, 600, base.height + 5, formatting);
+            }
+
             if (base.roundComplete) {
                 gc.fillStyle = "rgba(0, 0, 0, .25)";
                 gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
