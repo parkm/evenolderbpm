@@ -256,7 +256,10 @@ function BPMStates() {
                     base.objects[i].render(gc);
                 }
             }
-            
+
+            base.shooter.render(gc);
+
+            // UI Bottom Bar
             var formatting = {
                 fillStyle: "#FFFFFF",
                 strokeStyle: "#000000",
@@ -266,21 +269,26 @@ function BPMStates() {
                 textAlign: "left",
             };
 
-            base.shooter.render(gc);
-
+            // Background
             gc.fillStyle = "rgb(80, 72, 212)";
             gc.strokeStyle = "#000000";
             gc.lineWidth = 2;
             gc.fillRect(0, base.height, BPM.canvas.getWidth(), BPM.canvas.getHeight() - base.height);
             gc.strokeRect(gc.lineWidth, base.height + gc.lineWidth, BPM.canvas.getWidth() - gc.lineWidth*2, BPM.canvas.getHeight() - base.height - gc.lineWidth*2);
-            
+
             base.backButton.render(gc);
             base.resetButton.render(gc);
-           
+
+            // Text stats - cash, combo, multiplier
             Utils.drawText(gc, "$" + BPM.cash, 400, base.height + 32, formatting);
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
 
+            // Pin count
+            formatting.font = "24px Arial"; // bigger font for pin count
+            Utils.drawText(gc, "Pins: " + base.shooter.pins, 600, base.height + 16, formatting);
+
+            // Round complete splash
             if (base.roundComplete) {
                 gc.fillStyle = "rgba(0, 0, 0, .25)";
                 gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
@@ -400,7 +408,7 @@ function BPMStates() {
             };
         }
     });
-    //State.addRound("tutorial6");
+    State.addRound("tutorial6");
     State.addRound("donkey json level", "donk");
 
     State.create("dogpantzTest", function() {

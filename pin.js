@@ -80,22 +80,12 @@ function PinShooter(_x, _y, options) {
 
         render: function(gc) {
             if (this.pins > 0) {
-                Utils.drawText(gc, "Pins: " + this.pins, this.x, this.y + 24, {
-                    fillStyle: "#FFFFFF",
-                    strokeStyle: "#000000",
-                    textAlign: "center",
-                    font: "24px Arial",
-                    lineWidth: 4,
-                    stroke: true,
-                });
-                
                 chargeBox && chargeBox.render(gc);
 
                 this.img.render(gc);
             }
         }
     };
-
 }
 
 /* ### Pins
