@@ -417,10 +417,11 @@ function BPMStates() {
 
     // Toggles movement for given wall
     // need to call in action object function in State.addRound
-    var t6Toggle = function(wall, state) {
+    var wallToggle = function(wall, state) {
         // wall can either be a string of the wall's ID, or an instance of a wall.
         wall = typeof wall === "string" ? state.getWall(wall) : wall;
         var m = wall.moveSettings;
+        console.log(m);
 
         if (!m.auto) {
             m.auto = true;
@@ -443,16 +444,16 @@ function BPMStates() {
             var t = state.getWall("wLT");
             var b = state.getWall("wLB");
             if (t.moveSettings.done && b.moveSettings.done) {
-                t6Toggle(t, state);
-                t6Toggle(b, state);
+                wallToggle(t, state);
+                wallToggle(b, state);
             }
         },
         "actionR": function(state) {
             var t = state.getWall("wRT");
             var b = state.getWall("wRB");
             if (t.moveSettings.done && b.moveSettings.done) {
-                t6Toggle("wRT", state);
-                t6Toggle("wRB", state);
+                wallToggle("wRT", state);
+                wallToggle("wRB", state);
             }
         }
     });
