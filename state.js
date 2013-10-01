@@ -52,31 +52,26 @@ State.set = function(id) {
     }   
 };
 
+/* Private - Should only be used by State.update()
+ * Checks if a prepped state exists, then switches to it.*/
+State.switchToPrepped = function() {
+    if (State.prepped) {
+        if (State.debug) {
+            console.log("Switching to prepped state...");
+        }
+
+        State.current = State.prepped();
+        State.prepped = null;
+        State.current.init();
+    }
+};
+
 /* Public
  * Switches to prepped state, updates current state.
  * Use this method to update the current state.
  */
 State.update = function(delta) {
-    /* Private - Should only be used by State.update()
-     * Checks if a prepped state exists, then switches to it.*/
-    var switchToPrepped = function() {
-        if (State.prepped) {
-            if (State.debug) {
-                console.log("Switching to prepped state...");
-            }
-
-            if (State.prepped) {
-                State.current = State.prepped();
-                State.prepped = null;
-                State.current.init();
-            } else {
-                console.error("Error: Prepped state no longer exists");
-            }    
-        }
-    };
-
-
-    switchToPrepped();
+    State.switchToPrepped();
     if (State.current) {
         State.current.update(delta);
     }
