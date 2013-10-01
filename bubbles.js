@@ -198,6 +198,9 @@ function PopEffect(x, y) {
             this.anim.onComplete = function() {
                 complete = true;
             };
+
+            this.anim.x = this.x - 32;
+            this.anim.y = this.y - 32;
         },
 
         update: function(args) {
@@ -210,9 +213,6 @@ function PopEffect(x, y) {
         },
 
         render: function(gc) {
-            this.anim.x = this.x - 32;
-            this.anim.y = this.y - 32;
-
             this.anim.render(gc);
         },
     };
@@ -230,6 +230,9 @@ function Explosion(x, y, pin) {
             this.anim.onComplete = function() {
                 complete = true;
             };
+
+            this.anim.x = this.x - this.width/2;
+            this.anim.y = this.y - this.height/2;
         },
 
         update: function(args) {
@@ -255,9 +258,6 @@ function Explosion(x, y, pin) {
         },
 
         render: function(gc) {
-            this.anim.x = this.x - this.width/2;
-            this.anim.y = this.y - this.height/2;
-
             this.anim.render(gc);
         },
 
