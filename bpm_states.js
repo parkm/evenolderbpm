@@ -460,6 +460,7 @@ function BPMStates() {
     //State.addRound("donkey json level", "donk");
     State.addRound("s0r1");
     State.addRound("s0r2");
+    State.addRound("dog0");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
