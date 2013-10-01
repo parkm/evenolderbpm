@@ -99,6 +99,8 @@ function Wall(options) {
                         m.done = true;
                         m.line.reverse();
                         m.position = 0;
+                    } else {
+                        m.done = true;
                     }
                 } else {
                     m.done = false;
