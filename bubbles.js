@@ -232,7 +232,14 @@ function Explosion(x, y, pin) {
             };
         },
 
+        updatePosition: function() {
+            this.anim.x = this.x - this.width/2;
+            this.anim.y = this.y - this.height/2;
+        },
+
         update: function(args) {
+            this.updatePosition();
+
             this.anim.update(args.delta);
 
             if (complete) {
@@ -255,9 +262,7 @@ function Explosion(x, y, pin) {
         },
 
         render: function(gc) {
-            this.anim.x = this.x - this.width/2;
-            this.anim.y = this.y - this.height/2;
-
+            this.updatePosition();
             this.anim.render(gc);
         },
 
