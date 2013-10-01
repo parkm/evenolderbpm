@@ -26,7 +26,10 @@ function Wall(options) {
             position: 0,
             speed: (options.moveSpeed || 1) * 0.1,
             auto: options.moveAuto,
-            loop: options.moveLoop
+            loop: options.moveLoop,
+            // Tracks if wall is done with its movement line
+            // (this is true right before the wall loops and false if it is moving)
+            done: options.moveAuto ? false : true
         },
 
         cached: false,
@@ -93,10 +96,12 @@ function Wall(options) {
                         m.y = this.y;
                         m.position++;
                     } else if (m.loop) {
+                        m.done = true;
                         m.line.reverse();
                         m.position = 0;
                     }
                 } else {
+                    m.done = false;
                     if (!xdone) {
                         this.speedX = m.speed * xdir * delta;
                         this.x += this.speedX;

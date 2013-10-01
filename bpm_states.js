@@ -414,22 +414,46 @@ function BPMStates() {
             };
         }
     });
+
+    // Toggles movement for given wall
+    // need to call in action object function in State.addRound
+    var t6Toggle = function(wall, state) {
+        // wall can either be a string of the wall's ID, or an instance of a wall.
+        wall = typeof wall === "string" ? state.getWall(wall) : wall;
+        var m = wall.moveSettings;
+
+        if (!m.auto) {
+            m.auto = true;
+            m.done = false;
+        }
+        if (!m.loop) m.loop = true;
+
+        var superMove = wall.move;
+        wall.move = function(delta) {
+            var m = this.moveSettings;
+            superMove.call(wall, delta);
+            if (m.done) {
+                m.auto = false;
+            }
+        };
+    };
+
     State.addRound("tutorial6", "tutorial6", {
-        "action0": function(state) {
-            var wall = state.getWall("wA");
-            var m = wall.moveSettings;
-
-            if (!m.auto) m.auto = true;
-            m.loop = true;
-
-            var superMove = wall.move;
-            wall.move = function(delta) {
-                var m = this.moveSettings;
-                superMove.call(wall, delta);
-                if (m.position < m.line.length - 1) {
-                    m.auto = false;
-                }
-            };
+        "actionL": function(state) {
+            var t = state.getWall("wLT");
+            var b = state.getWall("wLB");
+            if (t.moveSettings.done && b.moveSettings.done) {
+                t6Toggle(t, state);
+                t6Toggle(b, state);
+            }
+        },
+        "actionR": function(state) {
+            var t = state.getWall("wRT");
+            var b = state.getWall("wRB");
+            if (t.moveSettings.done && b.moveSettings.done) {
+                t6Toggle("wRT", state);
+                t6Toggle("wRB", state);
+            }
         }
     });
     //State.addRound("donkey json level", "donk");
