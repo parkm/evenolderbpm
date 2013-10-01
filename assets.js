@@ -54,7 +54,9 @@ function Assets() {
         "tutorial4": "tutorial_4.json",
         "tutorial5": "tutorial_5.json",
         "tutorial6": "tutorial_6.json",
-        "donk": "donk-level.json"
+        //"donk": "donk-level.json",
+        "s0r1": "s0r1.json",
+        "s0r2": "s0r2.json"
     });
 
     // Returning self to cascade.

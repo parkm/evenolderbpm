@@ -432,7 +432,9 @@ function BPMStates() {
             };
         }
     });
-    State.addRound("donkey json level", "donk");
+    //State.addRound("donkey json level", "donk");
+    State.addRound("s0r1");
+    State.addRound("s0r2");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
@@ -690,11 +692,9 @@ function BPMStates() {
             stages[0].showRounds = true;
 
             addStage(0, "Beginner Stage", "rgb(19, 200, 20)");
-            addRound(0, "Round 1", "game");
-            addRound(0, "Round 2", "game");
-            addRound(0, "Round 3", "game");
-            addRound(0, "Round 4", "game");
-
+            addRound(0, "Round 1", "s0r1");
+            addRound(0, "Round 2", "s0r2");
+            
             addStage(1, "Intermediate Stage", "rgb(19, 20, 200)");
             for (var j=0; j<20; ++j) {
                 addRound(1, "Round " + (j+1), "game");
