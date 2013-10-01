@@ -494,6 +494,13 @@ function BPMStates() {
         wall.width = 100;
         wall.height = 100;
 
+        var test = ValueInterval(0, 600, 4, function() {
+            test.initial = 600;
+            test.to = 0;
+            test.start();
+        });
+        var testBub = Bubble(0, 0, "score");
+
         var superInit = base.init;
         base.init = function() {
             superInit.call(base);
@@ -506,24 +513,18 @@ function BPMStates() {
                 ghostInterval: 3,
             }));
 
-            for (i in Bubble) {
-                if (i !== "Base") {
-                    for (j=0; j<10; ++j) {
-                        base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), i));
-                    }
-                }
-            }
+            test.start();
+            test.ease = Ease.sineInOut;
+            base.bubbles.push(testBub);
         };
 
         var superUpdate = base.update;
         base.update = function(delta) {
             superUpdate.call(base, delta);
-        };
 
-        var superRender = base.render;
-        base.render = function(gc) {
-            superRender.call(base, gc);
-        }; 
+            test.update(delta);
+            testBub.x = test.value;
+        };
 
         return base;
     });
