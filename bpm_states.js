@@ -15,10 +15,14 @@ function BPMStates() {
         base.walls = [];
         base.objects = [];
 
-        base.comboScore = 0;
-
         base.width = 800;
         base.height = 608;
+
+        base.comboScore = 0;
+        base.comboBar = StatusBar();
+        base.comboBar.width = base.width - 12;
+        base.comboBar.height = 16;
+        base.comboBar.y = base.height - base.comboBar.height - 7;
 
         var shooter = {
             defaultPins: 4,
@@ -172,6 +176,8 @@ function BPMStates() {
 
             base.shooter.update(BPM.mouse, base.pins);
 
+            base.comboBar.ratio = base.combo / base.comboGoal;
+
             for (i in base.pins) {
                 base.pins[i].update({
                     delta: delta, 
@@ -284,6 +290,7 @@ function BPMStates() {
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
             formatting.font = (16 + (1.1 * base.multiplier)).toString() + "px Arial";
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
+            base.comboBar.render(gc);
 
             // Pin count
             formatting.font = "24px Arial"; // bigger font for pin count and combo count
@@ -460,7 +467,7 @@ function BPMStates() {
     //State.addRound("donkey json level", "donk");
     State.addRound("s0r1");
     State.addRound("s0r2");
-    State.addRound("dog0");
+    //State.addRound("dog0");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();

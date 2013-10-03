@@ -44,6 +44,9 @@ function Assets() {
     GUIAssets.buttonHover = Assets.add("buttonHover", path.assets + "button-hover.png");
     GUIAssets.buttonDown = Assets.add("buttonDown", path.assets + "button-down.png");
 
+    GUIAssets.barBack = Assets.add("barBack", path.assets + "bar-back.png");
+    GUIAssets.barFront = Assets.add("barFront", path.assets + "bar-front.png");
+
     // Levels
     Assets.addLevels(StateAssets, path.levels, {
         "testLevelJSON": "test-level.json",
@@ -55,7 +58,7 @@ function Assets() {
         "tutorial5": "tutorial_5.json",
         "tutorial6": "tutorial_6.json",
         //"donk": "donk-level.json",
-        "dog0": "dog0.json",
+        //"dog0": "dog0.json",
         "s0r1": "s0r1.json",
         "s0r2": "s0r2.json"
     });
