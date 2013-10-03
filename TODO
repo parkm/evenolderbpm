@@ -1,5 +1,7 @@
 Current TODO:
 
+Make all moving objects use a speed mod constant to multiply by the delta.
+
 Design {
     Design Upgrades
 
@@ -24,18 +26,7 @@ Design {
     }
 }
 
-Pins {
-    Pin upgrades
-}
-
 Bubbles {
-    Add the rest of the bubble types.
-    Add the rest of the attribute effects.
-    
-    Reflect {
-        if iron, pin should not be destroyed
-    }
-
     Action {
         Add action bubbles to Tiled
             - Specify name for all action bubbles

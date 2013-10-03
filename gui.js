@@ -295,3 +295,57 @@ function ScrollField() {
         },
     }
 }
+
+function StatusBar() {
+    var back = GUIAssets.barBack;
+    var front = GUIAssets.barFront;
+
+    var backSlice = NineSlice(back);
+    var frontSlice = NineSlice(front);
+
+    var topLeft = Rect(0, 0, 12, 12);
+    var top = Rect(12, 0, 25, 12);
+    var topRight = Rect(37, 0, 12, 12);
+    var right = Rect(37, 12, 12, 4);
+    var bottomRight = Rect(37, 16, 12, 7);
+    var bottom = Rect(12, 16, 25, 7);
+    var bottomLeft = Rect(0, 16, 12, 7);
+    var left = Rect(0, 12, 12, 4);
+    var center = Rect(12, 12, 25, 4);
+
+    backSlice.topLeft = topLeft;
+    backSlice.top = top;
+    backSlice.topRight = topRight;
+    backSlice.right = right;
+    backSlice.bottomRight = bottomRight;
+    backSlice.bottom = bottom;
+    backSlice.bottomLeft = bottomLeft;
+    backSlice.left = left;
+    backSlice.center = center;
+    
+    frontSlice.topLeft = topLeft;
+    frontSlice.top = top;
+    frontSlice.topRight = topRight;
+    frontSlice.right = right;
+    frontSlice.bottomRight = bottomRight;
+    frontSlice.bottom = bottom;
+    frontSlice.bottomLeft = bottomLeft;
+    frontSlice.left = left;
+    frontSlice.center = center;
+
+    return {
+        x: 0, y: 0,
+        width: 0, height: 0,
+        ratio: 0, 
+
+        render: function(gc) {
+            gc.globalAlpha = 0.75;
+            backSlice.render(gc, this.x, this.y, this.width, this.height);
+
+            gc.globalAlpha = 1;
+            if (this.ratio > 0) {
+                frontSlice.render(gc, this.x, this.y, this.width * this.ratio, this.height);
+            }
+        }
+    }
+}
