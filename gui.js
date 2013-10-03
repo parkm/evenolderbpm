@@ -5,52 +5,30 @@ function GUIButton(_text, options) {
     var hoverImg = GUIAssets.buttonHover;
     var downImg = GUIAssets.buttonDown;
 
-    var topLeft = Rect(0, 0, 23, 27);
-    var top = Rect(23, 0, 128, 27);
-    var topRight = Rect(151, 0, 23, 27);
-    var right = Rect(151, 27, 23, 18);
-    var bottomRight = Rect(151, 45, 23, 20);
-    var bottom = Rect(23, 45, 128, 20);
-    var bottomLeft = Rect(0, 45, 23, 20);
-    var left = Rect(0, 27, 23, 18);
-    var center = Rect(23, 27, 128, 18);
-
+    var slices = {
+        topLeft: Rect(0, 0, 23, 27),
+        top: Rect(23, 0, 128, 27),
+        topRight: Rect(151, 0, 23, 27),
+        right: Rect(151, 27, 23, 18),
+        bottomRight: Rect(151, 45, 23, 20),
+        bottom: Rect(23, 45, 128, 20),
+        bottomLeft: Rect(0, 45, 23, 20),
+        left: Rect(0, 27, 23, 18),
+        center: Rect(23, 27, 128, 18),
+    };
+    
     var dynamic = options && options.dynamic !== undefined ? options.dynamic : true;
     var onClick = options && options.onClick !== undefined ? options.onClick : null;
 
     var up = NineSlice(upImg);
-    up.topLeft = topLeft;
-    up.top = top;
-    up.topRight = topRight;
-    up.right = right;
-    up.bottomRight = bottomRight;
-    up.bottom = bottom;
-    up.bottomLeft = bottomLeft;
-    up.left = left;
-    up.center = center;
+    up.copyDimensions(slices);
 
     var hover = NineSlice(hoverImg);
-    hover.topLeft = topLeft;
-    hover.top = top;
-    hover.topRight = topRight;
-    hover.right = right;
-    hover.bottomRight = bottomRight;
-    hover.bottom = bottom;
-    hover.bottomLeft = bottomLeft;
-    hover.left = left;
-    hover.center = center;
-
+    hover.copyDimensions(slices);
+    
     var down = NineSlice(downImg);
-    down.topLeft = topLeft;
-    down.top = top;
-    down.topRight = topRight;
-    down.right = right;
-    down.bottomRight = bottomRight;
-    down.bottom = bottom;
-    down.bottomLeft = bottomLeft;
-    down.left = left;
-    down.center = center;
-
+    down.copyDimensions(slices);
+   
     return {
         text: _text,
 
@@ -119,14 +97,14 @@ function GUIButton(_text, options) {
             }
 
 
-            var x = this.x + width/2 + left.width/2;
-            var y = this.y + height/2 - bottom.height/2;
+            var x = this.x + width/2 + slices.left.width/2;
+            var y = this.y + height/2 - slices.bottom.height/2;
 
             gc.strokeText(this.text, x, y);
             gc.fillText(this.text, x, y);
 
-            this.postWidth = width + topRight.width;
-            this.postHeight = height + bottomRight.height;
+            this.postWidth = width + slices.topRight.width;
+            this.postHeight = height + slices.bottomRight.height;
         },
     }
 }
@@ -303,35 +281,20 @@ function StatusBar() {
     var backSlice = NineSlice(back);
     var frontSlice = NineSlice(front);
 
-    var topLeft = Rect(0, 0, 12, 12);
-    var top = Rect(12, 0, 25, 12);
-    var topRight = Rect(37, 0, 12, 12);
-    var right = Rect(37, 12, 12, 4);
-    var bottomRight = Rect(37, 16, 12, 7);
-    var bottom = Rect(12, 16, 25, 7);
-    var bottomLeft = Rect(0, 16, 12, 7);
-    var left = Rect(0, 12, 12, 4);
-    var center = Rect(12, 12, 25, 4);
+    var slices = {
+        topLeft: Rect(0, 0, 12, 12),
+        top: Rect(12, 0, 25, 12),
+        topRight: Rect(37, 0, 12, 12),
+        right: Rect(37, 12, 12, 4),
+        bottomRight: Rect(37, 16, 12, 7),
+        bottom: Rect(12, 16, 25, 7),
+        bottomLeft: Rect(0, 16, 12, 7),
+        left: Rect(0, 12, 12, 4),
+        center: Rect(12, 12, 25, 4),
+    };
 
-    backSlice.topLeft = topLeft;
-    backSlice.top = top;
-    backSlice.topRight = topRight;
-    backSlice.right = right;
-    backSlice.bottomRight = bottomRight;
-    backSlice.bottom = bottom;
-    backSlice.bottomLeft = bottomLeft;
-    backSlice.left = left;
-    backSlice.center = center;
-    
-    frontSlice.topLeft = topLeft;
-    frontSlice.top = top;
-    frontSlice.topRight = topRight;
-    frontSlice.right = right;
-    frontSlice.bottomRight = bottomRight;
-    frontSlice.bottom = bottom;
-    frontSlice.bottomLeft = bottomLeft;
-    frontSlice.left = left;
-    frontSlice.center = center;
+    backSlice.copyDimensions(slices)
+    frontSlice.copyDimensions(slices);
 
     return {
         x: 0, y: 0,
