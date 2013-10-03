@@ -290,7 +290,6 @@ function BPMStates() {
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
             formatting.font = (16 + (1.1 * base.multiplier)).toString() + "px Arial";
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
-            base.comboBar.render(gc);
 
             // Pin count
             formatting.font = "24px Arial"; // bigger font for pin count and combo count
@@ -299,6 +298,7 @@ function BPMStates() {
             // Combo Bubbles
             if (base.combo > 0 || base.multiplier > 1) {
                 Utils.drawText(gc, base.comboScore, 620, base.height + 16, formatting);
+                base.comboBar.render(gc);
             }
 
             // Round complete splash
