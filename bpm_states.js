@@ -330,8 +330,8 @@ function BPMStates() {
     // Creates rounds by inheriting from Game state.
     // name - name of round
     // data - optional; level data. Defaults to StateAssets[name]
-    State.addRound = function(name, dataID, actions) {
-        var data = StateAssets[dataID] || StateAssets[name];
+    State.addRound = function(name, actions) {
+        var data = StateAssets[name];
 
         // Error checking
         if (typeof name !== "string") {
@@ -352,20 +352,21 @@ function BPMStates() {
         });
     };
 
-    State.addRound("The JSON level!", "testLevelJSON");
-    State.addRound("tutorial0");
-    State.addRound("tutorial1");
-    State.addRound("tutorial2");
-    State.addRound("tutorial3");
-    State.addRound("tutorial4");
-    State.addRound("tutorial5", "tutorial5", {
+    //Add auto levels
+    for (var i in StateAssets.autoLevels) {
+        var file = StateAssets.autoLevels[i];
+
+        State.addRound(file.slice(0, file.indexOf('.')));
+    }
+
+    State.addRound("tutorial_5", {
         "action0": function(state) {
-            var wallLeft = state.getWall("wL");
-            var wallRight = state.getWall("wR");
-            var wallCenter = state.getWall("wC");
-            wallLeft.moveSettings.auto = true;
-            wallRight.moveSettings.auto = true;
-            wallCenter.moveSettings.auto = true;
+            var wallleft = state.getWall("wL");
+            var wallright = state.getWall("wR");
+            var wallcenter = state.getWall("wC");
+            wallleft.movesettings.auto = true;
+            wallright.movesettings.auto = true;
+            wallcenter.movesettings.auto = true;
 
             // Need to make a bubble that only exists to keep the round from completing
             // otherwise the round will end before the wall finishes creating the goals
@@ -446,7 +447,7 @@ function BPMStates() {
         };
     };
 
-    State.addRound("tutorial6", "tutorial6", {
+    State.addRound("tutorial_6", {
         "actionL": function(state) {
             var t = state.getWall("wLT");
             var b = state.getWall("wLB");
@@ -464,9 +465,6 @@ function BPMStates() {
             }
         }
     });
-    State.addRound("s0r1");
-    State.addRound("s0r2");
-    State.addRound("dog0");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();

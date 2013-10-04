@@ -48,24 +48,28 @@ function Assets() {
     GUIAssets.barFront = Assets.add("barFront", path.assets + "bar-front.png");
 
     // Levels
-    Assets.addLevels(StateAssets, path.levels, {
-        "testLevelJSON": "test-level.json",
-        "tutorial0": "tutorial_0.json",
-        "tutorial1": "tutorial_1.json",
-        "tutorial2": "tutorial_2.json",
-        "tutorial3": "tutorial_3.json",
-        "tutorial4": "tutorial_4.json",
-        "tutorial5": "tutorial_5.json",
-        "tutorial6": "tutorial_6.json",
-        "dog0": "dog0.json",
-        "s0r1": "s0r1.json",
-        "s0r2": "s0r2.json"
-    });
+    StateAssets.autoLevels = [
+        "tutorial_0.json",
+        "tutorial_1.json",
+        "tutorial_2.json",
+        "tutorial_3.json",
+        "tutorial_4.json",
+        "dog0.json",
+        "s0r1.json",
+        "s0r2.json"
+    ];
+
+    StateAssets.levels = [
+        "test-level.json",
+        "tutorial_5.json",
+        "tutorial_6.json"
+    ];
+
+    Assets.addLevels(StateAssets, path.levels, StateAssets.autoLevels.concat(StateAssets.levels));
 
     // Returning self to cascade.
     return Assets;
 }
-
 
 Assets.list = [];
 Assets.loader = Loader();
@@ -179,8 +183,9 @@ Assets.load = function(callback) {
             format: "levelID": "filename.extension"
 */
 Assets.addLevels = function(holder, path, files) {
-    for (var file in files) {
-        Assets.loader.file(file, path + files[file], function(id, data) {
+    for (var i in files) {
+        var name = files[i].slice(0, files[i].indexOf('.'));
+        Assets.loader.file(name, path + files[i], function(id, data) {
             data = Assets.level.parse(data);
             holder[id] = data;
         });
