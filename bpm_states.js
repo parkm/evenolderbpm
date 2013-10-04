@@ -758,7 +758,7 @@ function BPMStates() {
                 if (results) {
                     var file = results.input;
                     var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')));
-                    var round = file.slice(file.indexOf('r') + 1, file.length);
+                    var round = parseInt(file.slice(file.indexOf('r') + 1, file.length));
 
                     addRound(stage, "Round " + round, file, round - 1);
                 }
