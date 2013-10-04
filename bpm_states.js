@@ -698,7 +698,7 @@ function BPMStates() {
         };
 
         var addRound = function(id, roundName, stateName) {
-            for (i in stages) {
+            for (var i in stages) {
                 var stage = stages[i];
 
                 if (stage.id === id) {
@@ -723,8 +723,6 @@ function BPMStates() {
             stages[0].showRounds = true;
 
             addStage(0, "Beginner Stage", "rgb(19, 200, 20)");
-            addRound(0, "Round 1", "s0r1");
-            addRound(0, "Round 2", "s0r2");
 
             addStage(1, "Intermediate Stage", "rgb(19, 20, 200)");
             for (var j=0; j<20; ++j) {
@@ -741,11 +739,10 @@ function BPMStates() {
 
                 if (results) {
                     var file = results.input;
-                    var stage = file.slice(file.indexOf('s') + 1, file.indexOf('r'));
+                    var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')));
                     var round = file.slice(file.indexOf('r') + 1, file.length);
 
-                    //addRound(0, "Round 1", "s0r1");
-                    //addRound(stage, "Round " + round, file);
+                    addRound(stage, "Round " + round, file);
                 }
             }
 
@@ -758,16 +755,15 @@ function BPMStates() {
             selectStage = RoundSelectButton("Select Stage", "#000000");
             selectStage.y = 16;
 
-            for (var i in stages) {
-                stages[i].button.onClick = function() {
-                    stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
-                    /* Hides the rounds for all the other stages.
-                    for (j in stages) {
-                        if (j !== i) {
-                            stages[j].showRounds = false;
-                        }
-                    }*/
+            //This function is required because of anonymous function scope acting retarded.
+            function setStageOnClicks(index) {
+                stages[index].button.onClick = function() {
+                    stages[index].showRounds = !stages[index].showRounds; i
                 };
+            }
+
+            for (var i in stages) {
+                setStageOnClicks(i);
             }
         };
 
@@ -848,7 +844,7 @@ function BPMStates() {
             gc.drawImage(StateAssets.background, 0, 0);
 
             base.renderButtons(gc);
-            
+
             selectStage.render(gc);
 
             stageScrollField.startClipping(gc);
