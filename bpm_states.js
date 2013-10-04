@@ -697,18 +697,36 @@ function BPMStates() {
             });
         };
 
-        var addRound = function(id, roundName, stateName) {
+        /*  Adds a state to a stage round button.
+
+            id:
+                    The id of the stage.
+            roundName:
+                    The name of the round to display on the button.
+            stateName:
+                    The name of the state you want the button to go to.
+            roundIndex: OPTIONAL
+                    Places the round at a certain index rather than pushing it.
+        */
+        var addRound = function(id, roundName, stateName, roundIndex) {
             for (var i in stages) {
                 var stage = stages[i];
 
                 if (stage.id === id) {
-                    stage.rounds.push({
+                    var roundObj = {
                         name: roundName,
                         state: stateName,
                         color: stage.color,
                         stage: stage.stageName,
-                        button: RoundSelectButton(roundName, stage.color),
-                    });
+                        button: RoundSelectButton(roundName, stage.color)
+                    };
+
+                    if (roundIndex !== undefined) {
+                        stage.rounds[roundIndex] = roundObj;
+                    } else {
+                        stage.rounds.push(roundObj);
+                    }
+
                     return;
                 }
             }
@@ -742,7 +760,7 @@ function BPMStates() {
                     var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')));
                     var round = file.slice(file.indexOf('r') + 1, file.length);
 
-                    addRound(stage, "Round " + round, file);
+                    addRound(stage, "Round " + round, file, round - 1);
                 }
             }
 
