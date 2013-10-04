@@ -717,7 +717,7 @@ function BPMStates() {
 
         base.init = function() {
             addStage(-1, "Goto State...", "rgb(19, 200, 200)");
-            for (i in State.list) {
+            for (var i in State.list) {
                 addRound(-1, "Goto state '" + i + "'", i);
             }
             stages[0].showRounds = true;
@@ -725,7 +725,7 @@ function BPMStates() {
             addStage(0, "Beginner Stage", "rgb(19, 200, 20)");
             addRound(0, "Round 1", "s0r1");
             addRound(0, "Round 2", "s0r2");
-            
+
             addStage(1, "Intermediate Stage", "rgb(19, 20, 200)");
             for (var j=0; j<20; ++j) {
                 addRound(1, "Round " + (j+1), "game");
@@ -734,6 +734,20 @@ function BPMStates() {
             addStage(2, "Advanced Stage", "rgb(200, 20, 19)");
             addRound(2, "Round 1", "game");
             addRound(2, "Round 2", "game");
+
+            for (var i in StateAssets) {
+                var regExp = /s[0-9]*r[0-9]*/;
+                var results = regExp.exec(i);
+
+                if (results) {
+                    var file = results.input;
+                    var stage = file.slice(file.indexOf('s') + 1, file.indexOf('r'));
+                    var round = file.slice(file.indexOf('r') + 1, file.length);
+
+                    //addRound(0, "Round 1", "s0r1");
+                    //addRound(stage, "Round " + round, file);
+                }
+            }
 
             base.createButtons();
 
@@ -744,7 +758,7 @@ function BPMStates() {
             selectStage = RoundSelectButton("Select Stage", "#000000");
             selectStage.y = 16;
 
-            for (i in stages) {
+            for (var i in stages) {
                 stages[i].button.onClick = function() {
                     stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
                     /* Hides the rounds for all the other stages.
