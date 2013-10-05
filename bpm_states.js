@@ -356,7 +356,7 @@ function BPMStates() {
     for (var i in StateAssets.autoLevels) {
         var file = StateAssets.autoLevels[i];
 
-        State.addRound(file.slice(0, file.indexOf('.')));
+        State.addRound(file);
     }
 
     State.addRound("tutorial_5", {
@@ -464,75 +464,6 @@ function BPMStates() {
                 wallToggle("wRB", state);
             }
         }
-    });
-
-    State.create("dogpantzTest", function() {
-        var base = State.list["game"]();
-
-        var superInit = base.init;
-
-        var randomBubble = function(type) {
-            type = type || "score";
-            base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), type));
-        };
-
-        base.init = function() {
-            superInit.call(base);
-
-            var randX = Math.random() * BPM.canvas.getWidth();
-            var randY = Math.random() * BPM.canvas.getHeight();
-            var pushBubble = function(bub) { base.bubbles.push(bub); };
-            
-            for (var i=0;i<4000;i+=1){
-                base.bubbles.push(Bubble(randX, randY, "bad", {speed: 2, action: function() { pushBubble(Bubble(randX, randY, "bad", {action: function() { randomBubble("score"); }}));}}));
-            }
-        };
-
-        return base;
-    });
-
-    State.create("donkeyTest", function() {
-        var base = State.list["game"]();
-
-        var wall = Wall();
-        wall.x = 600;
-        wall.y = 100;
-        wall.width = 100;
-        wall.height = 100;
-
-        var test = ValueInterval(0, 600, 4, function() {
-            test.initial = 600;
-            test.to = 0;
-            test.start();
-        });
-        var testBub = Bubble(0, 0, "score");
-
-        var superInit = base.init;
-        base.init = function() {
-            superInit.call(base);
-
-            base.walls.push(wall);
-
-            base.bubbles.push(Bubble(32, 32, "double", {
-                ghost: true,
-                ghostPositions: [vec2(0, 0), vec2(300, 100), vec2(0, 480), vec2(480, 0)],
-                ghostInterval: 3,
-            }));
-
-            test.start();
-            test.ease = Ease.sineInOut;
-            base.bubbles.push(testBub);
-        };
-
-        var superUpdate = base.update;
-        base.update = function(delta) {
-            superUpdate.call(base, delta);
-
-            test.update(delta);
-            testBub.x = test.value;
-        };
-
-        return base;
     });
 
     /* MENUS */
