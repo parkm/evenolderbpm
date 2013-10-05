@@ -150,7 +150,7 @@ function Wall(options) {
 
             gc.restore();
 
-            nineSlice.render(gc, this.x, this.y, this.width, this.height);
+            //nineSlice.render(gc, this.x, this.y, this.width, this.height);
         },
 
         update: function(args) {
