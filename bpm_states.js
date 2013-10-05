@@ -864,15 +864,6 @@ function BPMStates() {
             }
         };
 
-        var t = StaticText("yoloswag", {
-            fillStyle: "#FFFFFF",
-            strokeStyle: "#000000",
-            font: "16px Arial",
-            stroke: true,
-            lineWidth: 4,
-            textAlign: "left",
-        });
-
         base.render = function(gc) {
             gc.drawImage(StateAssets.background, 0, 0);
 
@@ -900,8 +891,6 @@ function BPMStates() {
             for (i in base.floatText) {
                 base.floatText[i].render(gc);
             }
-
-            t.render(gc);
         };
 
         return base;
