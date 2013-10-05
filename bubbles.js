@@ -58,6 +58,7 @@ Bubble.Base = function(_x, _y, _type, options) {
         /* args = delta, state */
         onCollision: function(args) {
             if (iron && this.type !== "reflect") {
+                args.state.hiddenPins.push(args.pin);
                 args.pin.onDeath(args.state.pins);
             }
 

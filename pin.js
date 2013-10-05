@@ -141,11 +141,13 @@ Pin.Base = function(_x, _y, _angle, options) {
         /* args = delta, state */
         update: function(args) {
             var state = args.state;
+            var hidden = state.hiddenPins.indexOf(this) !== -1;
 
-            this.lifeTimer += args.delta;
+            var time = hidden ? args.delta * 5 : args.delta;
+            this.lifeTimer += time;
 
             if (this.lifeTimer >= this.life * 1000) {
-                this.onDeath(state.pins);
+                this.onDeath(state.hiddenPins.indexOf(this) === -1 ? state.pins : state.hiddenPins);
             }
 
             if (this.x < 0) 
