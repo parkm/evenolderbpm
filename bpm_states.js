@@ -7,6 +7,8 @@ function BPMStates() {
     // Main Game state from which all other game states will inherit.
     State.create("game", function(data) {
         var base = State();
+        var endDelayTimer = 0;
+        var endDelay = 0.5;
 
         base.data = data;
 
@@ -42,7 +44,6 @@ function BPMStates() {
             shooter.y = base.height / 2;
             shooter.pins = shooter.defaultPins;
         }
-
 
         base.shooter = PinShooter(shooter.x, shooter.y, {pins: shooter.pins});
 
@@ -214,22 +215,26 @@ function BPMStates() {
 
             if (!base.roundComplete) {
                 if ((base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
-                    //Do a check to see if the goal bubble count is 0. If so then cue the round success code.
-                    base.goalBubbleCount = 0;
-                    for (i in base.bubbles) {
-                        if (base.bubbles[i].type === "goal") {
-                            base.goalBubbleCount++;
+                    endDelayTimer += delta;
+
+                    if (endDelayTimer >= endDelay * 1000) {
+                        //Do a check to see if the goal bubble count is 0. If so then cue the round success code.
+                        base.goalBubbleCount = 0;
+                        for (i in base.bubbles) {
+                            if (base.bubbles[i].type === "goal") {
+                                base.goalBubbleCount++;
+                            }
                         }
-                    }
 
-                    if (base.goalBubbleCount <= 0) {
-                        base.roundStatus = "win"; 
-                    } else {
-                        base.roundStatus = "fail";
-                    }
+                        if (base.goalBubbleCount <= 0) {
+                            base.roundStatus = "win"; 
+                        } else {
+                            base.roundStatus = "fail";
+                        }
 
-                    base.roundComplete = true;
-                    base.onRoundComplete();
+                        base.roundComplete = true;
+                        base.onRoundComplete();
+                    }
                 }
             } else {
                 if (BPM.mouse.isReleased(Mouse.LEFT)) {
