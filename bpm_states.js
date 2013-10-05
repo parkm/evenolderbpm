@@ -330,8 +330,8 @@ function BPMStates() {
     // Creates rounds by inheriting from Game state.
     // name - name of round
     // data - optional; level data. Defaults to StateAssets[name]
-    State.addRound = function(name, dataID, actions) {
-        var data = StateAssets[dataID] || StateAssets[name];
+    State.addRound = function(name, actions) {
+        var data = StateAssets[name];
 
         // Error checking
         if (typeof name !== "string") {
@@ -352,20 +352,21 @@ function BPMStates() {
         });
     };
 
-    State.addRound("The JSON level!", "testLevelJSON");
-    State.addRound("tutorial0");
-    State.addRound("tutorial1");
-    State.addRound("tutorial2");
-    State.addRound("tutorial3");
-    State.addRound("tutorial4");
-    State.addRound("tutorial5", "tutorial5", {
+    //Add auto levels
+    for (var i in StateAssets.autoLevels) {
+        var file = StateAssets.autoLevels[i];
+
+        State.addRound(file.slice(0, file.indexOf('.')));
+    }
+
+    State.addRound("tutorial_5", {
         "action0": function(state) {
-            var wallLeft = state.getWall("wL");
-            var wallRight = state.getWall("wR");
-            var wallCenter = state.getWall("wC");
-            wallLeft.moveSettings.auto = true;
-            wallRight.moveSettings.auto = true;
-            wallCenter.moveSettings.auto = true;
+            var wallleft = state.getWall("wL");
+            var wallright = state.getWall("wR");
+            var wallcenter = state.getWall("wC");
+            wallleft.movesettings.auto = true;
+            wallright.movesettings.auto = true;
+            wallcenter.movesettings.auto = true;
 
             // Need to make a bubble that only exists to keep the round from completing
             // otherwise the round will end before the wall finishes creating the goals
@@ -446,7 +447,7 @@ function BPMStates() {
         };
     };
 
-    State.addRound("tutorial6", "tutorial6", {
+    State.addRound("tutorial_6", {
         "actionL": function(state) {
             var t = state.getWall("wLT");
             var b = state.getWall("wLB");
@@ -464,9 +465,6 @@ function BPMStates() {
             }
         }
     });
-    State.addRound("s0r1");
-    State.addRound("s0r2");
-    State.addRound("dog0");
 
     State.create("dogpantzTest", function() {
         var base = State.list["game"]();
@@ -704,18 +702,36 @@ function BPMStates() {
             });
         };
 
-        var addRound = function(id, roundName, stateName) {
-            for (i in stages) {
+        /*  Adds a state to a stage round button.
+
+            id:
+                    The id of the stage.
+            roundName:
+                    The name of the round to display on the button.
+            stateName:
+                    The name of the state you want the button to go to.
+            roundIndex: OPTIONAL
+                    Places the round at a certain index rather than pushing it.
+        */
+        var addRound = function(id, roundName, stateName, roundIndex) {
+            for (var i in stages) {
                 var stage = stages[i];
 
                 if (stage.id === id) {
-                    stage.rounds.push({
+                    var roundObj = {
                         name: roundName,
                         state: stateName,
                         color: stage.color,
                         stage: stage.stageName,
-                        button: RoundSelectButton(roundName, stage.color),
-                    });
+                        button: RoundSelectButton(roundName, stage.color)
+                    };
+
+                    if (roundIndex !== undefined) {
+                        stage.rounds[roundIndex] = roundObj;
+                    } else {
+                        stage.rounds.push(roundObj);
+                    }
+
                     return;
                 }
             }
@@ -724,15 +740,13 @@ function BPMStates() {
 
         base.init = function() {
             addStage(-1, "Goto State...", "rgb(19, 200, 200)");
-            for (i in State.list) {
+            for (var i in State.list) {
                 addRound(-1, "Goto state '" + i + "'", i);
             }
             stages[0].showRounds = true;
 
             addStage(0, "Beginner Stage", "rgb(19, 200, 20)");
-            addRound(0, "Round 1", "s0r1");
-            addRound(0, "Round 2", "s0r2");
-            
+
             addStage(1, "Intermediate Stage", "rgb(19, 20, 200)");
             for (var j=0; j<20; ++j) {
                 addRound(1, "Round " + (j+1), "game");
@@ -741,6 +755,19 @@ function BPMStates() {
             addStage(2, "Advanced Stage", "rgb(200, 20, 19)");
             addRound(2, "Round 1", "game");
             addRound(2, "Round 2", "game");
+
+            for (var i in StateAssets) {
+                var regExp = /s[0-9]*r[0-9]*/;
+                var results = regExp.exec(i);
+
+                if (results) {
+                    var file = results.input;
+                    var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')));
+                    var round = parseInt(file.slice(file.indexOf('r') + 1, file.length));
+
+                    addRound(stage, "Round " + round, file, round - 1);
+                }
+            }
 
             base.createButtons();
 
@@ -751,16 +778,15 @@ function BPMStates() {
             selectStage = RoundSelectButton("Select Stage", "#000000");
             selectStage.y = 16;
 
-            for (i in stages) {
-                stages[i].button.onClick = function() {
-                    stages[i].showRounds = !stages[i].showRounds; //Use stages[i] here because there's already a value called stage in the object literal.
-                    /* Hides the rounds for all the other stages.
-                    for (j in stages) {
-                        if (j !== i) {
-                            stages[j].showRounds = false;
-                        }
-                    }*/
+            //This function is required because of anonymous function scope acting retarded.
+            function setStageOnClicks(index) {
+                stages[index].button.onClick = function() {
+                    stages[index].showRounds = !stages[index].showRounds; i
                 };
+            }
+
+            for (var i in stages) {
+                setStageOnClicks(i);
             }
         };
 
@@ -841,7 +867,7 @@ function BPMStates() {
             gc.drawImage(StateAssets.background, 0, 0);
 
             base.renderButtons(gc);
-            
+
             selectStage.render(gc);
 
             stageScrollField.startClipping(gc);
