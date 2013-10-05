@@ -361,12 +361,12 @@ function BPMStates() {
 
     State.addRound("tutorial_5", {
         "action0": function(state) {
-            var wallleft = state.getWall("wL");
-            var wallright = state.getWall("wR");
-            var wallcenter = state.getWall("wC");
-            wallleft.movesettings.auto = true;
-            wallright.movesettings.auto = true;
-            wallcenter.movesettings.auto = true;
+            var wallLeft = state.getWall("wL");
+            var wallRight = state.getWall("wR");
+            var wallCenter = state.getWall("wC");
+            wallLeft.moveSettings.auto = true;
+            wallRight.moveSettings.auto = true;
+            wallCenter.moveSettings.auto = true;
 
             // Need to make a bubble that only exists to keep the round from completing
             // otherwise the round will end before the wall finishes creating the goals
