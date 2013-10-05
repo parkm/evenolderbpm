@@ -356,17 +356,17 @@ function BPMStates() {
     for (var i in StateAssets.autoLevels) {
         var file = StateAssets.autoLevels[i];
 
-        State.addRound(file.slice(0, file.indexOf('.')));
+        State.addRound(file);
     }
 
     State.addRound("tutorial_5", {
         "action0": function(state) {
-            var wallleft = state.getWall("wL");
-            var wallright = state.getWall("wR");
-            var wallcenter = state.getWall("wC");
-            wallleft.movesettings.auto = true;
-            wallright.movesettings.auto = true;
-            wallcenter.movesettings.auto = true;
+            var wallLeft = state.getWall("wL");
+            var wallRight = state.getWall("wR");
+            var wallCenter = state.getWall("wC");
+            wallLeft.moveSettings.auto = true;
+            wallRight.moveSettings.auto = true;
+            wallCenter.moveSettings.auto = true;
 
             // Need to make a bubble that only exists to keep the round from completing
             // otherwise the round will end before the wall finishes creating the goals
@@ -464,31 +464,6 @@ function BPMStates() {
                 wallToggle("wRB", state);
             }
         }
-    });
-
-    State.create("dogpantzTest", function() {
-        var base = State.list["game"]();
-
-        var superInit = base.init;
-
-        var randomBubble = function(type) {
-            type = type || "score";
-            base.bubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), type));
-        };
-
-        base.init = function() {
-            superInit.call(base);
-
-            var randX = Math.random() * BPM.canvas.getWidth();
-            var randY = Math.random() * BPM.canvas.getHeight();
-            var pushBubble = function(bub) { base.bubbles.push(bub); };
-            
-            for (var i=0;i<4000;i+=1){
-                base.bubbles.push(Bubble(randX, randY, "bad", {speed: 2, action: function() { pushBubble(Bubble(randX, randY, "bad", {action: function() { randomBubble("score"); }}));}}));
-            }
-        };
-
-        return base;
     });
 
     State.create("donkeyTest", function() {
@@ -758,13 +733,13 @@ function BPMStates() {
             addRound(2, "Round 2", "game");
 
             for (var i in StateAssets) {
-                var regExp = /s[0-9]*r[0-9]*/;
+                var regExp = /s[0-9]+r[0-9]+/;
                 var results = regExp.exec(i);
 
                 if (results) {
                     var file = results.input;
-                    var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')));
-                    var round = parseInt(file.slice(file.indexOf('r') + 1, file.length));
+                    var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')), 10);
+                    var round = parseInt(file.slice(file.indexOf('r') + 1, file.length), 10);
 
                     addRound(stage, "Round " + round, file, round - 1);
                 }
@@ -779,15 +754,12 @@ function BPMStates() {
             selectStage = RoundSelectButton("Select Stage", "#000000");
             selectStage.y = 16;
 
-            //This function is required because of anonymous function scope acting retarded.
-            function setStageOnClicks(index) {
-                stages[index].button.onClick = function() {
-                    stages[index].showRounds = !stages[index].showRounds; i
-                };
-            }
-
             for (var i in stages) {
-                setStageOnClicks(i);
+                (function(index) {
+                    stages[index].button.onClick = function() {
+                        stages[index].showRounds = !stages[index].showRounds;
+                    };
+                })(i);
             }
         };
 

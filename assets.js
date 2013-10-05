@@ -48,21 +48,25 @@ function Assets() {
     GUIAssets.barFront = Assets.add("barFront", path.assets + "bar-front.png");
 
     // Levels
+    // autoLevels automatically loads levels
+    // use format s[0-9]+r[0-9]+ to automatically add to round select menu
     StateAssets.autoLevels = [
-        "tutorial_0.json",
-        "tutorial_1.json",
-        "tutorial_2.json",
-        "tutorial_3.json",
-        "tutorial_4.json",
-        "dog0.json",
-        "s0r1.json",
-        "s0r2.json"
+        "tutorial_0",
+        "tutorial_1",
+        "tutorial_2",
+        "tutorial_3",
+        "tutorial_4",
+        "dog0",
+        "s0r1",
+        "s0r2"
     ];
 
+    // manually added levels
+    // Must manually add any level with action bubbles
     StateAssets.levels = [
-        "test-level.json",
-        "tutorial_5.json",
-        "tutorial_6.json"
+        "test-level",
+        "tutorial_5",
+        "tutorial_6"
     ];
 
     Assets.addLevels(StateAssets, path.levels, StateAssets.autoLevels.concat(StateAssets.levels));
@@ -184,8 +188,7 @@ Assets.load = function(callback) {
 */
 Assets.addLevels = function(holder, path, files) {
     for (var i in files) {
-        var name = files[i].slice(0, files[i].indexOf('.'));
-        Assets.loader.file(name, path + files[i], function(id, data) {
+        Assets.loader.file(files[i], path + files[i] + ".json", function(id, data) {
             data = Assets.level.parse(data);
             holder[id] = data;
         });
