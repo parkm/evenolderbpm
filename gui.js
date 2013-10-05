@@ -1,5 +1,22 @@
 GUIAssets = {};
 
+function StaticText(text, options) {
+    var c = document.createElement('canvas');
+    var ctx = c.getContext('2d');
+
+    Utils.drawText(ctx, text, 0, 0, options);
+
+    return {
+        cache: c,
+        x: 0, y: 0,
+        text: text,
+
+        render: function(gc) {
+            gc.drawImage(this.cache, this.x, this.y);
+        }
+    }
+}
+
 function GUIButton(_text, options) {
     var upImg = GUIAssets.buttonUp;
     var hoverImg = GUIAssets.buttonHover;
