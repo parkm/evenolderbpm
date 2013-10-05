@@ -757,8 +757,8 @@ function BPMStates() {
 
                 if (results) {
                     var file = results.input;
-                    var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')));
-                    var round = parseInt(file.slice(file.indexOf('r') + 1, file.length));
+                    var stage = parseInt(file.slice(file.indexOf('s') + 1, file.indexOf('r')), 10);
+                    var round = parseInt(file.slice(file.indexOf('r') + 1, file.length), 10);
 
                     addRound(stage, "Round " + round, file, round - 1);
                 }
@@ -773,15 +773,12 @@ function BPMStates() {
             selectStage = RoundSelectButton("Select Stage", "#000000");
             selectStage.y = 16;
 
-            //This function is required because of anonymous function scope acting retarded.
-            function setStageOnClicks(index) {
-                stages[index].button.onClick = function() {
-                    stages[index].showRounds = !stages[index].showRounds; i
-                };
-            }
-
             for (var i in stages) {
-                setStageOnClicks(i);
+                (function(index) {
+                    stages[index].button.onClick = function() {
+                        stages[index].showRounds = !stages[index].showRounds;
+                    };
+                })(i);
             }
         };
 
