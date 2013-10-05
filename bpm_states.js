@@ -12,7 +12,6 @@ function BPMStates() {
 
         base.bubbles = [];
         base.pins = [];
-        base.hiddenPins = [];
         base.walls = [];
         base.objects = [];
 
@@ -179,17 +178,11 @@ function BPMStates() {
 
             base.comboBar.ratio = base.combo / base.comboGoal;
 
-            var pinArgs = {
-                delta: delta,
-                state: base
-            };
-
             for (i in base.pins) {
-                base.pins[i].update(pinArgs);
-            }
-
-            for (i in base.hiddenPins) {
-                base.hiddenPins[i].update(pinArgs);
+                base.pins[i].update({
+                    delta: delta, 
+                    state: base,
+                });
             }
 
             base.backButton.update(BPM.mouse);
@@ -220,7 +213,7 @@ function BPMStates() {
             }
 
             if (!base.roundComplete) {
-                if ((base.pins.length + base.hiddenPins.length < 1 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
+                if ((base.pins.length <= 0 && base.shooter.pins === 0) || base.bubbles.length <= 0) {
                     //Do a check to see if the goal bubble count is 0. If so then cue the round success code.
                     base.goalBubbleCount = 0;
                     for (i in base.bubbles) {
