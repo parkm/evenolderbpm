@@ -503,12 +503,14 @@ function BPMStates() {
         var test = PathInterval(4, {
             onComplete: function() {
                 console.log('done');
-            }
+            },
+
+            ease: Ease.sineOut
         });
-        test.addPoint(0, 0);
-        test.addPoint(32, 0);
-        test.addPoint(32, 32);
-        test.addPoint(0, 32);
+        test.addPoint(64, 64);
+        test.addPoint(96, 64);
+        test.addPoint(96, 96);
+        test.addPoint(64, 96);
         var testBub = Bubble(0, 0, "score");
 
         var superInit = base.init;
@@ -523,8 +525,7 @@ function BPMStates() {
                 ghostInterval: 3,
             }));
 
-            test.start();
-            test.ease = Ease.sineInOut;
+            test.startTest();
             base.bubbles.push(testBub);
         };
 

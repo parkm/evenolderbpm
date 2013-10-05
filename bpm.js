@@ -50,7 +50,7 @@ BPM.update = function() {
 BPM.render = function() {
     BPM.context.fillStyle = "#AAAAAA";
     BPM.canvas.clear();
-    
+
     State.render(BPM.context);
 
     Utils.drawText(BPM.context, Time.fps, 0, BPM.canvas.getHeight()-18, {

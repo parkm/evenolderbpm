@@ -83,28 +83,73 @@ function PathInterval(duration, options) {
     var base = Interval(duration, options);
 
     base.points = [];
+    base.pointsD = [];
+    base.pointsT = [];
 
     base.x = 0;
     base.y = 0;
 
     base.index = 0;
 
+    base.distance = 0;
+
+    base.startTest = function() {
+        base.addPoint(0,0);
+        base.updatePath();
+        base.speed = base.distance / base.duration;
+        base.start();
+    };
+
     base.addPoint = function(x, y) {
-        base.points.push({
+        var point = {
             x: x,
             y: y
-        });
+        };
+
+        if (base.last) {
+            base.distance += Math.sqrt((base.x - base.last.x) * (base.x - base.last.x) + (base.y - base.last.y) * (base.y - base.last.y));
+            base.pointsD.push(base.distance);
+        } else {
+            base.x = x;
+            base.y = y;
+        }
+
+        base.last = point;
+        base.points.push(point);
+    };
+
+    base.updatePath = function() {
+        var i=0;
+        while (i < base.points.length) {
+            base.pointsT[i] = base.pointsD[i++] / base.distance;
+        }
     };
 
     var superUpdate = base.update;
     base.update = function(delta) {
-        var prev = base.points[base.index];
-        var next = base.points[base.index+1];
-
-        base.x = prev.x + (next.x - prev.x) * base.getScale();
-        base.y = prev.y + (next.y - prev.y) * base.getScale();
-
         superUpdate.call(base, delta);
+        if (base.points.length === 1)
+        {
+            base.x = base.points[0].x;
+            base.y = base.points[0].y;
+            return;
+        }
+
+        if (base.index < base.points.length - 1)
+        {
+            while (base.getScale() > base.pointsT[base.index + 1]) {
+                base.index++;
+            }
+        }
+
+        var td = base.pointsT[base.index];
+        var tt = base.pointsT[base.index + 1] - td;
+
+        td = (base.getScale() - td) / tt;
+        base.prev = base.points[base.index];
+        base.next = base.points[base.index + 1];
+        base.x = base.prev.x + (base.next.x - base.prev.x) * td;
+        base.y = base.prev.y + (base.next.y - base.prev.y) * td;
     };
 
     return base;
