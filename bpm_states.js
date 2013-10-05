@@ -502,11 +502,15 @@ function BPMStates() {
         wall.width = 100;
         wall.height = 100;
 
-        var test = ValueInterval(0, 600, 4, function() {
-            test.initial = 600;
-            test.to = 0;
-            test.start();
+        var test = PathInterval(4, {
+            onComplete: function() {
+                console.log('done');
+            }
         });
+        test.addPoint(0, 0);
+        test.addPoint(32, 0);
+        test.addPoint(32, 32);
+        test.addPoint(0, 32);
         var testBub = Bubble(0, 0, "score");
 
         var superInit = base.init;
@@ -531,7 +535,8 @@ function BPMStates() {
             superUpdate.call(base, delta);
 
             test.update(delta);
-            testBub.x = test.value;
+            testBub.x = test.x;
+            testBub.y = test.y;
         };
 
         return base;

@@ -1,11 +1,11 @@
-function Interval(_duration, _onComplete) {
+function Interval(_duration, options) {
     return {
         //Is the interval on?
         active: false,
         completed: false,
-        onComplete: _onComplete,
+        onComplete: options.onComplete || undefined,
 
-        ease: undefined,
+        ease: options.ease || undefined,
         t: 0, //Percent completed with easing.
 
         // Timing information.
@@ -43,7 +43,7 @@ function Interval(_duration, _onComplete) {
 
         //Resets the interval back to 0 but doesn't start.
         stop: function() {
-            this.time = this.duration;
+            this.time = 0;
             this.active = false;
             this.completed = false;
         },
@@ -62,8 +62,8 @@ function Interval(_duration, _onComplete) {
     };
 }
 
-function ValueInterval(initial, to, duration, onComplete) {
-    var base = Interval(duration, onComplete);
+function ValueInterval(initial, to, duration, options) {
+    var base = Interval(duration, options);
 
     base.initial = initial;
     base.to = to;
@@ -74,6 +74,37 @@ function ValueInterval(initial, to, duration, onComplete) {
         superUpdate.call(base, delta);
 
         base.value = base.initial + (base.to - base.initial) * base.getScale();
+    };
+
+    return base;
+}
+
+function PathInterval(duration, options) {
+    var base = Interval(duration, options);
+
+    base.points = [];
+
+    base.x = 0;
+    base.y = 0;
+
+    base.index = 0;
+
+    base.addPoint = function(x, y) {
+        base.points.push({
+            x: x,
+            y: y
+        });
+    };
+
+    var superUpdate = base.update;
+    base.update = function(delta) {
+        var prev = base.points[base.index];
+        var next = base.points[base.index+1];
+
+        base.x = prev.x + (next.x - prev.x) * base.getScale();
+        base.y = prev.y + (next.y - prev.y) * base.getScale();
+
+        superUpdate.call(base, delta);
     };
 
     return base;
