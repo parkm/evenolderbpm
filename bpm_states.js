@@ -752,7 +752,7 @@ function BPMStates() {
             addRound(2, "Round 2", "game");
 
             for (var i in StateAssets) {
-                var regExp = /s[0-9]*r[0-9]*/;
+                var regExp = /s[0-9]+r[0-9]+/;
                 var results = regExp.exec(i);
 
                 if (results) {
