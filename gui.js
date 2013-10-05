@@ -1,5 +1,30 @@
 GUIAssets = {};
 
+function StaticText(text, options) {
+    var c = document.createElement('canvas');
+    var ctx = c.getContext('2d');
+    var metrics = ctx.measureText(text);
+
+    var centered = options && options.textAlign;
+    var xOffset = 0;
+    if (!centered) {
+        xOffset = metrics.width;
+    }
+
+    Utils.drawText(ctx, text, xOffset, 0, options);
+
+    return {
+        cache: c,
+        x: 0, y: 0,
+        text: text,
+        width: metrics.width,
+
+        render: function(gc) {
+            gc.drawImage(this.cache, this.x - xOffset, this.y);
+        }
+    }
+}
+
 function GUIButton(_text, options) {
     var upImg = GUIAssets.buttonUp;
     var hoverImg = GUIAssets.buttonHover;
@@ -119,6 +144,13 @@ function RoundSelectButton(text, color) {
         position: "up",
         onClick: null,
         state: null,
+        textField: StaticText(text, {
+            fillStyle: "#FFFFFF",
+            strokeStyle: "#000000",
+            stroke: true,
+            lineWidth: 5,
+            font: "16px Arial"
+        }),
 
         update: function(mouse) {
             if (mouse.isColliding(this.x, this.y, this.x+this.width, this.y+this.height)) {
@@ -154,13 +186,9 @@ function RoundSelectButton(text, color) {
             gc.lineWidth = 4;
             gc.strokeRect(x, y,  this.width, this.height);
 
-            Utils.drawText(gc, this.text, this.width/2+x, y+5, {
-                fillStyle: "#FFFFFF",
-                strokeStyle: "#000000",
-                stroke: true,
-                lineWidth: 5,
-                font: "16px Arial"
-            });
+            this.textField.x = x+this.width/2;
+            this.textField.y = y+5;
+            this.textField.render(gc);
 
             switch(this.position) {
                 case "hover":

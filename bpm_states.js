@@ -473,6 +473,56 @@ function BPMStates() {
         }
     });
 
+    State.create("donkeyTest", function() {
+        var base = State.list["game"]();
+
+        var wall = Wall();
+        wall.x = 600;
+        wall.y = 100;
+        wall.width = 100;
+        wall.height = 100;
+
+        var test = PathInterval(4, {
+            onComplete: function() {
+                console.log('done');
+            },
+
+            ease: Ease.sineOut
+        });
+        test.addPoint(64, 64);
+        test.addPoint(96, 64);
+        test.addPoint(96, 96);
+        test.addPoint(64, 96);
+        var testBub = Bubble(0, 0, "score");
+
+        var superInit = base.init;
+        base.init = function() {
+            superInit.call(base);
+
+            base.walls.push(wall);
+
+            base.bubbles.push(Bubble(32, 32, "double", {
+                ghost: true,
+                ghostPositions: [vec2(0, 0), vec2(300, 100), vec2(0, 480), vec2(480, 0)],
+                ghostInterval: 3,
+            }));
+
+            test.startTest();
+            base.bubbles.push(testBub);
+        };
+
+        var superUpdate = base.update;
+        base.update = function(delta) {
+            superUpdate.call(base, delta);
+
+            test.update(delta);
+            testBub.x = test.x;
+            testBub.y = test.y;
+        };
+
+        return base;
+    });
+
     /* MENUS */
 
     function BaseMenu() {

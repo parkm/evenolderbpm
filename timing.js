@@ -1,11 +1,11 @@
-function Interval(_duration, _onComplete) {
+function Interval(_duration, options) {
     return {
         //Is the interval on?
         active: false,
         completed: false,
-        onComplete: _onComplete,
+        onComplete: options.onComplete || undefined,
 
-        ease: undefined,
+        ease: options.ease || undefined,
         t: 0, //Percent completed with easing.
 
         // Timing information.
@@ -43,7 +43,7 @@ function Interval(_duration, _onComplete) {
 
         //Resets the interval back to 0 but doesn't start.
         stop: function() {
-            this.time = this.duration;
+            this.time = 0;
             this.active = false;
             this.completed = false;
         },
@@ -62,8 +62,8 @@ function Interval(_duration, _onComplete) {
     };
 }
 
-function ValueInterval(initial, to, duration, onComplete) {
-    var base = Interval(duration, onComplete);
+function ValueInterval(initial, to, duration, options) {
+    var base = Interval(duration, options);
 
     base.initial = initial;
     base.to = to;
@@ -74,6 +74,82 @@ function ValueInterval(initial, to, duration, onComplete) {
         superUpdate.call(base, delta);
 
         base.value = base.initial + (base.to - base.initial) * base.getScale();
+    };
+
+    return base;
+}
+
+function PathInterval(duration, options) {
+    var base = Interval(duration, options);
+
+    base.points = [];
+    base.pointsD = [];
+    base.pointsT = [];
+
+    base.x = 0;
+    base.y = 0;
+
+    base.index = 0;
+
+    base.distance = 0;
+
+    base.startTest = function() {
+        base.addPoint(0,0);
+        base.updatePath();
+        base.speed = base.distance / base.duration;
+        base.start();
+    };
+
+    base.addPoint = function(x, y) {
+        var point = {
+            x: x,
+            y: y
+        };
+
+        if (base.last) {
+            base.distance += Math.sqrt((base.x - base.last.x) * (base.x - base.last.x) + (base.y - base.last.y) * (base.y - base.last.y));
+            base.pointsD.push(base.distance);
+        } else {
+            base.x = x;
+            base.y = y;
+        }
+
+        base.last = point;
+        base.points.push(point);
+    };
+
+    base.updatePath = function() {
+        var i=0;
+        while (i < base.points.length) {
+            base.pointsT[i] = base.pointsD[i++] / base.distance;
+        }
+    };
+
+    var superUpdate = base.update;
+    base.update = function(delta) {
+        superUpdate.call(base, delta);
+        if (base.points.length === 1)
+        {
+            base.x = base.points[0].x;
+            base.y = base.points[0].y;
+            return;
+        }
+
+        if (base.index < base.points.length - 1)
+        {
+            while (base.getScale() > base.pointsT[base.index + 1]) {
+                base.index++;
+            }
+        }
+
+        var td = base.pointsT[base.index];
+        var tt = base.pointsT[base.index + 1] - td;
+
+        td = (base.getScale() - td) / tt;
+        base.prev = base.points[base.index];
+        base.next = base.points[base.index + 1];
+        base.x = base.prev.x + (base.next.x - base.prev.x) * td;
+        base.y = base.prev.y + (base.next.y - base.prev.y) * td;
     };
 
     return base;
