@@ -10,28 +10,7 @@ function BPMStates() {
         var endDelayTimer = 0;
         var endDelay = 0.5;
 
-        var TEST_drawCapsule = function(gc) {
-            gc.fillStyle = "#000000";
-            Utils.drawRoundRect(gc, 32, 32, 200, 16, {
-                radius: 10,
-                fill: true,
-                stroke: true
-            });
-
-            gc.fillStyle = "#00e0ff";
-            Utils.drawRoundRect(gc, 32, 32, 100, 16, {
-                radius: 10,
-                fill: true,
-                stroke: false
-            });
-
-            gc.fillStyle = "rgba(255, 255, 255, 0.65)";
-            Utils.drawRoundRect(gc, 35, 35, 90, 4, {
-                radius: 3,
-                fill: true,
-                stroke: false
-            });
-        };
+        var TEST_capsule = TestBar();
 
         base.data = data;
 
@@ -110,7 +89,7 @@ function BPMStates() {
             };
 
             base.resetButton = GUIButton("Reset", {
-                x: 100,
+                x: 75,
                 y: base.height,
                 font: "24px Arial"
             });
@@ -315,7 +294,7 @@ function BPMStates() {
 
             // Text stats - cash, combo, multiplier
             Utils.drawText(gc, "$" + BPM.cash, 400, base.height + 32, formatting);
-            Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
+            Utils.drawText(gc, base.combo + " / " + base.comboGoal, 600, base.height + 5, formatting);
             formatting.font = (16 + (1.1 * base.multiplier)).toString() + "px Arial";
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
 
@@ -325,11 +304,13 @@ function BPMStates() {
 
             // Combo Bubbles
             if (base.combo > 0 || base.multiplier > 1) {
-                Utils.drawText(gc, base.comboScore, 620, base.height + 16, formatting);
+                Utils.drawText(gc, base.comboScore, 620, base.height + 24, formatting);
                 //base.comboBar.render(gc);
             }
 
-            //TEST_drawCapsule(gc);
+            TEST_capsule.x = 175;
+            TEST_capsule.y = base.height + 5;
+            TEST_capsule.render(gc);
 
             // Round complete splash
             if (base.roundComplete) {

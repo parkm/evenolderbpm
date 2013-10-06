@@ -343,3 +343,63 @@ function StatusBar() {
         }
     }
 }
+
+function TestBar() {
+    return {
+        x: 0, y: 0,
+        level: 1,
+        count: 0,
+
+        TEMP_cache: undefined,
+
+        renderCapsule: function(gc, c, r) {
+            var w = 50;
+            var h = 8;
+            var radius = 5;
+
+            var x = this.x + (c*w + c*5);
+            var y = this.y + (r*h + r*5);
+
+            gc.fillStyle = "#000000";
+            Utils.drawRoundRect(gc, x, y, w, h, {
+                radius: radius,
+                fill: true,
+                stroke: true
+            });
+
+            gc.fillStyle = "#00e0ff";
+            Utils.drawRoundRect(gc, x, y, w, h, {
+                radius: radius,
+                fill: true,
+                stroke: false
+            });
+
+            gc.fillStyle = "rgba(255, 255, 255, 0.65)";
+            Utils.drawRoundRect(gc, x+3, y+2, w-10, h/3, {
+                radius: radius/3,
+                fill: true,
+                stroke: false
+            });
+        },
+
+        render: function(gc) {
+            var x = this.x;
+            var y = this.y;
+
+            if (!this.TEMP_cache) {
+                this.TEMP_cache = document.createElement('canvas');
+                this.TEMP_cache.width = BPM.canvas.getWidth()/2;
+                this.TEMP_cache.height = BPM.canvas.getHeight();
+                var ctx = this.TEMP_cache.getContext('2d');
+
+                for (var i=0; i<3; ++i) {
+                    for (var j=0; j<4; ++j) {
+                        this.renderCapsule(ctx, i, j);
+                    }
+                }
+            }
+
+            gc.drawImage(this.TEMP_cache, 0, 0);
+        },
+    }
+}
