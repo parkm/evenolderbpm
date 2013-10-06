@@ -10,6 +10,29 @@ function BPMStates() {
         var endDelayTimer = 0;
         var endDelay = 0.5;
 
+        var TEST_drawCapsule = function(gc) {
+            gc.fillStyle = "#000000";
+            Utils.drawRoundRect(gc, 32, 32, 200, 16, {
+                radius: 10,
+                fill: true,
+                stroke: true
+            });
+
+            gc.fillStyle = "#00e0ff";
+            Utils.drawRoundRect(gc, 32, 32, 100, 16, {
+                radius: 10,
+                fill: true,
+                stroke: false
+            });
+
+            gc.fillStyle = "rgba(255, 255, 255, 0.65)";
+            Utils.drawRoundRect(gc, 35, 35, 90, 4, {
+                radius: 3,
+                fill: true,
+                stroke: false
+            });
+        };
+
         base.data = data;
 
         base.bubbles = [];
@@ -305,6 +328,8 @@ function BPMStates() {
                 Utils.drawText(gc, base.comboScore, 620, base.height + 16, formatting);
                 //base.comboBar.render(gc);
             }
+
+            //TEST_drawCapsule(gc);
 
             // Round complete splash
             if (base.roundComplete) {
