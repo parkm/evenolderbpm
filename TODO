@@ -2,6 +2,8 @@ Current TODO:
 
 Make all moving objects use a speed mod constant to multiply by the delta.
 
+Replace cursor with a circular aiming thing. The charge box will also fill up in a circular fashion.
+
 Design {
     Design Upgrades
 
@@ -22,7 +24,7 @@ Design {
         Achievements unlock // add more
             - more upgrades in classic mode
             - Guideline for pin shooter
-            - 
+            -
     }
 }
 
@@ -33,7 +35,7 @@ Bubbles {
             - Use name to refer to action bubble and assign callbacks
 
     }
-    
+
 }
 
 Walls {
@@ -42,8 +44,8 @@ Walls {
         If walls need to move, use polylines, use the same id in polyline as the moving wall
             - in the polyline object, use the polyline properties to move the wall.
     }
-    
-    Destroy pins if they are smashed between two moving walls. 
+
+    Destroy pins if they are smashed between two moving walls.
 }
 
 States {}
@@ -60,7 +62,7 @@ Other {
 
             Ammo bubbles
                 Ammo bubble increase
-            
+
             Score bubble increase
             Bad bubble decrease
             Double bubble increase
