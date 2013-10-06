@@ -109,15 +109,15 @@ function GUIButton(_text, options) {
 
             switch(this.position) {
                 case "up":
-                    up.render(gc, this.x, this.y, width, height);
+                    up.renderCache(gc, this.x, this.y, width, height);
                     break;
 
                 case "hover":
-                    hover.render(gc, this.x, this.y, width, height);
+                    hover.renderCache(gc, this.x, this.y, width, height);
                     break;
 
                 case "down":
-                    down.render(gc, this.x, this.y, width, height);
+                    down.renderCache(gc, this.x, this.y, width, height);
                     break;
             }
 
