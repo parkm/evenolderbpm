@@ -8,6 +8,8 @@ function BPM(canvasID) {
         BPM.canvas = Canvas(canvasID, false);
         BPM.context = BPM.canvas.getContext();
         BPM.canvas.render = BPM.render;
+        // Disable right click on canvas
+        $('body').on('contextmenu', "#" + canvasID, function(e) { return false; });
 
         Loop.init(60);
         Loop.add(BPM.canvas);
