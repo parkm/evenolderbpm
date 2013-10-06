@@ -48,7 +48,7 @@ function BPMStates() {
         base.shooter = PinShooter(shooter.x, shooter.y, {pins: shooter.pins});
 
         base.multiplier = 1;
-        base.combo = 0; 
+        base.combo = 0;
         base.comboGoal = 4; //The amount of bubbles needed to pop in order to increase the multiplier.
 
         base.roundComplete = false;
@@ -181,7 +181,7 @@ function BPMStates() {
 
             for (i in base.pins) {
                 base.pins[i].update({
-                    delta: delta, 
+                    delta: delta,
                     state: base,
                 });
             }
@@ -198,7 +198,7 @@ function BPMStates() {
                 if (base.objects[i].update) {
                     base.objects[i].update({delta: delta, state: base});
                 }
-            } 
+            }
 
             if (base.combo >= base.comboGoal) {
                 base.multiplier++;
@@ -227,7 +227,7 @@ function BPMStates() {
                         }
 
                         if (base.goalBubbleCount <= 0) {
-                            base.roundStatus = "win"; 
+                            base.roundStatus = "win";
                         } else {
                             base.roundStatus = "fail";
                         }
@@ -303,7 +303,7 @@ function BPMStates() {
             // Combo Bubbles
             if (base.combo > 0 || base.multiplier > 1) {
                 Utils.drawText(gc, base.comboScore, 620, base.height + 16, formatting);
-                base.comboBar.render(gc);
+                //base.comboBar.render(gc);
             }
 
             // Round complete splash
@@ -555,8 +555,8 @@ function BPMStates() {
         var startGameButton, timeTrialButton;
 
         base.init = function() {
-            startGameButton = GUIButton("New Game", 
-            {dynamic: false, 
+            startGameButton = GUIButton("New Game",
+            {dynamic: false,
 
             onClick: function() {
                 State.set("roundSelect");
@@ -569,7 +569,7 @@ function BPMStates() {
 
                 onClick: function() {
                     State.set("classicRoundSelect");
-                }    
+                }
             });
 
             buttons.push(startGameButton);
@@ -612,7 +612,7 @@ function BPMStates() {
             base.achieveButton = GUIButton("Achievements", {dynamic: false});
 
             base.menuButton = GUIButton("Main Menu", {
-                dynamic: false, 
+                dynamic: false,
 
                 onClick: function() {
                     State.set("mainMenu");
@@ -780,7 +780,7 @@ function BPMStates() {
 
             selectStage.x = BPM.canvas.getWidth() - selectStage.width - hOffset;
 
-            var aboveHeight = 0; //Tracks the height of the stages and rounds above the current stage or round. 
+            var aboveHeight = 0; //Tracks the height of the stages and rounds above the current stage or round.
             var totalHeight = 0; //Tracks the total height of all stages and rounds.
 
             for (i in stages) {
@@ -792,7 +792,7 @@ function BPMStates() {
                     round.button.x = stage.button.x;
                     round.button.y = (stage.button.y + stage.button.height) + (j * (round.button.height + roundButtonDistance) + stageToRoundButtonDistance);
 
-                    if (stage.showRounds) {                    
+                    if (stage.showRounds) {
                         round.button.state = round.state;
 
                         round.button.update(BPM.mouse);
@@ -825,7 +825,7 @@ function BPMStates() {
             stageScrollField.bottom = 30;
 
             stageScrollField.scrollSpeed = 2;
-            
+
             stageScrollField.getBottomConstraint = function() {
                 return (stages[0].button.y < (selectStage.y + selectStage.height) + stageChunkDistance);
             };
@@ -1053,7 +1053,7 @@ function BPMStates() {
                     State.set("classicRound");
                 }
             });
-            
+
             base.upgradeButton = GUIButton("Upgrades", {
                 dynamic: false
             });
@@ -1094,7 +1094,7 @@ function BPMStates() {
 
     State.create("classicRound", function() {
         var base = State.list["game"]();
-        
+
         var bubbleExclusions = [];
 
         var superInit = base.init;
@@ -1107,7 +1107,7 @@ function BPMStates() {
             bubbleExclusions.push("Bomb");
             bubbleExclusions.push("Ammo");
             bubbleExclusions.push("Action");
-            
+
             for (i in Bubble) {
                 if (bubbleExclusions.indexOf(i) === -1) {
                     for (j=0; j<10; ++j) {
