@@ -214,6 +214,7 @@ function FloatText(_text, _x, _y, _formatting) {
         time: 2,
         timer: 0,
         scrolls: true,
+        textField: StaticText(_text, _formatting),
 
         onDeath: function(args) {
 
@@ -233,7 +234,9 @@ function FloatText(_text, _x, _y, _formatting) {
         render: function(gc) {
             gc.globalAlpha = 1 - (this.timer / (this.time * 1000));
 
-            Utils.drawText(gc, this.text, this.x, this.y, this.formatting);
+            this.textField.x = this.x;
+            this.textField.y = this.y;
+            this.textField.render(gc);
 
             gc.globalAlpha = 1;
         },
