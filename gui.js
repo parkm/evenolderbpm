@@ -3,6 +3,7 @@ GUIAssets = {};
 function StaticText(text, options) {
     var c = document.createElement('canvas');
     var ctx = c.getContext('2d');
+    ctx.font = options && options.font;
     var metrics = ctx.measureText(text);
 
     var centered = options && options.textAlign;
@@ -30,6 +31,14 @@ function GUIButton(_text, options) {
     var hoverImg = GUIAssets.buttonHover;
     var downImg = GUIAssets.buttonDown;
 
+    var textField = StaticText(_text, {
+        fillStyle: "#FFFFFF",
+        strokeStyle: "#000000",
+        stroke: true,
+        lineWidth: 3,
+        font: options.font || "32px Arial"
+    });
+
     var slices = {
         topLeft: Rect(0, 0, 23, 27),
         top: Rect(23, 0, 128, 27),
@@ -41,7 +50,7 @@ function GUIButton(_text, options) {
         left: Rect(0, 27, 23, 18),
         center: Rect(23, 27, 128, 18),
     };
-    
+
     var dynamic = options && options.dynamic !== undefined ? options.dynamic : true;
     var onClick = options && options.onClick !== undefined ? options.onClick : null;
 
@@ -50,10 +59,10 @@ function GUIButton(_text, options) {
 
     var hover = NineSlice(hoverImg);
     hover.copyDimensions(slices);
-    
+
     var down = NineSlice(downImg);
     down.copyDimensions(slices);
-   
+
     return {
         text: _text,
 
@@ -88,19 +97,10 @@ function GUIButton(_text, options) {
         },
 
         render: function(gc) {
-            gc.fillStyle = "#FFFFFF";
-            gc.strokeStyle = "#000000";
-            gc.textBaseline = "top";
-            gc.font = options.font || "32px Arial";
-            gc.textAlign = "center"
-            gc.lineWidth = 3;
-
-            var metrics = gc.measureText(this.text);
-
             var width, height;
 
             if (dynamic) {
-                width = metrics.width;
+                width = textField.width;
                 height = gc.measureText("M").width + 16;
             } else {
                 width = this.width;
@@ -109,24 +109,24 @@ function GUIButton(_text, options) {
 
             switch(this.position) {
                 case "up":
-                    up.render(gc, this.x, this.y, width, height); 
+                    up.renderCache(gc, this.x, this.y, width, height);
                     break;
 
                 case "hover":
-                    hover.render(gc, this.x, this.y, width, height);
+                    hover.renderCache(gc, this.x, this.y, width, height);
                     break;
 
                 case "down":
-                    down.render(gc, this.x, this.y, width, height);
+                    down.renderCache(gc, this.x, this.y, width, height);
                     break;
             }
-
 
             var x = this.x + width/2 + slices.left.width/2;
             var y = this.y + height/2 - slices.bottom.height/2;
 
-            gc.strokeText(this.text, x, y);
-            gc.fillText(this.text, x, y);
+            textField.x = x;
+            textField.y = y;
+            textField.render(gc);
 
             this.postWidth = width + slices.topRight.width;
             this.postHeight = height + slices.bottomRight.height;
@@ -139,7 +139,7 @@ function RoundSelectButton(text, color) {
         x: 0, y: 0,
         postX: 0, postY: 0,
         width: 400, height: 32,
-        text: text, 
+        text: text,
         color: color,
         position: "up",
         onClick: null,
@@ -214,6 +214,7 @@ function FloatText(_text, _x, _y, _formatting) {
         time: 2,
         timer: 0,
         scrolls: true,
+        textField: StaticText(_text, _formatting),
 
         onDeath: function(args) {
 
@@ -233,7 +234,9 @@ function FloatText(_text, _x, _y, _formatting) {
         render: function(gc) {
             gc.globalAlpha = 1 - (this.timer / (this.time * 1000));
 
-            Utils.drawText(gc, this.text, this.x, this.y, this.formatting);
+            this.textField.x = this.x;
+            this.textField.y = this.y;
+            this.textField.render(gc);
 
             gc.globalAlpha = 1;
         },
@@ -247,10 +250,10 @@ function ScrollField() {
         width: 0,
         height: 0,
 
-        left: 0, 
-        right: 0, 
-        top: 0, 
-        bottom: 0, 
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
 
         scroll: 0,
         scrollSpeed: 0,
@@ -327,7 +330,7 @@ function StatusBar() {
     return {
         x: 0, y: 0,
         width: 0, height: 0,
-        ratio: 0, 
+        ratio: 0,
 
         render: function(gc) {
             gc.globalAlpha = 0.75;

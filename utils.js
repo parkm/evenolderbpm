@@ -17,6 +17,35 @@ Utils.drawText = function(gc, text, x, y, options) {
     gc.fillText(text, x, y);
 };
 
+Utils.drawRoundRect = function(gc, x, y, width, height, options) {
+    var radius = options.radius || 5;
+
+    gc.beginPath();
+
+    gc.moveTo(x + radius, y);
+    gc.lineTo(x + width - radius, y);
+    gc.quadraticCurveTo(x + width, y, x + width, y + radius);
+
+    gc.lineTo(x + width, y + height - radius);
+    gc.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+
+    gc.lineTo(x + radius, y + height);
+    gc.quadraticCurveTo(x, y + height, x, y + height - radius);
+
+    gc.lineTo(x, y + radius);
+    gc.quadraticCurveTo(x, y, x + radius, y);
+
+    gc.closePath();
+
+    if (options.stroke) {
+        gc.stroke();
+    }
+
+    if (options.fill) {
+        gc.fill();
+    }
+};
+
 // Converts given string to Boolean
 Utils.stringToBool = function(string) {
     if (typeof string === "string") {
