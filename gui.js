@@ -3,6 +3,7 @@ GUIAssets = {};
 function StaticText(text, options) {
     var c = document.createElement('canvas');
     var ctx = c.getContext('2d');
+
     ctx.font = options && options.font;
     var metrics = ctx.measureText(text);
 
@@ -12,6 +13,7 @@ function StaticText(text, options) {
         xOffset = metrics.width;
     }
 
+    c.width = metrics.width + xOffset;
     Utils.drawText(ctx, text, xOffset, 0, options);
 
     return {
