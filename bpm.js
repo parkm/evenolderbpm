@@ -9,7 +9,6 @@ function BPM(canvasID) {
         BPM.context = BPM.canvas.getContext();
         BPM.canvas.render = BPM.render;
 
-        Loop.init(60);
         Loop.add(BPM.canvas);
         Loop.update = BPM.update;
 
