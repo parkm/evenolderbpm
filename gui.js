@@ -41,29 +41,17 @@ function GUIButton(_text, options) {
         font: options.font || "32px Arial"
     });
 
-    var slices = {
-        topLeft: Rect(0, 0, 23, 27),
-        top: Rect(23, 0, 128, 27),
-        topRight: Rect(151, 0, 23, 27),
-        right: Rect(151, 27, 23, 18),
-        bottomRight: Rect(151, 45, 23, 20),
-        bottom: Rect(23, 45, 128, 20),
-        bottomLeft: Rect(0, 45, 23, 20),
-        left: Rect(0, 27, 23, 18),
-        center: Rect(23, 27, 128, 18),
-    };
-
     var dynamic = options && options.dynamic !== undefined ? options.dynamic : true;
     var onClick = options && options.onClick !== undefined ? options.onClick : null;
 
     var up = NineSlice(upImg);
-    up.copyDimensions(slices);
+    up.setDimensions(Rect(23, 27, 128, 18));
 
     var hover = NineSlice(hoverImg);
-    hover.copyDimensions(slices);
+    hover.copyDimensions(up);
 
     var down = NineSlice(downImg);
-    down.copyDimensions(slices);
+    down.copyDimensions(up);
 
     return {
         text: _text,
@@ -123,15 +111,15 @@ function GUIButton(_text, options) {
                     break;
             }
 
-            var x = this.x + width/2 + slices.left.width/2;
-            var y = this.y + height/2 - slices.bottom.height/2;
+            var x = this.x + width/2 + up.left.width/2;
+            var y = this.y + height/2 - up.bottom.height/2;
 
             textField.x = x;
             textField.y = y;
             textField.render(gc);
 
-            this.postWidth = width + slices.topRight.width;
-            this.postHeight = height + slices.bottomRight.height;
+            this.postWidth = width + up.topRight.width;
+            this.postHeight = height + up.bottomRight.height;
         },
     }
 }
@@ -314,20 +302,8 @@ function StatusBar() {
     var backSlice = NineSlice(back);
     var frontSlice = NineSlice(front);
 
-    var slices = {
-        topLeft: Rect(0, 0, 12, 12),
-        top: Rect(12, 0, 25, 12),
-        topRight: Rect(37, 0, 12, 12),
-        right: Rect(37, 12, 12, 4),
-        bottomRight: Rect(37, 16, 12, 7),
-        bottom: Rect(12, 16, 25, 7),
-        bottomLeft: Rect(0, 16, 12, 7),
-        left: Rect(0, 12, 12, 4),
-        center: Rect(12, 12, 25, 4),
-    };
-
-    backSlice.copyDimensions(slices)
-    frontSlice.copyDimensions(slices);
+    backSlice.setDimensions(Rect(12, 12, 25, 4));
+    frontSlice.copyDimensions(backSlice);
 
     return {
         x: 0, y: 0,
