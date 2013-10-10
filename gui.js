@@ -38,7 +38,7 @@ function GUIButton(_text, options) {
         strokeStyle: "#000000",
         stroke: true,
         lineWidth: 3,
-        font: options.font || "32px Arial"
+        font: options.font || "32px bubble"
     });
 
     var dynamic = options && options.dynamic !== undefined ? options.dynamic : true;
@@ -139,7 +139,7 @@ function RoundSelectButton(text, color) {
             strokeStyle: "#000000",
             stroke: true,
             lineWidth: 5,
-            font: "16px Arial"
+            font: "16px bubble"
         }),
 
         update: function(mouse) {

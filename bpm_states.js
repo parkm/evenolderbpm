@@ -101,7 +101,7 @@ function BPMStates() {
             base.shooter.init();
 
             base.backButton = GUIButton("Back", {
-                font: "24px Arial",
+                font: "24px bubble",
                 y: base.height
             });
 
@@ -112,7 +112,7 @@ function BPMStates() {
             base.resetButton = GUIButton("Reset", {
                 x: 100,
                 y: base.height,
-                font: "24px Arial"
+                font: "24px bubble"
             });
 
             base.resetButton.onClick = function() {
@@ -297,7 +297,7 @@ function BPMStates() {
             var formatting = {
                 fillStyle: "#FFFFFF",
                 strokeStyle: "#000000",
-                font: "16px Arial",
+                font: "16px bubble",
                 stroke: true,
                 lineWidth: 4,
                 textAlign: "left",
@@ -316,11 +316,11 @@ function BPMStates() {
             // Text stats - cash, combo, multiplier
             Utils.drawText(gc, "$" + BPM.cash, 400, base.height + 32, formatting);
             Utils.drawText(gc, base.combo + " / " + base.comboGoal, 300, base.height + 5, formatting);
-            formatting.font = (16 + (1.1 * base.multiplier)).toString() + "px Arial";
+            formatting.font = (16 + (1.1 * base.multiplier)).toString() + "px bubble";
             Utils.drawText(gc, "x" + base.multiplier, 400, base.height + 5, formatting);
 
             // Pin count
-            formatting.font = "24px Arial"; // bigger font for pin count and combo count
+            formatting.font = "24px bubble"; // bigger font for pin count and combo count
             Utils.drawText(gc, "Pins: " + base.shooter.pins, 500, base.height + 16, formatting);
 
             // Combo Bubbles
@@ -622,7 +622,7 @@ function BPMStates() {
                 buttons[i].render(gc);
             }
 
-            Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true});
+            Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true, font: "64px bubble"});
         };
 
         return base;
