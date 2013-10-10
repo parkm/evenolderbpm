@@ -11,7 +11,6 @@ function BPM(canvasID) {
         // Disable right click on canvas
         $('body').on('contextmenu', "#" + canvasID, function(e) { return false; });
 
-        Loop.init(60);
         Loop.add(BPM.canvas);
         Loop.update = BPM.update;
 

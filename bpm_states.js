@@ -1120,23 +1120,23 @@ function BPMStates() {
     State.create("classicRound", function() {
         var base = State.list["game"]();
 
-        var bubbleExclusions = [];
+        var bubbleCount = [];
 
         var superInit = base.init;
         base.init = function() {
             superInit.call(base);
 
-            bubbleExclusions.push("Base");
-            bubbleExclusions.push("Goal");
-            bubbleExclusions.push("Reflect");
-            bubbleExclusions.push("Bomb");
-            bubbleExclusions.push("Ammo");
-            bubbleExclusions.push("Action");
+            base.shooter.pins = 1;
+
+            bubbleCount["Score"] = 10;
+            bubbleCount["Bad"] = 1;
+            bubbleCount["Double"] = 3;
+            bubbleCount["Combo"] = 4;
 
             for (i in Bubble) {
-                if (bubbleExclusions.indexOf(i) === -1) {
-                    for (j=0; j<10; ++j) {
-                        base.bubbles.push(Bubble(Math.random() * base.width, Math.random() * base.height - 32, i, {speed: 0}));
+                if (typeof bubbleCount[i] !== undefined) {
+                    for (var j=0; j<bubbleCount[i]; ++j) {
+                        base.bubbles.push(Bubble(Utils.getRandom(0, base.width-32), Utils.getRandom(0, base.height-32), i, {speed: 0}));
                     }
                 }
             }
