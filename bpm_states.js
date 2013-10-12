@@ -304,7 +304,7 @@ function BPMStates() {
             };
 
             // Background
-            gc.fillStyle = "rgb(80, 72, 212)";
+            gc.fillStyle = "rgba(0, 0, 0, 0.75)";
             gc.strokeStyle = "#000000";
             gc.lineWidth = 2;
             gc.fillRect(0, base.height, BPM.canvas.getWidth(), BPM.canvas.getHeight() - base.height);
