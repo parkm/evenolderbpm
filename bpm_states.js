@@ -569,6 +569,13 @@ function BPMStates() {
             base.floatText.push(ft);
         };
 
+        base.drawBackground = function(gc) {
+            gc.fillStyle = "#365db5";
+            gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
+
+            gc.drawImage(GUIAssets.glare, 0, 0);
+        };
+
         return base;
     }
 
@@ -613,11 +620,7 @@ function BPMStates() {
         };
 
         base.render = function(gc) {
-            //gc.drawImage(StateAssets.background, 0, 0);
-            gc.fillStyle = "#365db5";
-            gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
-
-            gc.drawImage(GUIAssets.glare, 0, 0);
+            base.drawBackground(gc);
 
             for (i in buttons) {
                 buttons[i].render(gc);
@@ -671,10 +674,11 @@ function BPMStates() {
             for (i in base.buttons) {
                 var b = base.buttons[i];
 
-                b.width = 200;
+                b.width = 220;
                 b.height = 40;
 
-                b.y = i * (b.postHeight + 5);
+                b.x = 5;
+                b.y = i * (b.postHeight + 16) + 5;
 
                 b.update(BPM.mouse);
             }
@@ -868,7 +872,7 @@ function BPMStates() {
         };
 
         base.render = function(gc) {
-            gc.drawImage(StateAssets.background, 0, 0);
+            base.drawBackground(gc);
 
             base.renderButtons(gc);
 
@@ -1104,7 +1108,7 @@ function BPMStates() {
         };
 
         base.render = function(gc) {
-            gc.drawImage(StateAssets.background, 0, 0);
+            base.drawBackground(gc);
 
             base.renderButtons(gc);
 
