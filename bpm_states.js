@@ -190,6 +190,8 @@ function BPMStates() {
             var i;
             if (BPM.keyboard.isPressed(82)) base.reset();
 
+            if (BPM.mouse.isPressed(Mouse.RIGHT)) base.pins.shift();
+
             for (i in base.bubbles) {
                 base.bubbles[i].update({delta: delta, state: base});
             }

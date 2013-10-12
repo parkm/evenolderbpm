@@ -58,7 +58,8 @@ function Assets() {
         "tutorial_4",
         "dog0",
         "s0r1",
-        "s0r2"
+        "s0r2",
+        "test0"
     ];
 
     // manually added levels

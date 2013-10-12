@@ -95,7 +95,7 @@ function PinShooter(_x, _y, options) {
 
 function Pin(x, y, angle, options) {
     var base = Pin.Base(x, y, angle, options);
-    
+
     var type = (options && options.type) || "standard";
 
     var result;
@@ -105,12 +105,19 @@ function Pin(x, y, angle, options) {
             result = Pin.Standard(base);
             break;
     }
-    
+
     result.init && result.init();   // Only attempt to init if it exists.
     return result;
 }
 
 Pin.Base = function(_x, _y, _angle, options) {
+    var getSpeedX = function(angle) {
+        return Math.cos(angle * (Math.PI / 180));
+    };
+    var getSpeedY = function(angle) {
+        return -Math.sin(angle * (Math.PI / 180));
+    };
+
     return {
         type: "pin",
         x: _x, y: _y,
@@ -123,10 +130,16 @@ Pin.Base = function(_x, _y, _angle, options) {
         speedX: 0, speedY: 0,
         wallBounce: true, //Enables bouncing from wall collisions.
 
+        setAngle: function(angle) {
+            this.speedX = getSpeedX(angle);
+            this.speedY = getSpeedY(angle);
+            this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
+        },
+
         onDeath: function(pins) {
             pins.splice(pins.indexOf(this), 1);
         },
-        
+
         /* args = delta, state */
         onCollision: function(args) {
             args.pin = this;
@@ -134,10 +147,11 @@ Pin.Base = function(_x, _y, _angle, options) {
         },
 
         init: function() {
-            this.speedX = Math.cos(this.angle * (Math.PI / 180));
-            this.speedY = -Math.sin(this.angle * (Math.PI / 180));
+            console.log("*******************\n*******************\n\t\t\t\t\tPIN CREATED");
+            this.speedX = getSpeedX(this.angle);
+            this.speedY = getSpeedY(this.angle);
         },
-        
+
         /* args = delta, state */
         update: function(args) {
             var state = args.state;
@@ -148,7 +162,7 @@ Pin.Base = function(_x, _y, _angle, options) {
                 this.onDeath(state.pins);
             }
 
-            if (this.x < 0) 
+            if (this.x < 0)
                 this.speedX = -this.speedX;
             if (this.y < 0)
                 this.speedY = -this.speedY;
@@ -157,9 +171,8 @@ Pin.Base = function(_x, _y, _angle, options) {
             if (this.y > args.state.height - this.height)
                 this.speedY = -this.speedY;
 
-            this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
 
-            var speed = args.delta * (this.speed * this.speedMod); 
+            var speed = args.delta * (this.speed * this.speedMod);
             this.x += this.speedX * speed;
             this.y += this.speedY * speed;
 
@@ -169,32 +182,79 @@ Pin.Base = function(_x, _y, _angle, options) {
 
                 if (w.isColliding(this.x, this.y, this.width, this.height)) {
                     isCol = true;
-                    var colSide = w.onCollision(this, state.pins);
+                    var col = w.onCollision(this, state.pins);
+                    console.log("col.side: " + col.side + " col.corner: " + col.corner + " wallBounce: " + this.wallBounce);
+                    // Snaps pin to the given side of the colliding wall
+                    var snap = function(side) {
+                        switch (side) {
+                            case "left":
+                                this.x = w.x - this.width;
+                                break;
 
-                    if (colSide === "left" || colSide === "right") {
-                        if (colSide === "left") {
-                            this.x = w.x - this.width;
-                        } else {
-                            this.x = w.x + w.width;
+                            case "right":
+                                this.x = w.x + w.width;
+                                break;
+
+                            case "top":
+                                this.y = w.y - this.height;
+                                break;
+
+                            case "bottom":
+                                this.y = w.y + w.height;
+                                break;
+                        }
+                    };
+                    // if pin.wallBounce then reverse given pin speed and set wallBounce to false
+                    // params: pin - pin instance (usually 'this')
+                    //         callback - callback called if wallBounce = true
+                    var bounceCheck = function(me, callback) {
+                        if (!me && !me.wallBounce) {
+                            console.error("Error @ Pin.update collision checking: bounceCheck pin not defined.");
+                            return false;
                         }
 
-                        if (this.wallBounce) {
-                            this.speedX = -this.speedX; 
-                            this.wallBounce = false;
+                        if (me.wallBounce) {
+                            callback && callback(me);
+                            me.wallBounce = false;
+                        }
+                    };
+
+                    console.log("Pin angle: " + this.angle);
+                    var angle = 0;
+                    if (col.corner) {
+                        switch (col.corner) {
+                            case "bottomright":
+                                snap("bottom");
+                                snap("right");
+                                break;
+
+                            case "bottomleft":
+                                snap("bottom");
+                                snap("left");
+                                break;
+
+                            case "topright":
+                                snap("top");
+                                snap("right");
+                                break;
+
+                            case "topleft":
+                                snap("top");
+                                snap("left");
+                                break;
                         }
                     }
 
-                    if (colSide === "top" || colSide === "bottom") {
-                        if (colSide === "top") {
-                            this.y = w.y - this.height;
-                        } else {
-                            this.y = w.y + w.height;
-                        }
+                    switch (col.side) {
+                        case "left": case "right":
+                            snap(col.side);
+                            bounceCheck(this, function(me) {me.speedX = getSpeedX(me.angle + 180);});
+                            break;
 
-                        if (this.wallBounce) {
-                            this.speedY = -this.speedY; 
-                            this.wallBounce = false;
-                        }
+                        case "top": case "bottom":
+                            snap(col.side);
+                            bounceCheck(this, function(me) {me.speedY = getSpeedY(me.angle + 180);});
+                            break;
                     }
                 }
             }
@@ -202,10 +262,14 @@ Pin.Base = function(_x, _y, _angle, options) {
             if (!isCol) {
                 this.wallBounce = true;
             }
+            // ? move this to above if statement to improve perf ?
+            // will have to manually adjust this.angle on collisions
+            // but this equation gets called fewer times
+            this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
         },
 
         render: function(gc) {
-
+            Utils.drawText(gc, "Pin angle: " + this.angle, 0, 0, {fillStyle: "#FFFFFF", font: "24px Arial", textAlign: "left"});
         }
     };
 
@@ -215,7 +279,9 @@ Pin.Base = function(_x, _y, _angle, options) {
 Pin.Standard = function(base) {
     base.img = Graphic(PinAssets.pin);
 
+    var superRender = base.render;
     base.render = function(gc) {
+        superRender.call(this, gc);
         base.img.x = this.x;
         base.img.y = this.y;
         base.img.originX = base.img.getWidth()/2;

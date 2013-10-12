@@ -51,29 +51,86 @@ function Wall(options) {
                 return false;
             }
         },
-
+//fold
         //Returns the side of the wall a rect is facing.
         getCollisionSide: function(x, y, width, height) {
-            var wRight = this.x + this.width;
-            var wBottom = this.y + this.height;
+            var dist = Utils.getDistance;
 
-            var right = x + width;
-            var bottom = y + height;
+            // left, right, top, bottom centered for each object in collision
+            var obj = {
+                left: {x: x, y: y + height / 2},
+                right: {x: x + width, y: y + height / 2},
+                top: {x: x + width / 2, y: y},
+                bottom: {x: x + width / 2, y: y + height}
+            };
+            var wall = {
+                left: {x: this.x, y: obj.right.y},
+                right: {x: this.x + this.width, y: obj.left.y},
+                top: {x: obj.bottom.x, y: this.y },
+                bottom: {x: obj.bottom.x, y: this.y + this.height}
+            };
 
-            var leftLen = right - this.x; 
-            var rightLen = wRight - x;
-            var topLen = bottom - this.y;
-            var bottomLen = wBottom - y;
+            // Holds distance between walls and obj for each side of wall
+            var d = {
+                left: dist(obj.right.x, obj.right.y, wall.left.x, wall.left.y),
+                right: dist(obj.left.x, obj.left.y, wall.right.x, wall.right.y),
+                top: dist(obj.bottom.x, obj.bottom.y, wall.top.x, wall.top.y),
+                bottom: dist(obj.top.x, obj.top.y, wall.bottom.x, wall.bottom.y)
+            };
 
-            if (leftLen < rightLen && leftLen < topLen && leftLen < bottomLen) {
-                return "left";
-            } else if (rightLen < leftLen && rightLen < topLen && rightLen < bottomLen) {
-                return "right";
-            } else if (topLen < leftLen && topLen < rightLen && topLen < bottomLen) {
-                return "top";
-            } else if (bottomLen < leftLen && bottomLen < rightLen && bottomLen < topLen) {
-                return "bottom";
+            // DEBUG
+            console.log("\n\nHIT!");
+            console.log("L: " + d.left + " R: " + d.right + " T: " + d.top + " B: " + d.bottom);
+
+            // Checks if corner by measuring distance with epsilon
+            // if pin is close to two sides, it's registered as a corner
+            var cornerCheck = function(side1, side2) {
+                var max = 10;
+                var epsilon = 5;
+                if (side1 + side2 > max) {
+                    return false;
+                }
+                if (side1 + epsilon >= side2 && side2 + epsilon >= side1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            var result = {};
+
+            switch (Math.min(d.left, d.right, d.top, d.bottom)) {
+                case d.left:
+                    result.side = "left";
+                    break;
+
+                case d.right:
+                    result.side = "right";
+                    break;
+
+                case d.top:
+                    result.side = "top";
+                    break;
+
+                case d.bottom:
+                    result.side = "bottom";
+                    break;
             }
+
+            if (cornerCheck(d.left, d.top)) {
+                result.corner = "topleft";
+            }
+            if (cornerCheck(d.left, d.bottom)) {
+                result.corner = "bottomleft";
+            }
+            if (cornerCheck(d.right, d.top)) {
+                result.corner = "topright";
+            }
+            if (cornerCheck(d.right, d.bottom)) {
+                result.corner = "bottomright";
+            }
+
+            return result;
         },
 
         move: function(delta) {
