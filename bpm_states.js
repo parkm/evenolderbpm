@@ -616,7 +616,11 @@ function BPMStates() {
         };
 
         base.render = function(gc) {
-            gc.drawImage(StateAssets.background, 0, 0);
+            //gc.drawImage(StateAssets.background, 0, 0);
+            gc.fillStyle = "#365db5";
+            gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
+
+            gc.drawImage(GUIAssets.glare, 0, 0);
 
             for (i in buttons) {
                 buttons[i].render(gc);

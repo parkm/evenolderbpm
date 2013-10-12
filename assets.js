@@ -22,7 +22,7 @@ function Assets() {
     BubbleAssets.iron = Assets.add("iron", path.bubbles + "iron.png");
 
     BubbleAssets.bubble = Assets.add("bubble", path.bubbles + "bubble.png");
-    
+
     Assets.addTintedBubbles(BubbleAssets, BubbleAssets.bubble, {
         "score": "rgb(0, 0, 255)",
         "bad": "rgb(255, 0, 0)",
@@ -46,6 +46,8 @@ function Assets() {
 
     GUIAssets.barBack = Assets.add("barBack", path.assets + "bar-back.png");
     GUIAssets.barFront = Assets.add("barFront", path.assets + "bar-front.png");
+
+    GUIAssets.glare = Assets.add("menuGlare", path.assets + "menu-glare-overlay.png");
 
     // Levels
     // autoLevels automatically loads levels
@@ -102,7 +104,7 @@ Assets.bubblesToTint = [];
     image:
             The base image you want to tint.
     colors:
-            Object containing the colors of the bubble. 
+            Object containing the colors of the bubble.
             format: "bubbleName": "rgb(redValue, blueValue, greenValue)"
 */
 Assets.addTintedBubbles = function(holder, image, colors) {
@@ -112,15 +114,15 @@ Assets.addTintedBubbles = function(holder, image, colors) {
         Assets.bubblesToTint.push({
             name: bubbleName,
             color: colors[bubbleName]
-        });    
-    } 
+        });
+    }
 };
 
 /*  Generates the tinted images from the bubblesToTint list.  */
 Assets.genTintedBubbles = function(gc) {
     for (var i in Assets.bubblesToTint) {
         var img = Assets.bubblesToTint[i];
-        
+
         //Create offscreen buffer
         var buffer = document.createElement('canvas');
 
@@ -134,7 +136,7 @@ Assets.genTintedBubbles = function(gc) {
 
         bgc.globalCompositeOperation = "destination-atop";
         bgc.drawImage(Assets.tintedBubbleImage,0,0);
-        
+
         gc.canvas.width = gc.canvas.width; //Clear the canvas, otherwise there will be a background to the tinted images.
         gc.drawImage(Assets.tintedBubbleImage,0,0);
 
