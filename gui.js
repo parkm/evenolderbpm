@@ -6,6 +6,7 @@ function StaticText(text, options) {
 
     ctx.font = options && options.font;
     var metrics = ctx.measureText(text);
+    var height = ctx.measureText("M").width; //The width of M is the best approximation for the height available.
 
     var centered = options && options.textAlign;
     var xOffset = 0;
@@ -21,6 +22,7 @@ function StaticText(text, options) {
         x: 0, y: 0,
         text: text,
         width: metrics.width,
+        height: height,
 
         render: function(gc) {
             gc.drawImage(this.cache, this.x - xOffset, this.y);
@@ -86,12 +88,23 @@ function GUIButton(_text, options) {
             }
         },
 
+        renderButton: function(gc, width, height, topColor, bottomColor) {
+            var gradient = gc.createLinearGradient(this.x, this.y, this.x, this.y + height);
+            gradient.addColorStop(0, topColor);
+            gradient.addColorStop(1, bottomColor);
+
+            gc.fillStyle = gradient;
+            gc.lineWidth = 3;
+            gc.fillRect(this.x, this.y, width, height);
+            gc.strokeRect(this.x + gc.lineWidth/2, this.y + gc.lineWidth/2, width, height);
+        },
+
         render: function(gc) {
             var width, height;
 
             if (dynamic) {
-                width = textField.width;
-                height = gc.measureText("M").width + 16;
+                width = textField.width + 10;
+                height = textField.height + 10;
             } else {
                 width = this.width;
                 height = this.height;
@@ -99,27 +112,27 @@ function GUIButton(_text, options) {
 
             switch(this.position) {
                 case "up":
-                    up.renderCache(gc, this.x, this.y, width, height);
+                    this.renderButton(gc, width, height, "#ffcd69", "#ffbc37");
                     break;
 
                 case "hover":
-                    hover.renderCache(gc, this.x, this.y, width, height);
+                    this.renderButton(gc, width, height, "#ffffff", "#ffdb94");
                     break;
 
                 case "down":
-                    down.renderCache(gc, this.x, this.y, width, height);
+                    this.renderButton(gc, width, height, "#ffaa00", "#ffaa00");
                     break;
             }
 
-            var x = this.x + width/2 + up.left.width/2;
-            var y = this.y + height/2 - up.bottom.height/2;
+            var x = this.x + width/2;
+            var y = (this.y + height/2) - textField.height/2;
+
+            this.postWidth = width + gc.lineWidth/2;
+            this.postHeight = height + gc.lineWidth/2;
 
             textField.x = x;
             textField.y = y;
             textField.render(gc);
-
-            this.postWidth = width + up.topRight.width;
-            this.postHeight = height + up.bottomRight.height;
         },
     }
 }

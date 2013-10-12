@@ -587,8 +587,6 @@ function BPMStates() {
                 State.set("roundSelect");
             }});
 
-            timeTrialButton = GUIButton("Time Trial", {dynamic: false});
-
             classicButton = GUIButton("Classic", {
                 dynamic: false,
 
@@ -598,7 +596,6 @@ function BPMStates() {
             });
 
             buttons.push(startGameButton);
-            buttons.push(timeTrialButton);
             buttons.push(classicButton);
         };
 
@@ -606,10 +603,10 @@ function BPMStates() {
             for (i in buttons) {
                 var b = buttons[i];
 
-                b.width = 250;
-                b.height = 40;
-                b.x = BPM.canvas.getWidth()/2 - b.width/2;
-                b.y = i * (b.postHeight + 5) + BPM.canvas.getHeight()/4;
+                b.width = 180;
+                b.height = 50;
+                b.x = BPM.canvas.getWidth() - b.width - 100;
+                b.y = i * (b.postHeight + 16) + BPM.canvas.getHeight()/6;
 
                 b.update(BPM.mouse);
             }
@@ -626,7 +623,7 @@ function BPMStates() {
                 buttons[i].render(gc);
             }
 
-            Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true});
+            Utils.drawText(gc, "BPM", 50, BPM.canvas.getHeight() - 100, {stroke: true, textAlign: "left"});
         };
 
         return base;
