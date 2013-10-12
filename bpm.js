@@ -3,6 +3,24 @@
 */
 
 function BPM(canvasID) {
+    WebFontConfig = {
+        custom: { families: ['bubble', 'bubble-light'],
+        urls: ['assets/Bobbleboddy.ttf', 'assets/Bobbleboddy-light.ttf']},
+        active: function() {
+            /* code to execute once all font families are loaded */
+            Loop.run();
+        }
+    };
+
+    (function() {
+        var wf = document.createElement('script');
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+        wf.type = 'text/javascript';
+        wf.async = 'true';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(wf, s);
+    })();
+
     'use strict;'
     $(document).ready(function() {
         BPM.canvas = Canvas(canvasID, false);
@@ -35,8 +53,6 @@ BPM.init = function() {
     BPMStates();
     Utils.loadData();
     State.set("roundSelect");
-
-    Loop.run();
 };
 
 BPM.update = function() {
@@ -58,4 +74,5 @@ BPM.render = function() {
         stroke: true,
         lineWidth: 3
     });
+
 };
