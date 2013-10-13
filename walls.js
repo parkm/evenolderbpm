@@ -52,18 +52,49 @@ function Wall(options) {
             }
         },
 
+        isCollidingArea: function(pin, x, y, width, height) {
+            var x2 = x + width;
+            var y2 = y + height;
+
+            var pinX2 = pin.x + pin.width;
+            var pinY2 = pin.y + pin.height;
+
+            if (x2 > pin.x && x < pinX2 && y2 > pin.y && y < pinY2) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         //Returns the side of the wall a rect is facing.
-        getCollisionSide: function(x, y, width, height) {
+        getCollisionSide: function(x, y, width, height, xSpeed, ySpeed) {
             var wRight = this.x + this.width;
             var wBottom = this.y + this.height;
 
             var right = x + width;
             var bottom = y + height;
 
-            var leftLen = right - this.x; 
+            var leftLen = right - this.x;
             var rightLen = wRight - x;
             var topLen = bottom - this.y;
             var bottomLen = wBottom - y;
+
+            var pinCoords = {
+                x: x,
+                y: y,
+                width: width,
+                height: height
+            };
+
+            if (this.isCollidingArea(pinCoords, wRight - 5, wBottom - 5, 10, 10)) {
+                return "bottomRight";
+            } else if (this.isCollidingArea(pinCoords, this.x-5, wBottom-5, 10, 10)) {
+                return "bottomLeft";
+            } else if (this.isCollidingArea(pinCoords, this.x-5, this.y-5, 10, 10)) {
+                return "topLeft";
+            } else if (this.isCollidingArea(pinCoords, wRight-5, this.y-5, 10, 10)) {
+                return "topRight";
+            }
 
             if (leftLen < rightLen && leftLen < topLen && leftLen < bottomLen) {
                 return "left";

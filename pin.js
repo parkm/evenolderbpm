@@ -95,7 +95,7 @@ function PinShooter(_x, _y, options) {
 
 function Pin(x, y, angle, options) {
     var base = Pin.Base(x, y, angle, options);
-    
+
     var type = (options && options.type) || "standard";
 
     var result;
@@ -105,7 +105,7 @@ function Pin(x, y, angle, options) {
             result = Pin.Standard(base);
             break;
     }
-    
+
     result.init && result.init();   // Only attempt to init if it exists.
     return result;
 }
@@ -126,7 +126,7 @@ Pin.Base = function(_x, _y, _angle, options) {
         onDeath: function(pins) {
             pins.splice(pins.indexOf(this), 1);
         },
-        
+
         /* args = delta, state */
         onCollision: function(args) {
             args.pin = this;
@@ -137,7 +137,7 @@ Pin.Base = function(_x, _y, _angle, options) {
             this.speedX = Math.cos(this.angle * (Math.PI / 180));
             this.speedY = -Math.sin(this.angle * (Math.PI / 180));
         },
-        
+
         /* args = delta, state */
         update: function(args) {
             var state = args.state;
@@ -148,7 +148,7 @@ Pin.Base = function(_x, _y, _angle, options) {
                 this.onDeath(state.pins);
             }
 
-            if (this.x < 0) 
+            if (this.x < 0)
                 this.speedX = -this.speedX;
             if (this.y < 0)
                 this.speedY = -this.speedY;
@@ -159,7 +159,7 @@ Pin.Base = function(_x, _y, _angle, options) {
 
             this.angle = -(180 / Math.PI * Math.atan2(this.speedY, this.speedX));
 
-            var speed = args.delta * (this.speed * this.speedMod); 
+            var speed = args.delta * (this.speed * this.speedMod);
             this.x += this.speedX * speed;
             this.y += this.speedY * speed;
 
@@ -169,7 +169,17 @@ Pin.Base = function(_x, _y, _angle, options) {
 
                 if (w.isColliding(this.x, this.y, this.width, this.height)) {
                     isCol = true;
-                    var colSide = w.onCollision(this, state.pins);
+                    var colSide = w.getCollisionSide(this.x, this.y, this.width, this.height, this.speedX, this.speedY);
+                    console.log(colSide);
+
+                    if (colSide === "bottomRight" || colSide === "bottomLeft" || colSide === "topLeft" || colSide === "topRight") {
+                        if (this.wallBounce) {
+                            this.speedX = -this.speedX;
+                            this.speedY = -this.speedY;
+                            this.wallBounce = false;
+                        }
+
+                    }
 
                     if (colSide === "left" || colSide === "right") {
                         if (colSide === "left") {
@@ -179,7 +189,7 @@ Pin.Base = function(_x, _y, _angle, options) {
                         }
 
                         if (this.wallBounce) {
-                            this.speedX = -this.speedX; 
+                            this.speedX = -this.speedX;
                             this.wallBounce = false;
                         }
                     }
@@ -192,7 +202,7 @@ Pin.Base = function(_x, _y, _angle, options) {
                         }
 
                         if (this.wallBounce) {
-                            this.speedY = -this.speedY; 
+                            this.speedY = -this.speedY;
                             this.wallBounce = false;
                         }
                     }
