@@ -304,7 +304,7 @@ function BPMStates() {
             };
 
             // Background
-            gc.fillStyle = "rgb(80, 72, 212)";
+            gc.fillStyle = "rgba(0, 0, 0, 0.75)";
             gc.strokeStyle = "#000000";
             gc.lineWidth = 2;
             gc.fillRect(0, base.height, BPM.canvas.getWidth(), BPM.canvas.getHeight() - base.height);
@@ -569,6 +569,13 @@ function BPMStates() {
             base.floatText.push(ft);
         };
 
+        base.drawBackground = function(gc) {
+            gc.fillStyle = "#365db5";
+            gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
+
+            gc.drawImage(GUIAssets.glare, 0, 0);
+        };
+
         return base;
     }
 
@@ -587,8 +594,6 @@ function BPMStates() {
                 State.set("roundSelect");
             }});
 
-            timeTrialButton = GUIButton("Time Trial", {dynamic: false});
-
             classicButton = GUIButton("Classic", {
                 dynamic: false,
 
@@ -598,7 +603,6 @@ function BPMStates() {
             });
 
             buttons.push(startGameButton);
-            buttons.push(timeTrialButton);
             buttons.push(classicButton);
         };
 
@@ -606,23 +610,23 @@ function BPMStates() {
             for (i in buttons) {
                 var b = buttons[i];
 
-                b.width = 250;
-                b.height = 40;
-                b.x = BPM.canvas.getWidth()/2 - b.width/2;
-                b.y = i * (b.postHeight + 5) + BPM.canvas.getHeight()/4;
+                b.width = 180;
+                b.height = 50;
+                b.x = BPM.canvas.getWidth() - b.width - 100;
+                b.y = i * (b.postHeight + 16) + BPM.canvas.getHeight()/6;
 
                 b.update(BPM.mouse);
             }
         };
 
         base.render = function(gc) {
-            gc.drawImage(StateAssets.background, 0, 0);
+            base.drawBackground(gc);
 
             for (i in buttons) {
                 buttons[i].render(gc);
             }
 
-            Utils.drawText(gc, "BPM", BPM.canvas.getWidth()/2, BPM.canvas.getHeight()/4 - 100, {stroke: true, font: "64px bubble"});
+            Utils.drawText(gc, "BPM", 50, BPM.canvas.getHeight() - 100, {stroke: true, textAlign: "left", font: "64px bubble"});
         };
 
         return base;
@@ -670,10 +674,11 @@ function BPMStates() {
             for (i in base.buttons) {
                 var b = base.buttons[i];
 
-                b.width = 200;
+                b.width = 220;
                 b.height = 40;
 
-                b.y = i * (b.postHeight + 5);
+                b.x = 5;
+                b.y = i * (b.postHeight + 16) + 5;
 
                 b.update(BPM.mouse);
             }
@@ -867,7 +872,7 @@ function BPMStates() {
         };
 
         base.render = function(gc) {
-            gc.drawImage(StateAssets.background, 0, 0);
+            base.drawBackground(gc);
 
             base.renderButtons(gc);
 
@@ -1103,7 +1108,7 @@ function BPMStates() {
         };
 
         base.render = function(gc) {
-            gc.drawImage(StateAssets.background, 0, 0);
+            base.drawBackground(gc);
 
             base.renderButtons(gc);
 

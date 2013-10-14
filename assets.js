@@ -47,6 +47,8 @@ function Assets() {
     GUIAssets.barBack = Assets.add("barBack", path.assets + "bar-back.png");
     GUIAssets.barFront = Assets.add("barFront", path.assets + "bar-front.png");
 
+    GUIAssets.glare = Assets.add("menuGlare", path.assets + "menu-glare-overlay.png");
+
     // Levels
     // autoLevels automatically loads levels
     // use format s[0-9]+r[0-9]+ to automatically add to round select menu
