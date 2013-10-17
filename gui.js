@@ -39,7 +39,7 @@ function GUIButton(_text, options) {
         fillStyle: "#FFFFFF",
         strokeStyle: "#000000",
         stroke: true,
-        lineWidth: 6,
+        lineWidth: options.lineWidth || 6,
         font: options.font || "32px bubble"
     });
 
@@ -107,7 +107,7 @@ function GUIButton(_text, options) {
                 height = textField.height + 10;
             } else {
                 width = this.width;
-                height = this.height;
+                height = this.height + 5;
             }
 
             switch(this.position) {

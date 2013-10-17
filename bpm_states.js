@@ -587,15 +587,22 @@ function BPMStates() {
         var startGameButton, timeTrialButton;
 
         base.init = function() {
-            startGameButton = GUIButton("New Game",
-            {dynamic: false,
+            startGameButton = GUIButton("Start", {
+                dynamic: false,
 
-            onClick: function() {
-                State.set("roundSelect");
-            }});
+                lineWidth: 8,
+                font: "48px bubble",
+
+                onClick: function() {
+                    State.set("roundSelect");
+                }
+            });
 
             classicButton = GUIButton("Classic", {
                 dynamic: false,
+
+                lineWidth: 8,
+                font: "48px bubble",
 
                 onClick: function() {
                     State.set("classicRoundSelect");
@@ -626,7 +633,16 @@ function BPMStates() {
                 buttons[i].render(gc);
             }
 
-            Utils.drawText(gc, "BPM", 50, BPM.canvas.getHeight() - 100, {stroke: true, textAlign: "left", font: "64px bubble"});
+            var x = 50;
+            var y = BPM.canvas.getHeight() - 400;
+            var formatting = {
+                stroke: true, textAlign: "left", font: "128px bubble",
+                lineWidth: 20
+            };
+
+            Utils.drawText(gc, "Bubble", x, y, formatting);
+            Utils.drawText(gc, "Pop", x, y + 128, formatting);
+            Utils.drawText(gc, "Mania 2", x, y + 256, formatting);
         };
 
         return base;
