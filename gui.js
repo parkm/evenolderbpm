@@ -39,7 +39,7 @@ function GUIButton(_text, options) {
         fillStyle: "#FFFFFF",
         strokeStyle: "#000000",
         stroke: true,
-        lineWidth: 3,
+        lineWidth: 6,
         font: options.font || "32px bubble"
     });
 
@@ -125,7 +125,7 @@ function GUIButton(_text, options) {
             }
 
             var x = this.x + width/2;
-            var y = (this.y + height/2) - textField.height/2;
+            var y = (this.y - textField.height/2) + height/2 - textField.height/2;
 
             this.postWidth = width + gc.lineWidth/2;
             this.postHeight = height + gc.lineWidth/2;
