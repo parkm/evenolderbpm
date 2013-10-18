@@ -138,7 +138,6 @@ Assets.genTintedBubbles = function(gc) {
         bgc.drawImage(Assets.tintedBubbleImage,0,0);
 
         gc.canvas.width = gc.canvas.width; //Clear the canvas, otherwise there will be a background to the tinted images.
-        gc.drawImage(Assets.tintedBubbleImage,0,0);
 
         //Set the tinting amount.
         gc.globalAlpha = 1;
