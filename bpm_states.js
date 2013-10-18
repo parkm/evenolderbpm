@@ -553,6 +553,9 @@ function BPMStates() {
 
         base.floatText = [];
 
+        base.backBubbles = [];
+        base.backBubbleCount = 50;
+
         base.addFloatText = function(text, x, y) {
             var ft = FloatText(text, x, y, {
                 fillStyle: "#FFFFFF",
@@ -569,11 +572,29 @@ function BPMStates() {
             base.floatText.push(ft);
         };
 
+        base.addBackBubbles = function() {
+            for (var i=0; i<=base.backBubbleCount; ++i) {
+                base.backBubbles.push(Bubble(Math.random() * BPM.canvas.getWidth(), Math.random() * BPM.canvas.getHeight(), "score", {
+                    speed: 0.5
+                }));
+            }
+        };
+
+        base.updateBackBubbles = function(args) {
+            for (var i in base.backBubbles) {
+                base.backBubbles[i].update(args);
+            }
+        };
+
         base.drawBackground = function(gc) {
             gc.fillStyle = "#365db5";
             gc.fillRect(0, 0, BPM.canvas.getWidth(), BPM.canvas.getHeight());
 
             gc.drawImage(GUIAssets.glare, 0, 0);
+
+            for (var i in base.backBubbles) {
+                base.backBubbles[i].render(gc);
+            }
         };
 
         return base;
@@ -611,6 +632,8 @@ function BPMStates() {
 
             buttons.push(startGameButton);
             buttons.push(classicButton);
+
+            base.addBackBubbles();
         };
 
         base.update = function(delta) {
@@ -624,6 +647,11 @@ function BPMStates() {
 
                 b.update(BPM.mouse);
             }
+
+            base.updateBackBubbles({
+                delta: delta,
+                state: base
+            });
         };
 
         base.render = function(gc) {
@@ -797,6 +825,7 @@ function BPMStates() {
             }
 
             base.createButtons();
+            base.addBackBubbles();
 
             stageScrollField.width = BPM.canvas.getWidth();
             stageScrollField.height = BPM.canvas.getHeight();
@@ -816,6 +845,10 @@ function BPMStates() {
 
         base.update = function(delta) {
             base.updateButtons();
+            base.updateBackBubbles({
+                delta: delta,
+                state: base
+            });
 
             //Round Selection
 
@@ -1093,6 +1126,7 @@ function BPMStates() {
 
         base.init = function() {
             base.createButtons();
+            base.addBackBubbles();
 
             gotoRoundButton = GUIButton("Next Round", {
                 onClick: function() {
@@ -1113,6 +1147,11 @@ function BPMStates() {
 
         base.update = function(delta) {
             base.updateButtons();
+            base.updateBackBubbles({
+                delta: delta,
+                state: base
+            });
+
             gotoRoundButton.update(BPM.mouse);
 
             gotoRoundButton.x = BPM.canvas.getWidth()/2 - gotoRoundButton.postWidth/2;
