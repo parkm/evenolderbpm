@@ -152,7 +152,7 @@ function RoundSelectButton(text, color) {
             strokeStyle: "#000000",
             stroke: true,
             lineWidth: 5,
-            font: "16px bubble"
+            font: "24px bubble"
         }),
 
         update: function(mouse) {
@@ -190,7 +190,7 @@ function RoundSelectButton(text, color) {
             gc.strokeRect(x, y,  this.width, this.height);
 
             this.textField.x = x+this.width/2;
-            this.textField.y = y+5;
+            this.textField.y = y;
             this.textField.render(gc);
 
             switch(this.position) {
