@@ -1,0 +1,51 @@
+=== Current Gameplay ===
+
+Bubble types:
+    Score
+    Bad
+    Goal*
+    Ammo*
+    Double
+    Combo
+    Reflect*
+    Bomb
+    Action*
+
+    *Probably not going to be used due to gameplay change
+
+Upgrades:
+    Pins+
+    Bubbles+
+        Remove Bad Bubbles
+
+Gameplay layout:
+    Pop bubbles to get money
+    Use money to purchase upgrades which help pop more bubbles, or whatever
+    Repeat
+
+=== New Gameplay Idea ===
+
+Pins regenerate after certain time
+Bubbles continuously respawn
+Upgrades screen will always be present, may be able to toggle view
+
+Maybe you can be able to purchase certain bubbles:
+    So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
+
+Maybe get rid of bad bubbles entirely, since it's not a game about strategy
+
+Upgrades:
+    Pin Storage+
+    Pin Regen Speed+
+    Pin Regen Amount+
+    Bubble Spawn Speed+
+    Bubble Max Count+
+
+=== Other ===
+
+Things to consider:
+    Boredom
+    Replay value
+    Interest (What makes me want to play this besides the gameplay?)
+    Look and feel
+
