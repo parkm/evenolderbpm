@@ -25,6 +25,21 @@ Gameplay layout:
 
 === New Gameplay Idea ===
 
+Rating ideas:
+    Use the following format to rate ideas
+    Spencer's Rating | Parker's Rating
+    All ratings out of 10
+    Example:
+        10 | 0 - implement kitten raids
+    When posing an idea, put unrated ratings as 'x'
+
+Important! - Need ideas for the following
+    Mechanic that requires skill
+    Focus (idle, action, etc)
+    End game
+        5 | x - Boss battle with bubble man
+    Milestones
+
 Pins regenerate after certain time
 Bubbles continuously respawn
 Upgrades screen will always be present, may be able to toggle view
@@ -41,6 +56,13 @@ Upgrades:
     Bubble Spawn Speed+
     Bubble Max Count+
 
+Idle Ideas:
+    Detect idling
+    When idling:
+        pins regen slower
+        bubbles regen slower
+        shooter shoots immediately when pins available
+
 === Other ===
 
 Things to consider:
@@ -48,4 +70,5 @@ Things to consider:
     Replay value
     Interest (What makes me want to play this besides the gameplay?)
     Look and feel
+    Skill Factor
 
