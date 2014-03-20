@@ -1,74 +1,73 @@
 === Current Gameplay ===
 
-Bubble types:
-    Score
-    Bad
-    Goal*
-    Ammo*
-    Double
-    Combo
-    Reflect*
-    Bomb
-    Action*
+    Bubble types:
+        Score
+        Bad
+        Goal*
+        Ammo*
+        Double
+        Combo
+        Reflect*
+        Bomb
+        Action*
 
-    *Probably not going to be used due to gameplay change
+        *Probably not going to be used due to gameplay change
 
-Upgrades:
-    Pins+
-    Bubbles+
-        Remove Bad Bubbles
+    Upgrades:
+        Pins+
+        Bubbles+
+            Remove Bad Bubbles
 
-Gameplay layout:
-    Pop bubbles to get money
-    Use money to purchase upgrades which help pop more bubbles, or whatever
-    Repeat
+    Gameplay layout:
+        Pop bubbles to get money
+        Use money to purchase upgrades which help pop more bubbles, or whatever
+        Repeat
 
 === New Gameplay Idea ===
 
-Rating ideas:
-    Use the following format to rate ideas
-    Spencer's Rating | Parker's Rating
-    All ratings out of 10
-    Example:
-        10 | 0 - implement kitten raids
-    When posing an idea, put unrated ratings as 'x'
+    Rating ideas:
+        Use the following format to rate ideas
+        Spencer's Rating | Parker's Rating
+        All ratings out of 10
+        Example:
+            10 | 0 - implement kitten raids
+        When posing an idea, put unrated ratings as 'x'
 
-Important! - Need ideas for the following
-    Mechanic that requires skill
-    Focus (idle, action, etc)
-    End game
-        5 | x - Boss battle with bubble man
-    Milestones
+    Important! - Need ideas for the following
+        Mechanic that requires skill
+        Focus (idle, action, etc)
+        End game
+            5 | x - Boss battle with bubble man
+        Milestones
 
-Pins regenerate after certain time
-Bubbles continuously respawn
-Upgrades screen will always be present, may be able to toggle view
+    Pins regenerate after certain time
+    Bubbles continuously respawn
+    Upgrades screen will always be present, may be able to toggle view
 
-Maybe you can be able to purchase certain bubbles:
-    So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
+    Maybe you can be able to purchase certain bubbles:
+        So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
 
-Maybe get rid of bad bubbles entirely, since it's not a game about strategy
+    Maybe get rid of bad bubbles entirely, since it's not a game about strategy
 
-Upgrades:
-    Pin Storage+
-    Pin Regen Speed+
-    Pin Regen Amount+
-    Bubble Spawn Speed+
-    Bubble Max Count+
+    Upgrades:
+        Pin Storage+
+        Pin Regen Speed+
+        Pin Regen Amount+
+        Bubble Spawn Speed+
+        Bubble Max Count+
 
-Idle Ideas:
-    Detect idling
-    When idling:
-        pins regen slower
-        bubbles regen slower
-        shooter shoots immediately when pins available
+    Idle Ideas:
+        Detect idling
+        When idling:
+            pins regen slower
+            bubbles regen slower
+            shooter shoots immediately when pins available
 
 === Other ===
 
-Things to consider:
-    Boredom
-    Replay value
-    Interest (What makes me want to play this besides the gameplay?)
-    Look and feel
-    Skill Factor
-
+    Things to consider:
+        Boredom
+        Replay value
+        Interest (What makes me want to play this besides the gameplay?)
+        Look and feel
+        Skill Factor
