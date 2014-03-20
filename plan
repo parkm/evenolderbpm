@@ -33,28 +33,34 @@
             10 | 0 - implement kitten raids
         When posing an idea, put unrated ratings as 'x'
 
+        Rating value meanings (idea):
+            <5 = Don't like it or don't want it in the game
+            5  = Maybe, possibly requires more description or discussion
+            >5 = Like it, it should go into the final idea pile
+
     Important! - Need ideas for the following
         Mechanic that requires skill
         Focus (idle, action, etc)
         End game
-            5 | x - Boss battle with bubble man
+            5 | 5 - Boss battle with bubble man
         Milestones
 
-    Pins regenerate after certain time
-    Bubbles continuously respawn
-    Upgrades screen will always be present, may be able to toggle view
+    Gameplay ideas:
+        x | x - Pins regenerate after certain time
+        x | x - Bubbles continuously respawn
+        x | x - Upgrades screen will always be present, may be able to toggle view
 
-    Maybe you can be able to purchase certain bubbles:
-        So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
+        x | x - Maybe you can be able to purchase certain bubbles:
+                So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
 
-    Maybe get rid of bad bubbles entirely, since it's not a game about strategy
+        x | x - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
 
-    Upgrades:
-        Pin Storage+
-        Pin Regen Speed+
-        Pin Regen Amount+
-        Bubble Spawn Speed+
-        Bubble Max Count+
+    Upgrade ideas:
+        x | x - Pin Storage+
+        x | x - Pin Regen Speed+
+        x | x - Pin Regen Amount+
+        x | x - Bubble Spawn Speed+
+        x | x - Bubble Max Count+
 
     Idle Ideas:
         Detect idling
@@ -62,6 +68,14 @@
             pins regen slower
             bubbles regen slower
             shooter shoots immediately when pins available
+
+=== New Gamplay Final ===
+
+    Gameplay:
+        stuff
+
+    Upgrades:
+        stuff
 
 === Other ===
 
