@@ -28,39 +28,48 @@
     Rating ideas:
         Use the following format to rate ideas
         Spencer's Rating | Parker's Rating
-        All ratings out of 10
+        All ratings out of 9 (single digit is easier in vim)
         Example:
-            10 | 0 - implement kitten raids
+            9 | 0 - implement kitten raids
         When posing an idea, put unrated ratings as 'x'
 
         Rating value meanings (idea):
             <5 = Don't like it or don't want it in the game
+                - give reasons in a comment like this
             5  = Maybe, possibly requires more description or discussion
+                - also give reasons for this
             >5 = Like it, it should go into the final idea pile
+                - No reasons necessary, but add comments if you want
 
     Important! - Need ideas for the following
         Mechanic that requires skill
+            - Upgrade "combos"
+                a. upgrades that benefit each other to unleash more power.
+                b. requires strategy to pull off most efficient combos
         Focus (idle, action, etc)
+            8 | x - Idle
         End game
             5 | 5 - Boss battle with bubble man
         Milestones
+            - Upgrades
 
     Gameplay ideas:
-        x | x - Pins regenerate after certain time
-        x | x - Bubbles continuously respawn
-        x | x - Upgrades screen will always be present, may be able to toggle view
+        9 | x - Pins regenerate after certain time
+        9 | x - Bubbles continuously respawn
+        9 | x - Upgrades screen will always be present, may be able to toggle view
 
-        x | x - Maybe you can be able to purchase certain bubbles:
+        8 | x - Maybe you can be able to purchase certain bubbles:
                 So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
 
-        x | x - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
+        6 | x - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
+            - Let's hold off on officially deciding on this one for now
 
     Upgrade ideas:
-        x | x - Pin Storage+
-        x | x - Pin Regen Speed+
-        x | x - Pin Regen Amount+
-        x | x - Bubble Spawn Speed+
-        x | x - Bubble Max Count+
+        9 | x - Pin Storage+
+        9 | x - Pin Regen Speed+
+        9 | x - Pin Regen Amount+
+        9 | x - Bubble Spawn Speed+
+        9 | x - Bubble Max Count+
 
     Idle Ideas:
         Detect idling
@@ -68,6 +77,14 @@
             pins regen slower
             bubbles regen slower
             shooter shoots immediately when pins available
+
+        7 | x - Production buildings
+            - Sort of as a side game, but implemented like cookie clicker
+            - ideas:
+                1. Bubble-wrap Co.
+                    a. produces bubble wrap, gives you $x per minute
+                2. Bubble-wrap popping Co.
+                    a. pops produced bubble wrap, gives you x pops per minute
 
 === New Gamplay Final ===
 
