@@ -68,7 +68,14 @@
         Walls will begin to spawn after a while.
             - Where will they spawn?
 
+        x | 7 - Bonus Buffs: So when something triggers a bonus (not sure what will trigger a bonus though), a wheel will appear and give you a random buff for a limited time
+            +50% gold
+            +50% bubble spawn speed
+            Infinite pins
+            When a bubble pops it damages nearby bubbles
+
     Upgrade ideas:
+        Sell tool: allows you to sell an auto shooter or any upgrade placed on the field.
         x | 9 - Auto Shooter: When purchased use the mouse to place it on the map, then click, then use the mouse to set the angle, and click again. Shoots one pin on a certain interval.
             x | 9 - Auto Shooter Speed+
 
@@ -97,6 +104,7 @@
                     a. produces bubble wrap, gives you $x per minute
                 2. Bubble-wrap popping Co.
                     a. pops produced bubble wrap, gives you x pops per minute
+                3. Maybe the Bubble Spawners could be buildings.
 
 === New Gamplay Final ===
 
