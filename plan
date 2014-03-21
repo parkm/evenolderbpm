@@ -56,17 +56,22 @@
             - Upgrades
 
     Gameplay ideas:
-        x | 9 - Bubbles spawn from the corners
+        5 | 9 - Bubbles spawn from the corners
+            - I think this might be too predictable and/or boring
 
-        8 | 9 - Maybe you can be able to purchase certain bubbles:
+        9 | 9 - Maybe you can be able to purchase certain bubbles:
                 So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
                 - see bubble spawner upgrade
+                7 | x - Start with only score bubbles?
 
         6 | 8 - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
             - Let's hold off on officially deciding on this one for now
 
         Walls will begin to spawn after a while.
             - Where will they spawn?
+                - Based on an algorithm to determine a proper spot
+                    a. declare what's not allowed, then it will fill in randomly
+                    b. OR, we could make predefined levels in Tiled that transition (less cool)
 
         x | 7 - Bonus Buffs: So when something triggers a bonus (not sure what will trigger a bonus though), a wheel will appear and give you a random buff for a limited time
             +50% gold
