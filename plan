@@ -41,44 +41,56 @@
             >5 = Like it, it should go into the final idea pile
                 - No reasons necessary, but add comments if you want
 
+        9 | 9 = automatic transfer to final area
+
     Important! - Need ideas for the following
         Mechanic that requires skill
             - Upgrade "combos"
                 a. upgrades that benefit each other to unleash more power.
                 b. requires strategy to pull off most efficient combos
         Focus (idle, action, etc)
-            8 | x - Idle
+            8 | 9 - Idle
         End game
             5 | 5 - Boss battle with bubble man
         Milestones
             - Upgrades
 
     Gameplay ideas:
-        9 | x - Pins regenerate after certain time
-        9 | x - Bubbles continuously respawn
-        9 | x - Upgrades screen will always be present, may be able to toggle view
+        x | 9 - Bubbles spawn from the corners
 
-        8 | x - Maybe you can be able to purchase certain bubbles:
+        8 | 9 - Maybe you can be able to purchase certain bubbles:
                 So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
+                - see bubble spawner upgrade
 
-        6 | x - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
+        6 | 8 - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
             - Let's hold off on officially deciding on this one for now
 
+        Walls will begin to spawn after a while.
+            - Where will they spawn?
+
     Upgrade ideas:
-        9 | x - Pin Storage+
-        9 | x - Pin Regen Speed+
-        9 | x - Pin Regen Amount+
-        9 | x - Bubble Spawn Speed+
-        9 | x - Bubble Max Count+
+        x | 9 - Auto Shooter: When purchased use the mouse to place it on the map, then click, then use the mouse to set the angle, and click again. Shoots one pin on a certain interval.
+            x | 9 - Auto Shooter Speed+
+
+        x | 9 - Bubble Spawner: one for each. Spawns a certain bubble on an interval.
+            score: starts with it
+            combo
+            double
+            bomb
+            spawn speed+: for each type
+            spawn count+: for each type
+
+        x | 8 - Pin Life+
 
     Idle Ideas:
-        Detect idling
-        When idling:
+        x | 5 - Detect idling
+        x | 5 - When idling:
             pins regen slower
             bubbles regen slower
             shooter shoots immediately when pins available
+        - I don't think we need to do this. If you're not interacting with the game then that itself is already a great penalty.
 
-        7 | x - Production buildings
+        7 | 6 - Production buildings
             - Sort of as a side game, but implemented like cookie clicker
             - ideas:
                 1. Bubble-wrap Co.
@@ -89,10 +101,16 @@
 === New Gamplay Final ===
 
     Gameplay:
-        stuff
+        Pins regenerate after certain time
+        Bubbles continuously respawn
+        Upgrades screen will always be present, may be able to toggle view
 
     Upgrades:
-        stuff
+        Pin Storage+
+        Pin Regen Speed+
+        Pin Regen Amount+
+        Bubble Spawn Speed+
+        Bubble Max Count+
 
 === Other ===
 
