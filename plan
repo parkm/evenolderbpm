@@ -68,6 +68,10 @@
 
                 -P: Lightning and fire are essentially double and bomb bubbles. How about we just get rid of double and bomb and replace them with lightning fire. I'm also not sure about ice, why do you wanna freeze a bubble? There doesn't seem like much payoff compared to the others. If we do replace them, I'd like lightning to just create 2 pins (which we could show that are electrically charged), I don't like chain lightning when there's already an AoE. We could also make upgrades for lightning which would increase pin count, increase pin speed, etc
 
+                    -S: Yeah, good point. I was also thinking the same thing about the AoE. I mostly like the idea of a distinction between physical damage and magical damage in relation to combos.
+                        Ooh, what about this? So instead of the bubbles having magical properties, we just have the magical properties applied to the pins.
+                        For example, an electric pin 
+
                 Then, the other route is physical damage. In the physical damage route, you'd combine upgrades that affect the way pins damage bubbles and weapon upgrades.
                     Examples
                     - Shrapnel: Pins have a 25% chance to split in two after popping a bubble. (Like a double bubble - but this is a higher end upgrade)
@@ -82,6 +86,10 @@
                             This way, you unlock your abilities, then choose what abilities you want active. It will make the game less OP and more strategic (skill factor)
 
                 -P: So would these be like talent trees? We could have the elemental and then damage trees.
+                    -S: Eh, sorta. I don't want them to be trees, though. I'm thinking similar to the perks in Stick of Truth, how it's just a wall of upgrades, but you have to
+                        strategically choose the upgrades that benefit from each other to form a psuedo talent tree. This would provide a skill factor for the game and make
+                        it really fun. See the upgrades section for elaboration.
+
 
     Gameplay ideas:
         5 | 9 - Bubbles spawn from the corners
@@ -143,6 +151,29 @@
         6 | 6 - Pin Life+
             - I think there are better pin upgrades we can come up with. Perhaps pin life should be associated with the weapon?
             -P: Yeah I personally wouldn't want to upgrade pin life, seems boring. What do you mean weapon?
+
+
+        8 | x - Abilities:
+            Upgrade the following abilities. You can only have 3 (?) active abilities enabled at a time. Passive abilities are always enabled.
+
+            Passive:
+                Stuff like Bubble Spawner, Pin Life, Bubble Spawn Rate, etc.
+
+            Active:
+                (All brainstorming ideas)
+                Electric Pins
+                Fire Pins
+                Immortal Pins
+                Shrapnel Pins
+
+            Weapons:
+                Flamethrower
+                Chicken Launcher
+                Bubble Decimator
+
+            Choose 1 weapon, 3 abilities, and all of your passive abilities to choose your "class". The fun part about this is that the combinations are limitless.
+            We can plan out a bunch of different combinations, but also leave it open to let players find their own powerful combos.
+
 
     Bubble Types:
 
