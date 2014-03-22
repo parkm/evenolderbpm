@@ -66,6 +66,8 @@
                     - Lightning Chain+: Increases the amount of bubbles in the lightning chain by one
                 These element bubbles can have some kick ass effects.
 
+                -P: Lightning and fire are essentially double and bomb bubbles. How about we just get rid of double and bomb and replace them with lightning fire. I'm also not sure about ice, why do you wanna freeze a bubble? There doesn't seem like much payoff compared to the others. If we do replace them, I'd like lightning to just create 2 pins (which we could show that are electrically charged), I don't like chain lightning when there's already an AoE. We could also make upgrades for lightning which would increase pin count, increase pin speed, etc
+
                 Then, the other route is physical damage. In the physical damage route, you'd combine upgrades that affect the way pins damage bubbles and weapon upgrades.
                     Examples
                     - Shrapnel: Pins have a 25% chance to split in two after popping a bubble. (Like a double bubble - but this is a higher end upgrade)
@@ -79,6 +81,8 @@
                         -S: I REALLY like this mechanic. If not x upgrades active, then we could have a subset of abilities that work in that way.
                             This way, you unlock your abilities, then choose what abilities you want active. It will make the game less OP and more strategic (skill factor)
 
+                -P: So would these be like talent trees? We could have the elemental and then damage trees.
+
     Gameplay ideas:
         5 | 9 - Bubbles spawn from the corners
             - I think this might be too predictable and/or boring
@@ -86,8 +90,9 @@
                 -S: Hmmm, good question. I think I like them appearing randomly more. We should do something that makes sense
                     and in the realm of physical possibility if possible. So, with that take on it, they should come into view from outside.
                     Let's do a vote. Add anything else you can think of.
-                    7 | x - Come into view from outside
-                    6 | x - Appear Randomly with animation
+                    7 | 5 - Come into view from outside
+                        -P: Problem with this could be collisions. We'd have to disable collisions until the bubbles have arrived in the area.
+                    6 | 6 - Appear Randomly with animation
 
         9 | 9 - Maybe you can be able to purchase certain bubbles:
                 So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
@@ -107,6 +112,7 @@
 
                     -P: I very much prefer option b. We can also change bubble spawn points within each level which will give us greater control in level design. So i'm thinking that once you reach a certain point on the upgrades a new level will spawn and new upgrades which would accomodate that level. But a problem i'm seeing is with field upgrades like the auto shooter. What happens to those when a new level spawns? I'm kinda having second thoughts about walls.
                     -S: I agree; option a would probably be buggy as hell. What do you mean? I don't see any issues with the field upgrades. If anything, it makes it harder to idle, which is a good thing. It also makes shots harder to pull off, which increases the skill level - also a good thing. We can always implement different mechanics though.
+                    -P: So let's say you have an auto shooter at x:5, y:5, then in one of the levels a wall is at that position. What happens to the auto shooter? Will it just be suffocated by the wall forever? Do we refund it?
 
         9 | 7 - Bonus Buffs: So when something triggers a bonus (not sure what will trigger a bonus though), a wheel will appear and give you a random buff for a limited time
             +50% gold
@@ -115,14 +121,16 @@
             When a bubble pops it damages nearby bubbles
 
             -S: Bonuses should be triggered on level ups or other significant accomplishments (like super ultra mega combos). Love the idea though. We should make crazy "manic" animations and effects. I'd really like to stress the "Mania" part of the game and make it feel really arcade-like and Japanese-y.
+            -P: Oh now that you brought that up. I think we should change the name. Google 'Bubble Pop Mania' and you'll see what I mean.
 
     Upgrade ideas:
         Sell tool: allows you to sell an auto shooter or any upgrade placed on the field.
         9 | 9 - Auto Shooter: When purchased use the mouse to place it on the map, then click, then use the mouse to set the angle, and click again. Shoots one pin on a certain interval.
             -S: Should you pre-set the angle or should it automatically choose (randomly or algorithmically?). I think it should shoot at random angles.
             9 | 9 - Auto Shooter Speed+
-            8 | x - Auto Shooter Intelligence
+            8 | 5 - Auto Shooter Intelligence
                 - Algorithmically determines the best angle to shoot, upgrades increase intelligence
+                -P: Not sure, I think that if they will always change their angle to shoot, they should just spin in a circle and then shoot randomly. I also think the graphic for it should be circular so that we can have an upgrade which will allow it to shoot more than one pin, this would make it look less retarded if it were circle shaped. So yeah I think it should be random.
 
         9 | 9 - Bubble Spawner: one for each. Spawns a certain bubble on an interval.
             score: starts with it
@@ -132,11 +140,12 @@
             spawn speed+: for each type
             spawn count+: for each type
 
-        6 | 8 - Pin Life+
+        6 | 6 - Pin Life+
             - I think there are better pin upgrades we can come up with. Perhaps pin life should be associated with the weapon?
+            -P: Yeah I personally wouldn't want to upgrade pin life, seems boring. What do you mean weapon?
 
     Bubble Types:
-        
+
 
     Idle Ideas:
         x | 5 - Detect idling
@@ -146,6 +155,7 @@
             shooter shoots immediately when pins available
         -P: I don't think we need to do this. If you're not interacting with the game then that itself is already a great penalty.
         -S: What do you mean? How does idling start? Do you have to set it to idle before idling? This idea comes from the Anti Idle game.
+        -P: The idling would happen naturally. The auto shooter would just keep shooting, and your buildings or whatever would generate income. The penalty for idling though is that you cannot use the main shooter. And the main shooter is way OP compared to the auto shooters.
 
         7 | 6 - Production buildings
             - Sort of as a side game, but implemented like cookie clicker
