@@ -74,6 +74,7 @@
         Tack Smack
         Whack Tacks
 
+        -P: Have you googled all of these?
 
     Game Ideas (Themes, etc. that affect overall game experience):
         8 | x - Elemental Bubbles and Chain Upgrades
@@ -89,7 +90,9 @@
 
                     -S: Yeah, good point. I was also thinking the same thing about the AoE. I mostly like the idea of a distinction between physical damage and magical damage in relation to combos.
                         Ooh, what about this? So instead of the bubbles having magical properties, we just have the magical properties applied to the pins.
-                        For example, an electric pin 
+                        For example, an electric pin
+
+                    -P: We need to figure out what they do though. What does a magical pin do that a normal pin doesn't? Same with bubbles.
 
                 Then, the other route is physical damage. In the physical damage route, you'd combine upgrades that affect the way pins damage bubbles and weapon upgrades.
                     Examples
@@ -105,9 +108,8 @@
                             This way, you unlock your abilities, then choose what abilities you want active. It will make the game less OP and more strategic (skill factor)
 
                 -P: So would these be like talent trees? We could have the elemental and then damage trees.
-                    -S: Eh, sorta. I don't want them to be trees, though. I'm thinking similar to the perks in Stick of Truth, how it's just a wall of upgrades, but you have to
-                        strategically choose the upgrades that benefit from each other to form a psuedo talent tree. This would provide a skill factor for the game and make
-                        it really fun. See the upgrades section for elaboration.
+                    -S: Eh, sorta. I don't want them to be trees, though. I'm thinking similar to the perks in Stick of Truth, how it's just a wall of upgrades, but you have to strategically choose the upgrades that benefit from each other to form a psuedo talent tree. This would provide a skill factor for the game and make it really fun. See the upgrades section for elaboration.
+                    -P: Problem with that though is you can't make really strong upgrades. They all have to be pretty much equal.
 
     Gameplay ideas:
         5 | 9 - Bubbles spawn from the corners
@@ -120,6 +122,7 @@
                         -P: Problem with this could be collisions. We'd have to disable collisions until the bubbles have arrived in the area.
                         -S: Speaking of which, should bubbles even collide with each other? These minor details are annoying :P but at the same time, they bring up
                             ideas that we would never have thought of before.
+                        -P: I think we've talked about that before. I believe the reason for not having bubble collision was that the performance would be intense. There's going to be a ton of bubbles on screen.
                     6 | 6 - Appear Randomly with animation
 
         9 | 9 - Maybe you can be able to purchase certain bubbles:
@@ -133,7 +136,7 @@
             - Let's hold off on officially deciding on this one for now
             -S: liking this idea more now
 
-        5 | x - Walls will begin to spawn after a while.
+        5 | 5 - Walls will begin to spawn after a while.
             - Where will they spawn?
                 - Based on an algorithm to determine a proper spot
                     a. declare what's not allowed, then it will fill in randomly
@@ -150,17 +153,22 @@
             Infinite pins
             When a bubble pops it damages nearby bubbles
 
+            They are triggered when:
+                ...
+
             -S: Bonuses should be triggered on level ups or other significant accomplishments (like super ultra mega combos). Love the idea though. We should make crazy "manic" animations and effects. I'd really like to stress the "Mania" part of the game and make it feel really arcade-like and Japanese-y.
             -P: Oh now that you brought that up. I think we should change the name. Google 'Bubble Pop Mania' and you'll see what I mean.
             -S: LOL. Yes, I agree. Adding name section to this plan. I still like this idea though.
+            -P: Okay I'll add it to the final gameplay area when we've come up with how exactly they get triggered.
 
     Upgrade ideas:
         Sell tool: allows you to sell an auto shooter or any upgrade placed on the field.
             -S: Are Auto Shooters objects that you place on the field in addition to the main shooter or is it a unique weapon to act as a replacement?
+            -P: Auto shooters would be new objects, they wouldn't replace the main shooter.
         9 | 9 - Auto Shooter: When purchased use the mouse to place it on the map, then click, then use the mouse to set the angle, and click again. Shoots one pin on a certain interval.
             -S: Should you pre-set the angle or should it automatically choose (randomly or algorithmically?). I think it should shoot at random angles.
             9 | 9 - Auto Shooter Speed+
-            8 | 5 - Auto Shooter Intelligence
+            8 | 2 - Auto Shooter Intelligence
                 - Algorithmically determines the best angle to shoot, upgrades increase intelligence
                 -P: Not sure, I think that if they will always change their angle to shoot, they should just spin in a circle and then shoot randomly. I also think the graphic for it should be circular so that we can have an upgrade which will allow it to shoot more than one pin, this would make it look less retarded if it were circle shaped. So yeah I think it should be random.
                 -S: Alrighty, mark your rating lower if you wanna drop it or keep it at a 5 if you wanna reconsider it later.
@@ -178,8 +186,7 @@
             -P: Yeah I personally wouldn't want to upgrade pin life, seems boring. What do you mean weapon?
             -S: See the upgrade section for elaboration on the weapon idea.
 
-
-        8 | x - Abilities:
+        8 | 5 - Abilities:
             Upgrade the following abilities. You can only have 3 (?) active abilities enabled at a time. Passive abilities are always enabled.
 
             Passive:
@@ -200,25 +207,26 @@
                 Chicken Launcher
                 Bubble Decimator
 
+                -P: What do these do though? So the weapon is the shooter?
+
             Choose 1 weapon, 3 abilities, and all of your passive abilities to choose your "class". The fun part about this is that the combinations are limitless.
             We can plan out a bunch of different combinations, but also leave it open to let players find their own powerful combos.
 
+            -P: This is all a bit too vague. Come up with an example of how one of these combinations would work and what exactly they'd be improving.
 
     Bubble Types:
         Score
         Double
         Combo
 
-        -S:What about the other ones we came up with?
+        x | 5 -S:What about the other ones we came up with?
             -Iron
             -Ghost
-
+            -P: These are more for levels. Remember that each thing we have to introduce to the player in an intuitive manner, so we don't want too much. But if we end up having that level thing then maybe we could add these.
 
     Resource limitations:
-        -S: How are we going to handle resources? Just amount of pins? How do you get more pins? What if we made it so you have to buy pins using the currency obtained through
-            popping bubbles and buildings. We could also have an upgrade to auto-buy pins when you run out. Of course, we'd make it easy to restock your pins.
-            Any other resource restraints?
-
+        -S: How are we going to handle resources? Just amount of pins? How do you get more pins? What if we made it so you have to buy pins using the currency obtained through popping bubbles and buildings. We could also have an upgrade to auto-buy pins when you run out. Of course, we'd make it easy to restock your pins. Any other resource restraints?
+        -P: Pins should regen over time so we can have that upgrade available.
 
     Idle Ideas:
         0 | 5 - Detect idling
@@ -234,6 +242,7 @@
         8 | 6 - Production buildings
             - Sort of as a side game, but implemented like cookie clicker
             -S: These production buildings could unlock the ability to unlock new upgrades. Like the technology tree in Civ.
+            -P: How would that work though? You just buy the building then you unlock the upgrade? Also how do buildings work in Cookie Clicker? Do they just give you more production? I think buildings are more for the idle part of the game.
             - ideas:
                 1. Bubble-wrap Co.
                     a. produces bubble wrap, gives you $x per minute
