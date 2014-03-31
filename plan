@@ -241,6 +241,18 @@
                 5. Science labs to unlock new elemental pin upgrades (lightning, fire, etc)
                 6. Manufacturing plants to unlock new physical pin upgrades (shrapnel, etc)
 
+
+    UI Layout:
+        Initial Menu (when game is first loaded)
+            3 save slots, pick an empty one to start a new game, or pick an existing save
+            Settings
+
+        During Game
+            Small bar UI (like existing UI, but let's keep it as minimal as possible)
+            'Shop' Button
+                Opens 30% transparent, black overlay window
+                game continues to play in background
+
 === New Gamplay Final ===
 
     Gameplay:
