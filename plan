@@ -23,6 +23,16 @@
         Use money to purchase upgrades which help pop more bubbles, or whatever
         Repeat
 
+=== Game Walkthrough ===
+
+    Basic: player pops bubbles gets a feel for game.
+
+    The mayor will award you a free upgrade after a few minutes or so.
+
+    Blacksmith is the pins and weapons upgrade area. He also makes pins and gives them to you (regen mechanism). He gives you ammo shipments every once in a while which will refill your pins full (or to a certain amount).
+
+    The mayor area will allow you to buy building upgrades.
+
 === New Gameplay Idea ===
 
     Rating ideas:
@@ -63,66 +73,32 @@
     Game Story:
         Bubbles grow aware or adapt to the situation by equipping themselves with armor.
 
-    Game Ideas (Themes, etc. that affect overall game experience):
-
-        8 | x - Elemental Bubbles and Chain Upgrades
-            -S: I came up with this idea a few days ago and still really like it. So, some bubbles could have elemental abilities (which are unlocked via the spawner) like lightning, fire, and ice. Lightning could do a powerful chain reaction, fire could light other bubbles on fire and kill lit bubbles after an amount of time, ice could freeze bubbles in a surrounding area when popped.
-                These elemental bubbles can be upgraded and upgrades could coincide with bigger and better combos related to elemental bubbles.
-                    Examples
-                    - Fire and Ice: Bubbles killed by flame have a 10% chance to freeze bubbles in the surrounding area
-                    - Lightning of the Gods: 50% chance to chain lightning to all bubbles on screen
-                    - Lightning Chain+: Increases the amount of bubbles in the lightning chain by one
-                These element bubbles can have some kick ass effects.
-
-                -P: Lightning and fire are essentially double and bomb bubbles. How about we just get rid of double and bomb and replace them with lightning fire. I'm also not sure about ice, why do you wanna freeze a bubble? There doesn't seem like much payoff compared to the others. If we do replace them, I'd like lightning to just create 2 pins (which we could show that are electrically charged), I don't like chain lightning when there's already an AoE. We could also make upgrades for lightning which would increase pin count, increase pin speed, etc
-
-                    -S: Yeah, good point. I was also thinking the same thing about the AoE. I mostly like the idea of a distinction between physical damage and magical damage in relation to combos.
-                        Ooh, what about this? So instead of the bubbles having magical properties, we just have the magical properties applied to the pins.
-                        For example, an electric pin
-
-                    -P: We need to figure out what they do though. What does a magical pin do that a normal pin doesn't? Same with bubbles.
-
-                Then, the other route is physical damage. In the physical damage route, you'd combine upgrades that affect the way pins damage bubbles and weapon upgrades.
-                    Examples
-                    - Shrapnel: Pins have a 25% chance to split in two after popping a bubble. (Like a double bubble - but this is a higher end upgrade)
-                    - Exploding Pin: Pins have a 20% chance to explode
-                    - Increase pin size: pins are bigger
-                    - Shotgun: Unlocks shotgun weapon (combine with increase pin size, exploding pin or shrapnel for max damage)
-                    - Flamethrower: No pins, just fire. Fiiiire.
-                    - Cupcake Thrower: Throws cupcakes of DOOOM.
-
-                    9 | x - We could even make it so you can only have x amount of upgrades active at one time. That'd be a fun mechanic. This would also include weapon upgrades.
-                        -S: I REALLY like this mechanic. If not x upgrades active, then we could have a subset of abilities that work in that way.
-                            This way, you unlock your abilities, then choose what abilities you want active. It will make the game less OP and more strategic (skill factor)
-
-                -P: So would these be like talent trees? We could have the elemental and then damage trees.
-                    -S: Eh, sorta. I don't want them to be trees, though. I'm thinking similar to the perks in Stick of Truth, how it's just a wall of upgrades, but you have to strategically choose the upgrades that benefit from each other to form a psuedo talent tree. This would provide a skill factor for the game and make it really fun. See the upgrades section for elaboration.
-                    -P: Problem with that though is you can't make really strong upgrades. They all have to be pretty much equal.
-
     Gameplay ideas:
-        5 | 9 - Bubbles spawn from the corners
-            - I think this might be too predictable and/or boring
-                -P: So will they just appear randomly on the screen (probably will be animated if so), or will they come into view from outside?
-                -S: Hmmm, good question. I think I like them appearing randomly more. We should do something that makes sense
-                    and in the realm of physical possibility if possible. So, with that take on it, they should come into view from outside.
-                    Let's do a vote. Add anything else you can think of.
-                    7 | 5 - Come into view from outside
-                        -P: Problem with this could be collisions. We'd have to disable collisions until the bubbles have arrived in the area.
-                        -S: Speaking of which, should bubbles even collide with each other? These minor details are annoying :P but at the same time, they bring up
-                            ideas that we would never have thought of before.
-                        -P: I think we've talked about that before. I believe the reason for not having bubble collision was that the performance would be intense. There's going to be a ton of bubbles on screen.
-                    6 | 6 - Appear Randomly with animation
+        == Elemental psuedo-classes ==
+            Weapon ideas:
+                shotgun - aoe spread
+                machine gun - fast single shots
+                laser - slow powerful shots
+                mega pin shooter - idk
 
-        9 | 9 - Maybe you can be able to purchase certain bubbles:
-                So one instance would be to purchase a bomb bubble when a bunch of them have spawned.
-                - see bubble spawner upgrade
-                7 | 9 - Start with only score bubbles?
-                    -P: Yeah probably will make the other bubble spawners pretty cheap initially. So I think it'll start out with score, then double will be the next cheapest one, then combo, then bomb
-                    -S: That sounds good. You can start that planning in the upgrade section.
+        == Elemental psuedo-classes end ==
 
-        8 | 8 - Maybe get rid of bad bubbles entirely, since it's not a game about strategy
-            - Let's hold off on officially deciding on this one for now
-            -S: liking this idea more now
+        == Bubble spawning ==
+
+            5 | 5 - Bubbles spawn from the corners
+                - I think this might be too predictable and/or boring
+                    -P: So will they just appear randomly on the screen (probably will be animated if so), or will they come into view from outside?
+                    -S: Hmmm, good question. I think I like them appearing randomly more. We should do something that makes sense
+                        and in the realm of physical possibility if possible. So, with that take on it, they should come into view from outside.
+                        Let's do a vote. Add anything else you can think of.
+            7 | 5 - Come into view from outside
+                -P: Problem with this could be collisions. We'd have to disable collisions until the bubbles have arrived in the area.
+                -S: Speaking of which, should bubbles even collide with each other? These minor details are annoying :P but at the same time, they bring up
+                    ideas that we would never have thought of before.
+                -P: I think we've talked about that before. I believe the reason for not having bubble collision was that the performance would be intense. There's going to be a ton of bubbles on screen.
+            6 | 6 - Appear Randomly with animation
+
+        == Bubble spawning end ==
 
         5 | 5 - Walls will begin to spawn after a while.
             - Where will they spawn?
@@ -161,14 +137,6 @@
                 -P: Not sure, I think that if they will always change their angle to shoot, they should just spin in a circle and then shoot randomly. I also think the graphic for it should be circular so that we can have an upgrade which will allow it to shoot more than one pin, this would make it look less retarded if it were circle shaped. So yeah I think it should be random.
                 -S: Alrighty, mark your rating lower if you wanna drop it or keep it at a 5 if you wanna reconsider it later.
 
-        9 | 9 - Bubble Spawner: one for each. Spawns a certain bubble on an interval.
-            score: starts with it
-            combo
-            double
-            bomb
-            spawn speed+: for each type
-            spawn count+: for each type
-
         6 | 6 - Pin Life+
             - I think there are better pin upgrades we can come up with. Perhaps pin life should be associated with the weapon?
             -P: Yeah I personally wouldn't want to upgrade pin life, seems boring. What do you mean weapon?
@@ -202,19 +170,10 @@
 
             -P: This is all a bit too vague. Come up with an example of how one of these combinations would work and what exactly they'd be improving.
 
-    Bubble Types:
-        Score
-        Double
-        Combo
-
-        x | 5 -S:What about the other ones we came up with?
-            -Iron
-            -Ghost
-            -P: These are more for levels. Remember that each thing we have to introduce to the player in an intuitive manner, so we don't want too much. But if we end up having that level thing then maybe we could add these.
-
     Resource limitations:
         -S: How are we going to handle resources? Just amount of pins? How do you get more pins? What if we made it so you have to buy pins using the currency obtained through popping bubbles and buildings. We could also have an upgrade to auto-buy pins when you run out. Of course, we'd make it easy to restock your pins. Any other resource restraints?
         -P: Pins should regen over time so we can have that upgrade available.
+        x | x - ammo for each weapon regens over time by a percentage which can be upgraded.
 
     Idle Ideas:
         0 | 5 - Detect idling
@@ -240,7 +199,6 @@
                 4. Weapon factories to unlock new weapons
                 5. Science labs to unlock new elemental pin upgrades (lightning, fire, etc)
                 6. Manufacturing plants to unlock new physical pin upgrades (shrapnel, etc)
-
 
     UI Layout:
         Initial Menu (when game is first loaded)
