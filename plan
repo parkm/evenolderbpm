@@ -243,6 +243,7 @@
         Score bubbles will be called bubbles. Double, combo, bomb bubbles will either be removed or be something different.
             Bubbles will continually arm themselves with stronger armor throughout the game.
                 wood, stone, steel, black iron (just black steel), gold, platinum, diamond
+            x | x - once bubbles start showing signs of intelligence we could show them will little brains which get bigger as they get smarter.
             Bubbles will eventually (either from a large amount of bubbles or a time based pattern) summon a large boss bubble to help them. This will be integrated into the story.
 
         Elemental psuedo-classes
