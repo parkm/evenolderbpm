@@ -73,7 +73,29 @@
     Game Story:
         Bubbles grow aware or adapt to the situation by equipping themselves with armor.
 
+    Bubble types:
+        Bubbles: default bubbles, arm themselves later on
+        Warrior bubbles: hit amnmo to either destroy or reflect it. dies from aoe damage or by being shot in the back
+        Noble: Not sure about these ones yet
+
     Gameplay ideas:
+        Quests
+            possible example: kill 5 special bubbles
+            on quest completion it will trigger a bonus reward and trigger mania mode or whatever
+                mania mode will be a time period that lasts as long as the bonus, it will probably give increased bubble spawn rate or something
+                once mania mode is over a new quest will start
+            quest types:
+                escort - defend something while they do something?
+                kill x amount of something
+
+            Chain quests?
+                This would work in with our story somehow. Each quest will be unique in that it has something to do with the story.
+                    bubbles are distracting - kill 40 of them
+                    you need better killing tools - kill enough bubbles to purchase 2 upgrades
+                    do bubbles understand? - select a weapon upgrade, an ammo element, and some passive abilities to combat armored bubbles
+                    on the offensive - kill 5 warrior bubbles
+                    etc
+
         == Elemental psuedo-classes ==
             Weapon ideas:
                 shotgun - aoe spread
